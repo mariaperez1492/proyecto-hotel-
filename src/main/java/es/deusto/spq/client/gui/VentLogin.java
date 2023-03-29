@@ -42,6 +42,7 @@ public class VentLogin extends JFrame {
 		getContentPane().add(textField_1);
 		textField_1.setColumns(10);
 		
+		
 		JLabel lblNewLabel_1 = new JLabel("DNI");
 		lblNewLabel_1.setBounds(384, 270, 49, 14);
 		getContentPane().add(lblNewLabel_1);
@@ -61,6 +62,13 @@ public class VentLogin extends JFrame {
 		JButton btnNewButton_1 = new JButton("Registrar");
 		btnNewButton_1.setBounds(462, 487, 118, 23);
 		getContentPane().add(btnNewButton_1);
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentRegistro ventRegistro = new VentRegistro();
+				ventRegistro.setVisible(true);
+				dispose(); // Cierra la ventana actual (VentLogin)
+			}
+		});
 		
 		
 		

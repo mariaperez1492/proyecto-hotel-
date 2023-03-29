@@ -1,7 +1,10 @@
 package es.deusto.spq.client.gui;
 
 import java.awt.EventQueue;
+import java.awt.event.ActionListener;
 import java.awt.Image;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -44,15 +47,21 @@ public class VentRegistro extends JFrame {
 	 * Create the frame.
 	 */
 	public VentRegistro() {
-		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.setSize(1000, 650);
-		getContentPane().setLayout(null);
+		//this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		//this.setSize(1000, 650);
+		//getContentPane().setLayout(null);
+	    
+		JPanel contentPane = new JPanel();
+	    this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	    this.setSize(1000, 650);
+	    contentPane.setLayout(null);
+	    // rest of the code
+	    setContentPane(contentPane);
 		
 		Image imgStrava = new ImageIcon(VentLogin.class.getResource("logo.png")).getImage();
 		ImageIcon iconStrava = new ImageIcon(imgStrava.getScaledInstance(350, 210, Image.SCALE_SMOOTH));
 		JLabel lblNewLabel = new JLabel(iconStrava);
-		lblNewLabel.setBounds(555, 197, 400, 200);
-		getContentPane().add(lblNewLabel);
+		lblNewLabel.setBounds(328, 58, 400, 200);
 		
 		/*
 		 * Image imgflecha = new
@@ -63,53 +72,75 @@ public class VentRegistro extends JFrame {
 		 */
 		
 		JButton btnNewButton = new JButton("Registarse");
+		btnNewButton.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        VentLogin ventanaLogin = new VentLogin();
+		        ventanaLogin.setVisible(true);
+		        dispose(); // cierra la ventana actual (VentRegistro)
+		    }
+		});
+		
+		
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnNewButton.setBounds(463, 531, 122, 27);
-		getContentPane().add(btnNewButton);
 		
 		textField = new JTextField();
 		textField.setBounds(449, 292, 149, 19);
-		getContentPane().add(textField);
 		textField.setColumns(10);
 		
 		textField_1 = new JTextField();
 		textField_1.setColumns(10);
 		textField_1.setBounds(449, 351, 149, 19);
-		getContentPane().add(textField_1);
 		
 		passwordField = new JPasswordField();
 		passwordField.setBounds(449, 407, 149, 19);
-		getContentPane().add(passwordField);
 		
 		passwordField_1 = new JPasswordField();
 		passwordField_1.setBounds(449, 465, 149, 19);
-		getContentPane().add(passwordField_1);
 		
 		JLabel lblNewLabel_1 = new JLabel("Nombre");
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel_1.setBounds(449, 269, 96, 13);
-		getContentPane().add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_1_1 = new JLabel("DNI");
 		lblNewLabel_1_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel_1_1.setBounds(449, 328, 96, 13);
-		getContentPane().add(lblNewLabel_1_1);
 		
 		lblNewLabel_1_2 = new JLabel("Contraseña");
 		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel_1_2.setBounds(449, 384, 96, 13);
-		getContentPane().add(lblNewLabel_1_2);
 		
 		lblNewLabel_1_3 = new JLabel("Confirmar contraseña");
 		lblNewLabel_1_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel_1_3.setBounds(449, 442, 149, 13);
-		getContentPane().add(lblNewLabel_1_3);
 		
 		btnAtras = new JButton("Atrás");
 		btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnAtras.setBounds(783, 531, 122, 27);
+		JButton btnAtras = new JButton("Atrás");
+		btnAtras.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        dispose();  // cierra la ventana VentRegistro
+		        VentLogin v = new VentLogin();
+		        v.setVisible(true);  // muestra la ventana VentLogin
+		    }
+		});
+		btnAtras.setBounds(783, 531, 122, 27);
+		//btnAtras.setBounds(362, 487, 118, 23);
 		getContentPane().add(btnAtras);
-
-		setContentPane(contentPane);
+		
+		
+		contentPane.add(lblNewLabel);
+		contentPane.add(btnNewButton);
+		contentPane.add(textField);
+		contentPane.add(textField_1);
+		contentPane.add(passwordField);
+		contentPane.add(passwordField_1);
+		contentPane.add(lblNewLabel_1);
+		contentPane.add(lblNewLabel_1_1);
+		contentPane.add(lblNewLabel_1_2);
+		contentPane.add(lblNewLabel_1_3);
+		contentPane.add(btnAtras);
+		
 	}
 }
