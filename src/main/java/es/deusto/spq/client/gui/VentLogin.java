@@ -26,7 +26,7 @@ public class VentLogin extends JFrame {
 		this.setSize(1000, 650);
 		getContentPane().setLayout(null);
 		
-		Image imgStrava = new ImageIcon(VentLogin.class.getResource("/main/logo.png")).getImage();
+		Image imgStrava = new ImageIcon(VentLogin.class.getResource("logo.png")).getImage();
 		ImageIcon iconStrava = new ImageIcon(imgStrava.getScaledInstance(350, 210, Image.SCALE_SMOOTH));
 		JLabel lblNewLabel = new JLabel(iconStrava);
 		lblNewLabel.setBounds(312, 59, 400, 200);
