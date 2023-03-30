@@ -1,6 +1,7 @@
 package es.deusto.spq.client;
 
 import javax.ws.rs.client.Client;
+
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
@@ -9,9 +10,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import es.deusto.spq.pojo.DirectMessage;
-import es.deusto.spq.pojo.MessageData;
-import es.deusto.spq.pojo.UserData;
 import es.deusto.spq.server.jdo.ClienteDAO;
 
 import org.apache.logging.log4j.LogManager;
@@ -50,7 +48,7 @@ public class ExampleClient {
 		}
 	}
 
-	public void sayMessage(String login, String password, String message) {
+	/*public void sayMessage(String login, String password, String message) {
 		WebTarget sayHelloWebTarget = webTarget.path("sayMessage");
 		Invocation.Builder invocationBuilder = sayHelloWebTarget.request(MediaType.APPLICATION_JSON);
 
@@ -73,7 +71,7 @@ public class ExampleClient {
 			logger.info("* Message coming from the server: '{}'", responseMessage);
 		}
 	}
-
+*/
 	public static void main(String[] args) {
 		if (args.length != 2) {
 			logger.info("Use: java Client.Client [host] [port]");
@@ -85,6 +83,6 @@ public class ExampleClient {
 
 		ExampleClient exampleClient = new ExampleClient(hostname, port);
 		exampleClient.registerUser(USER, PASSWORD, NAME);
-		exampleClient.sayMessage(USER, PASSWORD, "This is a test!...");
+		//exampleClient.sayMessage(USER, PASSWORD, "This is a test!...");
 	}
 }

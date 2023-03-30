@@ -70,10 +70,10 @@ public class VentRegistro extends JFrame {
 	    
 	    ClienteDAO cliente = new ClienteDAO(textField.getText(), passwordField.getText(), textField_1.getText());
 		
-		Image imgStrava = new ImageIcon(VentLogin.class.getResource("logo.png")).getImage();
-		ImageIcon iconStrava = new ImageIcon(imgStrava.getScaledInstance(350, 210, Image.SCALE_SMOOTH));
-		JLabel lblNewLabel = new JLabel(iconStrava);
-		lblNewLabel.setBounds(328, 58, 400, 200);
+		//Image imgStrava = new ImageIcon(VentLogin.class.getResource("logo.png")).getImage();
+//		ImageIcon iconStrava = new ImageIcon(imgStrava.getScaledInstance(350, 210, Image.SCALE_SMOOTH));
+//		JLabel lblNewLabel = new JLabel(iconStrava);
+//		lblNewLabel.setBounds(328, 58, 400, 200);
 		
 		/*
 		 * Image imgflecha = new
@@ -167,7 +167,7 @@ public class VentRegistro extends JFrame {
 		getContentPane().add(btnAtras);
 		
 		
-		contentPane.add(lblNewLabel);
+		//contentPane.add(lblNewLabel);
 		contentPane.add(btnNewButton);
 		contentPane.add(textField);
 		contentPane.add(textField_1);

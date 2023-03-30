@@ -1,6 +1,7 @@
 package es.deusto.spq.server;
 
 import javax.jdo.PersistenceManager;
+
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 import javax.jdo.JDOHelper;
@@ -10,9 +11,6 @@ import es.deusto.spq.server.jdo.User;
 import es.deusto.spq.server.jdo.ClienteDAO;
 import es.deusto.spq.server.jdo.Message;
 import es.deusto.spq.pojo.Cliente;
-import es.deusto.spq.pojo.DirectMessage;
-import es.deusto.spq.pojo.MessageData;
-import es.deusto.spq.pojo.UserData;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -41,7 +39,7 @@ public class Resource {
 		this.tx = pm.currentTransaction();
 	}
 
-	@POST
+	/*@POST
 	@Path("/sayMessage")
 	public Response sayMessage(DirectMessage directMessage) {
 		User user = null;
@@ -78,7 +76,7 @@ public class Resource {
 		} else {
 			return Response.status(Status.BAD_REQUEST).entity("Login details supplied for message delivery are not correct").build();
 		}
-	}
+	}*/
 	
 	@POST
 	@Path("/register")
