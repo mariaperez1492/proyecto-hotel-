@@ -2,13 +2,25 @@ package es.deusto.spq.server.jdo;
 
 import java.sql.Date;
 
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
+
 import es.deusto.spq.pojo.Cliente;
 import es.deusto.spq.pojo.Habitacion;
 import es.deusto.spq.pojo.Hotel;
 
+@PersistenceCapable
 public class ReservaDAO {
+	@PrimaryKey
+	@Persistent(valueStrategy=IdGeneratorStrategy.INCREMENT)
+	int ID;
+	@Persistent(defaultFetchGroup = "true")
 	Cliente cliente; 
+	@Persistent(defaultFetchGroup = "true")
 	Hotel hotel;
+	@Persistent(defaultFetchGroup = "true")
 	Habitacion habitacion; 
 	Date fecha_ini; 
 	Date fecha_fin;

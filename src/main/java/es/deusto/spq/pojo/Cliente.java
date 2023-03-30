@@ -15,6 +15,16 @@ public class Cliente {
 			this.contrasenya = contrasenya;
 		}
 		
+		
+		
+		public Cliente(String dni, String contrasenya) {
+			super();
+			this.dni = dni;
+			this.contrasenya = contrasenya;
+		}
+
+
+
 		public Cliente() {
 		}
 		

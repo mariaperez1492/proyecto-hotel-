@@ -7,7 +7,9 @@ import javax.jdo.JDOHelper;
 import javax.jdo.Transaction;
 
 import es.deusto.spq.server.jdo.User;
+import es.deusto.spq.server.jdo.ClienteDAO;
 import es.deusto.spq.server.jdo.Message;
+import es.deusto.spq.pojo.Cliente;
 import es.deusto.spq.pojo.DirectMessage;
 import es.deusto.spq.pojo.MessageData;
 import es.deusto.spq.pojo.UserData;
@@ -80,27 +82,30 @@ public class Resource {
 	
 	@POST
 	@Path("/register")
-	public Response registerUser(UserData userData) {
+	public Response registerUser(ClienteDAO clienteDAO) {
 		try
         {	
             tx.begin();
-            logger.info("Checking whether the user already exits or not: '{}'", userData.getLogin());
-			User user = null;
+            logger.info("Checking whether the user already exits or not: '{}'", clienteDAO.getDni());
+			Cliente cliente = null;
 			try {
-				user = pm.getObjectById(User.class, userData.getLogin());
+				cliente = pm.getObjectById(Cliente.class, clienteDAO.getDni());
 			} catch (javax.jdo.JDOObjectNotFoundException jonfe) {
 				logger.info("Exception launched: {}", jonfe.getMessage());
 			}
-			logger.info("User: {}", user);
-			if (user != null) {
-				logger.info("Setting password user: {}", user);
-				user.setPassword(userData.getPassword());
-				logger.info("Password set user: {}", user);
+			logger.info("Cliente: {}", cliente);
+			if (cliente != null) {
+				logger.info("Setting password user: {}", cliente);
+				cliente.setContrasenya(clienteDAO.getContrasenya());
+				logger.info("Password set user: {}", cliente);
+				logger.info("Setting name user: {}", cliente);
+				cliente.setNombre(clienteDAO.getNombre());
+				logger.info("Name set user: {}", cliente);
 			} else {
-				logger.info("Creating user: {}", user);
-				user = new User(userData.getLogin(), userData.getPassword());
-				pm.makePersistent(user);					 
-				logger.info("User created: {}", user);
+				logger.info("Creating user: {}", cliente);
+				cliente = new Cliente(clienteDAO.getDni(), clienteDAO.getContrasenya(), clienteDAO.getNombre());
+				pm.makePersistent(cliente);					 
+				logger.info("Cliente created: {}", cliente);
 			}
 			tx.commit();
 			return Response.ok().build();

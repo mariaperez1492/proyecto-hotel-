@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response.Status;
 import es.deusto.spq.pojo.DirectMessage;
 import es.deusto.spq.pojo.MessageData;
 import es.deusto.spq.pojo.UserData;
+import es.deusto.spq.server.jdo.ClienteDAO;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -22,6 +23,7 @@ public class ExampleClient {
 
 	private static final String USER = "dipina";
 	private static final String PASSWORD = "dipina";
+	private static final String NAME = "dipina";
 
 
 	private Client client;
@@ -32,14 +34,15 @@ public class ExampleClient {
 		webTarget = client.target(String.format("http://%s:%s/rest/resource", hostname, port));
 	}
 //prueba cambio 
-	public void registerUser(String login, String password) {
+	public void registerUser(String DNI, String password, String nombre) {
 		WebTarget registerUserWebTarget = webTarget.path("register");
 		Invocation.Builder invocationBuilder = registerUserWebTarget.request(MediaType.APPLICATION_JSON);
 		
-		UserData userData = new UserData();
-		userData.setLogin(login);
-		userData.setPassword(password);
-		Response response = invocationBuilder.post(Entity.entity(userData, MediaType.APPLICATION_JSON));
+		ClienteDAO clienteDAO = new ClienteDAO();
+		clienteDAO.setDni(DNI);
+		clienteDAO.setContrasenya(password);
+		clienteDAO.setNombre(nombre);
+		Response response = invocationBuilder.post(Entity.entity(clienteDAO, MediaType.APPLICATION_JSON));
 		if (response.getStatus() != Status.OK.getStatusCode()) {
 			logger.error("Error connecting with the server. Code: {}", response.getStatus());
 		} else {
@@ -81,7 +84,7 @@ public class ExampleClient {
 		String port = args[1];
 
 		ExampleClient exampleClient = new ExampleClient(hostname, port);
-		exampleClient.registerUser(USER, PASSWORD);
+		exampleClient.registerUser(USER, PASSWORD, NAME);
 		exampleClient.sayMessage(USER, PASSWORD, "This is a test!...");
 	}
 }

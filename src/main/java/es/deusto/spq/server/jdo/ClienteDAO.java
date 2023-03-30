@@ -1,9 +1,11 @@
 package es.deusto.spq.server.jdo;
 
 import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable
 public class ClienteDAO {
+	@PrimaryKey
 	String dni;
 	String nombre; 
 	String contrasenya;
@@ -15,6 +17,13 @@ public class ClienteDAO {
 		this.nombre = nombre;
 		this.contrasenya = contrasenya;
 	}
+	
+
+
+	public ClienteDAO() {
+		super();
+	}
+
 
 
 	public String getDni() {

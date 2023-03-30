@@ -11,6 +11,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import es.deusto.spq.server.Resource;
+import es.deusto.spq.server.jdo.ClienteDAO;
+
 import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
@@ -51,12 +55,15 @@ public class VentRegistro extends JFrame {
 		//this.setSize(1000, 650);
 		//getContentPane().setLayout(null);
 	    
+		Resource resource = new Resource();
 		JPanel contentPane = new JPanel();
 	    this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	    this.setSize(1000, 650);
 	    contentPane.setLayout(null);
 	    // rest of the code
 	    setContentPane(contentPane);
+	    
+	    ClienteDAO cliente = new ClienteDAO(textField.getText(), passwordField.getText(), textField_1.getText());
 		
 		Image imgStrava = new ImageIcon(VentLogin.class.getResource("logo.png")).getImage();
 		ImageIcon iconStrava = new ImageIcon(imgStrava.getScaledInstance(350, 210, Image.SCALE_SMOOTH));
@@ -141,6 +148,16 @@ public class VentRegistro extends JFrame {
 		contentPane.add(lblNewLabel_1_2);
 		contentPane.add(lblNewLabel_1_3);
 		contentPane.add(btnAtras);
+		
+		btnNewButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+				resource.registerUser(cliente);
+			}
+		});
 		
 	}
 }

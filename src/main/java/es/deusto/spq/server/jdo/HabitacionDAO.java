@@ -1,11 +1,18 @@
 package es.deusto.spq.server.jdo;
 
+import javax.annotation.Generated;
+import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 
 import es.deusto.spq.pojo.EnumTipoHabitacion;
 
 @PersistenceCapable
 public class HabitacionDAO {
+	@PrimaryKey
+	@Persistent(valueStrategy=IdGeneratorStrategy.INCREMENT)
+	int numHabitacion;
 	EnumTipoHabitacion tipoHabitacion; 
 	int personas; 
 	float precio;

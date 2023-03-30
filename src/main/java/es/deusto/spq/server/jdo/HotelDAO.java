@@ -1,9 +1,15 @@
 package es.deusto.spq.server.jdo;
 
+import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable
 public class HotelDAO {
+	@PrimaryKey
+	@Persistent(valueStrategy=IdGeneratorStrategy.INCREMENT)
+	int ID;
 	String nombre; 
 	String ciudad; 
 	int habitaciones_disp;

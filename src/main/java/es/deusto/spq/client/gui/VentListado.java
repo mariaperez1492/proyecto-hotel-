@@ -85,6 +85,7 @@ public class VentListado extends JFrame{
 //		model.addRow(new Object[]{"HL Valencia", "Valencia", "95"});
 		
 		Hotel hotel1 = new Hotel("HL Madrid", "Madrid", 87 );
+		Hotel hotel6 = new Hotel("HL Madrid Serrano", "Madrid", 87 );
 		Hotel hotel2 = new Hotel( "HL Barcelona", "Barcelona", 45);
 		Hotel hotel3 = new Hotel( "HL Bilbao", "Bilbao", 66);
 		Hotel hotel4 = new Hotel( "HL Valencia", "Valencia", 95);
@@ -97,6 +98,7 @@ public class VentListado extends JFrame{
 		listaH.add(hotel3);
 		listaH.add(hotel4);
 		listaH.add(hotel5);
+		listaH.add(hotel6);
 		
 		Object[] fila;
 		
