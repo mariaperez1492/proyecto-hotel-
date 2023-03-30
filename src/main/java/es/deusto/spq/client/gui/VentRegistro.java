@@ -1,7 +1,11 @@
 package es.deusto.spq.client.gui;
 
+import java.awt.Container;
 import java.awt.EventQueue;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -9,6 +13,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
@@ -80,6 +85,7 @@ public class VentRegistro extends JFrame {
 		
 		JButton btnNewButton = new JButton("Registarse");
 		btnNewButton.addActionListener(new ActionListener() {
+		
 		    public void actionPerformed(ActionEvent e) {
 		        VentLogin ventanaLogin = new VentLogin();
 		        ventanaLogin.setVisible(true);
@@ -90,6 +96,27 @@ public class VentRegistro extends JFrame {
 		
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnNewButton.setBounds(463, 531, 122, 27);
+		btnNewButton.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        // Obtener la contraseña ingresada por el usuario
+		        char[] passwordChars = passwordField.getPassword();
+		        String password = new String(passwordChars);
+
+		        // Verificar si la contraseña cumple con los requisitos
+		        if (password.length() < 8 || !password.matches(".*[A-Z].*") || !password.matches(".*[a-z].*") || !password.matches(".*\\d.*")) {
+		            JOptionPane.showMessageDialog(null, "La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un número.");
+		        } else {
+		            // La contraseña es válida
+		            // Haga algo aquí, como guardar la contraseña en una base de datos o permitir el acceso al usuario.
+
+		            // Ejemplo: mostrar un mensaje de éxito
+		            JOptionPane.showMessageDialog(null, "Contraseña válida. Registro completado exitosamente.");
+		        }
+		    }
+		});
+		
+
+
 		
 		textField = new JTextField();
 		textField.setBounds(449, 292, 149, 19);
@@ -101,6 +128,8 @@ public class VentRegistro extends JFrame {
 		
 		passwordField = new JPasswordField();
 		passwordField.setBounds(449, 407, 149, 19);
+		// Obtener la contraseña ingresada por el usuario
+		
 		
 		passwordField_1 = new JPasswordField();
 		passwordField_1.setBounds(449, 465, 149, 19);
@@ -116,6 +145,7 @@ public class VentRegistro extends JFrame {
 		lblNewLabel_1_2 = new JLabel("Contraseña");
 		lblNewLabel_1_2.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel_1_2.setBounds(449, 384, 96, 13);
+	
 		
 		lblNewLabel_1_3 = new JLabel("Confirmar contraseña");
 		lblNewLabel_1_3.setFont(new Font("Tahoma", Font.PLAIN, 14));
