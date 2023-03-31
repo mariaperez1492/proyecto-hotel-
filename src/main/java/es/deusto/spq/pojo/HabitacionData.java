@@ -1,20 +1,20 @@
 package es.deusto.spq.pojo;
 
-public class Habitacion {
+public class HabitacionData {
 			
 	private EnumTipoHabitacion tipoHabitacion;
 	private int personas; 
 	private float precio;
 	
 	
-	public Habitacion(EnumTipoHabitacion tipoHabitacion, int personas, float precio) {
+	public HabitacionData(EnumTipoHabitacion tipoHabitacion, int personas, float precio) {
 		super();
 		this.tipoHabitacion = tipoHabitacion;
 		this.personas = personas;
 		this.precio = precio;
 	} 
 	
-	public Habitacion() {
+	public HabitacionData() {
 	}
 
 	public EnumTipoHabitacion getTipoHabitacion() {

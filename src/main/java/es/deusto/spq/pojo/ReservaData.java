@@ -2,15 +2,15 @@ package es.deusto.spq.pojo;
 
 import java.sql.Date;
 
-public class Reserva {
+public class ReservaData {
 	
-	private Cliente cliente; 
-	private Hotel hotel;
-	private Habitacion habitacion;
+	private ClienteData cliente; 
+	private HotelData hotel;
+	private HabitacionData habitacion;
 	private Date fecha_ini;
 	private Date fecha_fin;
 	
-	public Reserva(Cliente cliente, Hotel hotel, Habitacion habitacion, Date fecha_ini, Date fecha_fin) {
+	public ReservaData(ClienteData cliente, HotelData hotel, HabitacionData habitacion, Date fecha_ini, Date fecha_fin) {
 		super();
 		this.cliente = cliente;
 		this.hotel = hotel;
@@ -19,30 +19,30 @@ public class Reserva {
 		this.fecha_fin = fecha_fin;
 	}
 	
-	public Reserva() {
+	public ReservaData() {
 	}
 
-	public Cliente getCliente() {
+	public ClienteData getCliente() {
 		return cliente;
 	}
 
-	public void setCliente(Cliente cliente) {
+	public void setCliente(ClienteData cliente) {
 		this.cliente = cliente;
 	}
 
-	public Hotel getHotel() {
+	public HotelData getHotel() {
 		return hotel;
 	}
 
-	public void setHotel(Hotel hotel) {
+	public void setHotel(HotelData hotel) {
 		this.hotel = hotel;
 	}
 
-	public Habitacion getHabitacion() {
+	public HabitacionData getHabitacion() {
 		return habitacion;
 	}
 
-	public void setHabitacion(Habitacion habitacion) {
+	public void setHabitacion(HabitacionData habitacion) {
 		this.habitacion = habitacion;
 	}
 

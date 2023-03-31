@@ -11,7 +11,7 @@ import javax.swing.JTextField;
 import com.mysql.cj.xdevapi.Client;
 
 import es.deusto.spq.server.Resource;
-import es.deusto.spq.server.jdo.ClienteDAO;
+import es.deusto.spq.server.jdo.Cliente;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;

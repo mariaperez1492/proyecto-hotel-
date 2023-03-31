@@ -9,7 +9,7 @@ import javax.jdo.annotations.PrimaryKey;
 import es.deusto.spq.pojo.EnumTipoHabitacion;
 
 @PersistenceCapable
-public class HabitacionDAO {
+public class Habitacion {
 	@PrimaryKey
 	@Persistent(valueStrategy=IdGeneratorStrategy.INCREMENT)
 	int numHabitacion;
@@ -17,7 +17,7 @@ public class HabitacionDAO {
 	int personas; 
 	float precio;
 	
-	public HabitacionDAO(EnumTipoHabitacion tipoHabitacion, int personas, float precio) {
+	public Habitacion(EnumTipoHabitacion tipoHabitacion, int personas, float precio) {
 		super();
 		this.tipoHabitacion = tipoHabitacion;
 		this.personas = personas;

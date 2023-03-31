@@ -17,8 +17,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import es.deusto.spq.pojo.ClienteData;
 import es.deusto.spq.server.Resource;
-import es.deusto.spq.server.jdo.ClienteDAO;
+import es.deusto.spq.server.jdo.Cliente;
 
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -35,7 +36,7 @@ public class VentRegistro extends JFrame {
 	private JLabel lblNewLabel_1_2;
 	private JLabel lblNewLabel_1_3;
 	private JButton btnAtras;
-	private static ClienteDAO cliente;
+	private static ClienteData clienteData;
 
 	/**
 	 * Launch the application.
@@ -102,11 +103,11 @@ public class VentRegistro extends JFrame {
 
 		            // Ejemplo: mostrar un mensaje de éxito
 		            JOptionPane.showMessageDialog(null, "Contraseña válida. Registro completado exitosamente.");
-		            cliente = new ClienteDAO(textField.getText(), textField_1.getText(), passwordField.getText());
+		            clienteData = new ClienteData(textField.getText(), textField_1.getText(), passwordField.getText());
 		            VentLogin ventanaLogin = new VentLogin();
 			        ventanaLogin.setVisible(true);
 			        dispose(); // cierra la ventana actual (VentRegistro)
-			        resource.registerUser(cliente);
+			        resource.registerUser(clienteData);
 		        }
 		        
 		       

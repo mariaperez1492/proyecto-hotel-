@@ -1,19 +1,24 @@
-package es.deusto.spq.pojo;
+package es.deusto.spq.server.jdo;
 
+import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
+import javax.jdo.annotations.PrimaryKey;
+
+@PersistenceCapable
 public class Hotel {
-	
-	private String nombre; 
-	private String ciudad; 
-	private int habitaciones_disp;
+	@PrimaryKey
+	@Persistent(valueStrategy=IdGeneratorStrategy.INCREMENT)
+	int ID;
+	String nombre; 
+	String ciudad; 
+	int habitaciones_disp;
 	
 	public Hotel(String nombre, String ciudad, int habitaciones_disp) {
 		super();
 		this.nombre = nombre;
 		this.ciudad = ciudad;
 		this.habitaciones_disp = habitaciones_disp;
-	}
-	
-	public Hotel() {
 	}
 
 	public String getNombre() {
@@ -39,6 +44,12 @@ public class Hotel {
 	public void setHabitaciones_disp(int habitaciones_disp) {
 		this.habitaciones_disp = habitaciones_disp;
 	}
+
+	@Override
+	public String toString() {
+		return "HotelDAO [nombre=" + nombre + ", ciudad=" + ciudad + ", habitaciones_disp=" + habitaciones_disp + "]";
+	}
+	
 	
 	
 	

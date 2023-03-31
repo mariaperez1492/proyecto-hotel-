@@ -10,9 +10,9 @@ import java.util.List;
 import javax.jdo.JDOHelper;
 import javax.jdo.Transaction;
 
-import es.deusto.spq.server.jdo.ClienteDAO;
-import es.deusto.spq.pojo.Cliente;
-import es.deusto.spq.pojo.Hotel;
+import es.deusto.spq.server.jdo.Cliente;
+import es.deusto.spq.pojo.ClienteData;
+import es.deusto.spq.pojo.HotelData;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -84,18 +84,17 @@ public class Resource {
 	*/
 	@POST
 	@Path("/register")
-	public Response registerUser(ClienteDAO clienteDAO) {
+	public Response registerUser(ClienteData clienteData) {
 		try
         {	
             tx.begin();
-            logger.info("Checking whether the user already exits or not: '{}'", clienteDAO.getDni());
-            //Cliente cliente = null;
+            logger.info("Checking whether the user already exits or not: '{}'", clienteData.getDni());
             Cliente cliente = null;
 			try {
-				//cliente = pm.getObjectById(Cliente.class, clienteDAO.getDni());
+				cliente = pm.getObjectById(Cliente.class, clienteData.getDni());
 				Query<Cliente> query = pm.newQuery(Cliente.class, "dni == dniParam");
 				query.declareParameters("String dniParam");
-				List<Cliente> clientes = (List<Cliente>) query.execute(clienteDAO.getDni());
+				List<Cliente> clientes = (List<Cliente>) query.execute(cliente.getDni());
 				if (!clientes.isEmpty()) {
 				    cliente = clientes.get(0);
 				}
@@ -105,14 +104,14 @@ public class Resource {
 			logger.info("Cliente: {}", cliente);
 			if (cliente != null) {
 				logger.info("Setting password user: {}", cliente);
-				cliente.setContrasenya(clienteDAO.getContrasenya());
+				cliente.setContrasenya(clienteData.getContrasenya());
 				logger.info("Password set user: {}", cliente);
 				logger.info("Setting name user: {}", cliente);
-				cliente.setNombre(clienteDAO.getNombre());
+				cliente.setNombre(clienteData.getNombre());
 				logger.info("Name set user: {}", cliente);
 			} else {
 				logger.info("Creating user: {}", cliente);
-				cliente = new Cliente(clienteDAO.getDni(), clienteDAO.getContrasenya(), clienteDAO.getNombre());
+				cliente = new Cliente(clienteData.getDni(), clienteData.getContrasenya(), clienteData.getNombre());
 				pm.makePersistent(cliente);					 
 				logger.info("Cliente created: {}", cliente);
 			}
@@ -133,11 +132,11 @@ public class Resource {
 	@GET
 	@Path("/getHoteles")
 	public Response getHoteles() {
-		List<Hotel> list = null;
+		List<HotelData> list = null;
 		
 		try {
 			tx.begin();
-			Query<Hotel> query = pm.newQuery(Hotel.class);
+			Query<HotelData> query = pm.newQuery(HotelData.class);
 			list = query.executeList();
 			tx.commit();
 			

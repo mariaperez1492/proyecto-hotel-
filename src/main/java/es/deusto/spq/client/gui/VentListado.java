@@ -17,7 +17,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
-import es.deusto.spq.pojo.Hotel;
+import es.deusto.spq.pojo.HotelData;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -84,15 +84,15 @@ public class VentListado extends JFrame{
 //		model.addRow(new Object[]{"HL Bilbao", "Bilbao", "66"});
 //		model.addRow(new Object[]{"HL Valencia", "Valencia", "95"});
 		
-		Hotel hotel1 = new Hotel("HL Madrid", "Madrid", 87 );
-		Hotel hotel6 = new Hotel("HL Madrid Serrano", "Madrid", 87 );
-		Hotel hotel2 = new Hotel( "HL Barcelona", "Barcelona", 45);
-		Hotel hotel3 = new Hotel( "HL Bilbao", "Bilbao", 66);
-		Hotel hotel4 = new Hotel( "HL Valencia", "Valencia", 95);
-		Hotel hotel5 = new Hotel( "HL Sevilla", "Sevilla", 95);
+		HotelData hotel1 = new HotelData("HL Madrid", "Madrid", 87 );
+		HotelData hotel6 = new HotelData("HL Madrid Serrano", "Madrid", 87 );
+		HotelData hotel2 = new HotelData( "HL Barcelona", "Barcelona", 45);
+		HotelData hotel3 = new HotelData( "HL Bilbao", "Bilbao", 66);
+		HotelData hotel4 = new HotelData( "HL Valencia", "Valencia", 95);
+		HotelData hotel5 = new HotelData( "HL Sevilla", "Sevilla", 95);
 		
 		
-		List<Hotel> listaH = new ArrayList();
+		List<HotelData> listaH = new ArrayList();
 		listaH.add(hotel1);
 		listaH.add(hotel2);
 		listaH.add(hotel3);
@@ -102,7 +102,7 @@ public class VentListado extends JFrame{
 		
 		Object[] fila;
 		
-		for (Hotel hotel : listaH) {
+		for (HotelData hotel : listaH) {
 			fila = new Object[listaH.size()];
 			fila[0] = hotel.getNombre();
 			fila[1] = hotel.getCiudad();

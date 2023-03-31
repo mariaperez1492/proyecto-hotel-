@@ -7,25 +7,25 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import es.deusto.spq.pojo.Cliente;
-import es.deusto.spq.pojo.Habitacion;
-import es.deusto.spq.pojo.Hotel;
+import es.deusto.spq.pojo.ClienteData;
+import es.deusto.spq.pojo.HabitacionData;
+import es.deusto.spq.pojo.HotelData;
 
 @PersistenceCapable
-public class ReservaDAO {
+public class Reserva {
 	@PrimaryKey
 	@Persistent(valueStrategy=IdGeneratorStrategy.INCREMENT)
 	int ID;
 	@Persistent(defaultFetchGroup = "true")
-	Cliente cliente; 
+	ClienteData cliente; 
 	@Persistent(defaultFetchGroup = "true")
-	Hotel hotel;
+	HotelData hotel;
 	@Persistent(defaultFetchGroup = "true")
-	Habitacion habitacion; 
+	HabitacionData habitacion; 
 	Date fecha_ini; 
 	Date fecha_fin;
 	
-	public ReservaDAO(Cliente cliente, Hotel hotel, Habitacion habitacion, Date fecha_ini, Date fecha_fin) {
+	public Reserva(ClienteData cliente, HotelData hotel, HabitacionData habitacion, Date fecha_ini, Date fecha_fin) {
 		super();
 		this.cliente = cliente;
 		this.hotel = hotel;
@@ -34,27 +34,27 @@ public class ReservaDAO {
 		this.fecha_fin = fecha_fin;
 	}
 
-	public Cliente getCliente() {
+	public ClienteData getCliente() {
 		return cliente;
 	}
 
-	public void setCliente(Cliente cliente) {
+	public void setCliente(ClienteData cliente) {
 		this.cliente = cliente;
 	}
 
-	public Hotel getHotel() {
+	public HotelData getHotel() {
 		return hotel;
 	}
 
-	public void setHotel(Hotel hotel) {
+	public void setHotel(HotelData hotel) {
 		this.hotel = hotel;
 	}
 
-	public Habitacion getHabitacion() {
+	public HabitacionData getHabitacion() {
 		return habitacion;
 	}
 
-	public void setHabitacion(Habitacion habitacion) {
+	public void setHabitacion(HabitacionData habitacion) {
 		this.habitacion = habitacion;
 	}
 
