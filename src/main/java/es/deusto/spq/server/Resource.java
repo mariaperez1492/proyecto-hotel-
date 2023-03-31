@@ -4,13 +4,15 @@ import javax.jdo.PersistenceManager;
 
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.jdo.JDOHelper;
 import javax.jdo.Transaction;
 
-import es.deusto.spq.server.jdo.User;
 import es.deusto.spq.server.jdo.ClienteDAO;
-import es.deusto.spq.server.jdo.Message;
 import es.deusto.spq.pojo.Cliente;
+import es.deusto.spq.pojo.Hotel;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -18,7 +20,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
@@ -116,6 +117,30 @@ public class Resource {
             }
       
 		}
+	}
+	
+	@GET
+	@Path("/getHoteles")
+	public Response getHoteles() {
+		List<Hotel> list = null;
+		
+		try {
+			tx.begin();
+			Query<Hotel> query = pm.newQuery(Hotel.class);
+			list = query.executeList();
+			tx.commit();
+			
+		} catch (Exception e) {
+			logger.error("Error retrieving hotels from database", e);
+			//return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		
+		} finally {
+			if (tx.isActive()) {
+		        tx.rollback();
+		    }
+		}
+		
+		return Response.ok(list).build();
 	}
 
 	@GET
