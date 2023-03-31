@@ -24,6 +24,9 @@ import javax.ws.rs.core.Response;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 
+
+
+
 @Path("/resource")
 @Produces(MediaType.APPLICATION_JSON)
 public class Resource {
@@ -77,8 +80,8 @@ public class Resource {
 		} else {
 			return Response.status(Status.BAD_REQUEST).entity("Login details supplied for message delivery are not correct").build();
 		}
-	}*/
-	
+	}
+	*/
 	@POST
 	@Path("/register")
 	public Response registerUser(ClienteDAO clienteDAO) {
@@ -86,9 +89,16 @@ public class Resource {
         {	
             tx.begin();
             logger.info("Checking whether the user already exits or not: '{}'", clienteDAO.getDni());
-			Cliente cliente = null;
+            //Cliente cliente = null;
+            Cliente cliente = null;
 			try {
-				cliente = pm.getObjectById(Cliente.class, clienteDAO.getDni());
+				//cliente = pm.getObjectById(Cliente.class, clienteDAO.getDni());
+				Query<Cliente> query = pm.newQuery(Cliente.class, "dni == dniParam");
+				query.declareParameters("String dniParam");
+				List<Cliente> clientes = (List<Cliente>) query.execute(clienteDAO.getDni());
+				if (!clientes.isEmpty()) {
+				    cliente = clientes.get(0);
+				}
 			} catch (javax.jdo.JDOObjectNotFoundException jonfe) {
 				logger.info("Exception launched: {}", jonfe.getMessage());
 			}
@@ -117,8 +127,9 @@ public class Resource {
             }
       
 		}
+		
 	}
-	
+
 	@GET
 	@Path("/getHoteles")
 	public Response getHoteles() {
