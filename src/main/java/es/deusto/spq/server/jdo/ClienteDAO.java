@@ -1,13 +1,17 @@
 package es.deusto.spq.server.jdo;
 
 import javax.jdo.annotations.PersistenceCapable;
+import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable
 public class ClienteDAO {
 	@PrimaryKey
+	@Persistent(defaultFetchGroup = "true")
 	String dni;
-	String nombre; 
+	@Persistent
+	String nombre;
+	@Persistent
 	String contrasenya;
 	
 	

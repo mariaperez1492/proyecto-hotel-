@@ -35,6 +35,7 @@ public class VentRegistro extends JFrame {
 	private JLabel lblNewLabel_1_2;
 	private JLabel lblNewLabel_1_3;
 	private JButton btnAtras;
+	private static ClienteDAO cliente;
 
 	/**
 	 * Launch the application.
@@ -59,7 +60,7 @@ public class VentRegistro extends JFrame {
 		//this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		//this.setSize(1000, 650);
 		//getContentPane().setLayout(null);
-	    
+		
 		Resource resource = new Resource();
 		JPanel contentPane = new JPanel();
 	    this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -68,7 +69,7 @@ public class VentRegistro extends JFrame {
 	    // rest of the code
 	    setContentPane(contentPane);
 	    
-	    ClienteDAO cliente = new ClienteDAO(textField.getText(), passwordField.getText(), textField_1.getText());
+	   
 		
 		//Image imgStrava = new ImageIcon(VentLogin.class.getResource("logo.png")).getImage();
 //		ImageIcon iconStrava = new ImageIcon(imgStrava.getScaledInstance(350, 210, Image.SCALE_SMOOTH));
@@ -83,17 +84,7 @@ public class VentRegistro extends JFrame {
 		 * lblNewLabel.setBounds(312, 59, 400, 200); getContentPane().add(lblNewLabel);
 		 */
 		
-		JButton btnNewButton = new JButton("Registarse");
-		btnNewButton.addActionListener(new ActionListener() {
-		
-		    public void actionPerformed(ActionEvent e) {
-		        VentLogin ventanaLogin = new VentLogin();
-		        ventanaLogin.setVisible(true);
-		        dispose(); // cierra la ventana actual (VentRegistro)
-		    }
-		});
-		
-		
+		JButton btnNewButton = new JButton("Registarse");	
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnNewButton.setBounds(463, 531, 122, 27);
 		btnNewButton.addActionListener(new ActionListener() {
@@ -111,7 +102,15 @@ public class VentRegistro extends JFrame {
 
 		            // Ejemplo: mostrar un mensaje de éxito
 		            JOptionPane.showMessageDialog(null, "Contraseña válida. Registro completado exitosamente.");
+		            cliente = new ClienteDAO(textField.getText(), textField_1.getText(), passwordField.getText());
+		            VentLogin ventanaLogin = new VentLogin();
+			        ventanaLogin.setVisible(true);
+			        dispose(); // cierra la ventana actual (VentRegistro)
+			        resource.registerUser(cliente);
 		        }
+		        
+		       
+				
 		    }
 		});
 		
@@ -154,7 +153,6 @@ public class VentRegistro extends JFrame {
 		btnAtras = new JButton("Atrás");
 		btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnAtras.setBounds(783, 531, 122, 27);
-		JButton btnAtras = new JButton("Atrás");
 		btnAtras.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        dispose();  // cierra la ventana VentRegistro
@@ -179,15 +177,7 @@ public class VentRegistro extends JFrame {
 		contentPane.add(lblNewLabel_1_3);
 		contentPane.add(btnAtras);
 		
-		btnNewButton.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-				resource.registerUser(cliente);
-			}
-		});
+	
 		
 	}
 }
