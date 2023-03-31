@@ -5,9 +5,17 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
+import com.mysql.cj.xdevapi.Client;
+
+import es.deusto.spq.server.Resource;
+import es.deusto.spq.server.jdo.ClienteDAO;
+
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.util.TreeMap;
 import java.awt.event.ActionEvent;
 
 public class VentLogin extends JFrame {
@@ -25,7 +33,9 @@ public class VentLogin extends JFrame {
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setSize(1000, 650);
 		getContentPane().setLayout(null);
+		Resource resource = new Resource();
 		
+
 		//Image imgStrava = new ImageIcon(VentLogin.class.getResource("logo.png")).getImage();
 		//ImageIcon iconStrava = new ImageIcon(imgStrava.getScaledInstance(350, 210, Image.SCALE_SMOOTH));
 		//JLabel lblNewLabel = new JLabel(iconStrava);
@@ -58,6 +68,25 @@ public class VentLogin extends JFrame {
 		});
 		btnNewButton.setBounds(462, 434, 118, 23);
 		getContentPane().add(btnNewButton);
+		
+		
+		btnNewButton.addActionListener(new ActionListener(){
+			
+			public void actionPerformed(ActionEvent e) {
+				 String dni = lblNewLabel_1.getText();
+	             String password = new String(lblNewLabel_2.getText());
+	                // Enviar la solicitud de inicio de sesión al servidor
+//	                boolean success = resource.loginUser(cliente);
+//	                if (success) {
+//
+//	                } else {
+//	                    // Mostrar un mensaje de error
+//	                    JOptionPane.showMessageDialog(LoginFrame.this, "El DNI o la contraseña son incorrectos", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
+//	                }
+	            }
+	        });
+		
+		
 		
 		JButton btnNewButton_1 = new JButton("Registrar");
 		btnNewButton_1.setBounds(462, 487, 118, 23);
