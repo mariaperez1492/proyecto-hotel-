@@ -64,28 +64,7 @@ public class VentRegistro extends JFrame {
 		btnRegistro.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnRegistro.setBounds(463, 531, 122, 27);
 		
-		btnRegistro.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        // Obtener la contraseña ingresada por el usuario
-		        char[] passwordChars = txtContrasenya.getPassword();
-		        String password = new String(passwordChars);
-
-		        // Verificar si la contraseña cumple con los requisitos
-		        if (password.length() < 8 || !password.matches(".*[A-Z].*") || !password.matches(".*[a-z].*") || !password.matches(".*\\d.*")) {
-		            JOptionPane.showMessageDialog(null, "La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un número.");
-		        } else {
-		            // La contraseña es válida
-		            // Haga algo aquí, como guardar la contraseña en una base de datos o permitir el acceso al usuario
-		            // Ejemplo: mostrar un mensaje de éxito
-		            JOptionPane.showMessageDialog(null, "Contraseña válida. Registro completado exitosamente.");
-		            clienteData = new ClienteData(txtDni.getText(), txtNombre.getText(), txtContrasenya.getText());
-		            VentLogin ventanaLogin = new VentLogin();
-			        ventanaLogin.setVisible(true);
-			        dispose(); // cierra la ventana actual (VentRegistro)
-			        resource.registerUser(clienteData);
-		        }
-		    }
-		});
+		
 		
 		txtNombre = new JTextField();
 		txtNombre.setBounds(449, 292, 149, 19);
@@ -123,13 +102,7 @@ public class VentRegistro extends JFrame {
 		btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnAtras.setBounds(786, 531, 122, 27);
 		
-		btnAtras.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        dispose();  // cierra la ventana VentRegistro
-		        VentLogin v = new VentLogin();
-		        v.setVisible(true);  // muestra la ventana VentLogin
-		    }
-		});
+		
 		btnAtras.setBounds(783, 531, 122, 27);
 		//btnAtras.setBounds(362, 487, 118, 23);
 		getContentPane().add(btnAtras);
@@ -146,5 +119,45 @@ public class VentRegistro extends JFrame {
 		contentPane.add(lblConstrasenya2);
 		contentPane.add(btnAtras);
 		
+		
+		btnRegistro.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        // Obtener la contraseña ingresada por el usuario
+		        char[] passwordChars = txtContrasenya.getPassword();
+		        String password = new String(passwordChars);
+		        
+		        String contrasenya = txtContrasenya.getText();
+		        String contrasenya2 = txtContrasenya2.getText();
+
+		        // Verificar si la contraseña cumple con los requisitos
+		        if (password.length() < 8 || !password.matches(".*[A-Z].*") || !password.matches(".*[a-z].*") || !password.matches(".*\\d.*")) {
+		            JOptionPane.showMessageDialog(null, "La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un número.");
+		        }else if(!contrasenya.equals(contrasenya2)){
+		        	JOptionPane.showMessageDialog(null, "Las contraseñas introducidas no coinciden");
+		   
+		        }else {
+		            // La contraseña es válida
+		            // Haga algo aquí, como guardar la contraseña en una base de datos o permitir el acceso al usuario
+		            // Ejemplo: mostrar un mensaje de éxito
+		        	resource.registerUser(clienteData);
+		            JOptionPane.showMessageDialog(null, "Contraseña válida. Registro completado exitosamente.");
+		            clienteData = new ClienteData(txtDni.getText(), txtNombre.getText(), txtContrasenya.getText());
+		            VentLogin ventanaLogin = new VentLogin();
+			        ventanaLogin.setVisible(true);
+			        dispose(); // cierra la ventana actual (VentRegistro)
+			        
+		        }
+		    }
+		});
+		
+		btnAtras.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        dispose();  // cierra la ventana VentRegistro
+		        VentLogin v = new VentLogin();
+		        v.setVisible(true);  // muestra la ventana VentLogin
+		    }
+		});
+		
+	
 	}
 }

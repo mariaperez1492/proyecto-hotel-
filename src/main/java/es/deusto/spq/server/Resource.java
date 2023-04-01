@@ -101,6 +101,7 @@ public class Resource {
 			} catch (javax.jdo.JDOObjectNotFoundException jonfe) {
 				logger.info("Exception launched: {}", jonfe.getMessage());
 			}
+
 			logger.info("Cliente: {}", cliente);
 			if (cliente != null) {
 				logger.info("Setting password user: {}", cliente);
