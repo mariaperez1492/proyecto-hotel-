@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.Transaction;
+import javax.swing.JOptionPane;
 
 import es.deusto.spq.server.jdo.Usuario;
 import es.deusto.spq.pojo.UsuarioData;
@@ -159,5 +160,31 @@ public class Resource {
 	@Produces(MediaType.TEXT_PLAIN)
 	public Response sayHello() {
 		return Response.ok("Hola mundo!").build();
+	}
+	
+	@GET
+	@Path("/getUsuario")
+	public Response getUsuario(UsuarioData u) {
+		List<UsuarioData> list = null;
+		//Query<?> query = pm.newQuery("SELECT retos FROM " + Usuario.class.getName() + " WHERE email == '" + u.getEmail() + "'");
+
+		try {
+			tx.begin();
+			Query<UsuarioData> query = pm.newQuery("SELECT * FROM usuario WHERE DNI == '" + u.getDni() + "'");
+			list = query.executeList();
+			tx.commit();
+			
+		} catch (Exception e) {
+			logger.error("Error retrieving users from database", e);
+			//return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		
+		} finally {
+			if (tx.isActive()) {
+		        tx.rollback();
+		    }
+		}
+		
+		return Response.ok(list).build();
+		
 	}
 }

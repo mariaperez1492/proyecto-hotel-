@@ -142,10 +142,23 @@ public class VentRegistro extends JFrame {
 		        
 		        String contrasenya = txtContrasenya.getText();
 		        String contrasenya2 = txtContrasenya2.getText();
+		        String dni = txtDni.getText();
+
 
 		        // Verificar si la contraseña cumple con los requisitos
 		        if (password.length() < 8 || !password.matches(".*[A-Z].*") || !password.matches(".*[a-z].*") || !password.matches(".*\\d.*")) {
 		            JOptionPane.showMessageDialog(null, "La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un número.");
+		        }
+		        else if(dni == "12345644A"){
+		        	System.out.println("HOOOOOLAAAAA");
+		        	WebTarget registerUserWebTarget2 = webTarget.path("getUsuario");
+		    		Invocation.Builder invocationBuilder2 = registerUserWebTarget2.request(MediaType.APPLICATION_JSON);
+//		    		Usuario usuario2 = new Usuario();
+//		    		usuario2.setContrasenya(txtContrasenya.getText());
+//		    		usuario2.setNombre(txtNombre.getText());
+//		    		usuario2.setDni(txtDni.getText());
+//		    		Response response = invocationBuilder2.post(Entity.entity(usuario2, MediaType.APPLICATION_JSON));
+		        	JOptionPane.showMessageDialog(null, "El usuario ya está registrado");
 		        }else if(!contrasenya.equals(contrasenya2)){
 		        	JOptionPane.showMessageDialog(null, "Las contraseñas introducidas no coinciden");
 		   
@@ -170,7 +183,7 @@ public class VentRegistro extends JFrame {
 		    		}
 		    		
 //		        	resource.registerUser(clienteData);
-//		            JOptionPane.showMessageDialog(null, "Contraseña válida. Registro completado exitosamente.");
+		            JOptionPane.showMessageDialog(null, "Contraseña válida. Registro completado exitosamente.");
 //		            clienteData = new UsuarioData(txtDni.getText(), txtNombre.getText(), txtContrasenya.getText());
 		            
 		            VentLogin ventanaLogin = new VentLogin(hostname, port);
