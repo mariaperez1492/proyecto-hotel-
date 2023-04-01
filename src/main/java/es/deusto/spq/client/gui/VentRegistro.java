@@ -16,10 +16,21 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
-import es.deusto.spq.pojo.ClienteData;
-import es.deusto.spq.server.Resource;
-import es.deusto.spq.server.jdo.Cliente;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.ws.rs.client.Client;
+
+import es.deusto.spq.pojo.UsuarioData;
+import es.deusto.spq.server.jdo.Usuario;
 
 import javax.swing.JButton;
 import javax.swing.JTextField;
@@ -37,14 +48,19 @@ public class VentRegistro extends JFrame {
 	private JLabel lblContrasenya;
 	private JLabel lblConstrasenya2;
 	private JButton btnAtras;
-	private static ClienteData clienteData;
+	private static UsuarioData clienteData;
+	
+	protected static final Logger logger = LogManager.getLogger();
+	private Client client;
+	private WebTarget webTarget;
 
-	public VentRegistro() {
+	public VentRegistro(String hostname, String port) {
+		client = ClientBuilder.newClient();
+		webTarget = client.target(String.format("http://%s:%s/rest/resource", hostname, port));
+		
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	    this.setSize(1000, 650);
-		
-		Resource resource = new Resource();
-		
+
 		JPanel contentPane = new JPanel();
 	    contentPane.setLayout(null);
 	    setContentPane(contentPane);
@@ -63,8 +79,6 @@ public class VentRegistro extends JFrame {
 		JButton btnRegistro = new JButton("Registarse");	
 		btnRegistro.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnRegistro.setBounds(463, 531, 122, 27);
-		
-		
 		
 		txtNombre = new JTextField();
 		txtNombre.setBounds(449, 292, 149, 19);
@@ -139,10 +153,27 @@ public class VentRegistro extends JFrame {
 		            // La contraseña es válida
 		            // Haga algo aquí, como guardar la contraseña en una base de datos o permitir el acceso al usuario
 		            // Ejemplo: mostrar un mensaje de éxito
-		        	resource.registerUser(clienteData);
-		            JOptionPane.showMessageDialog(null, "Contraseña válida. Registro completado exitosamente.");
-		            clienteData = new ClienteData(txtDni.getText(), txtNombre.getText(), txtContrasenya.getText());
-		            VentLogin ventanaLogin = new VentLogin();
+		        	
+		        	WebTarget registerUserWebTarget = webTarget.path("register");
+		    		Invocation.Builder invocationBuilder = registerUserWebTarget.request(MediaType.APPLICATION_JSON);
+		        	
+		    		Usuario usuarioDAO = new Usuario();
+		    		usuarioDAO.setDni(txtDni.getText());
+		    		usuarioDAO.setContrasenya(txtContrasenya.getText());
+		    		usuarioDAO.setNombre(txtNombre.getText());
+		    		Response response = invocationBuilder.post(Entity.entity(usuarioDAO, MediaType.APPLICATION_JSON));
+		    		
+		    		if (response.getStatus() != Status.OK.getStatusCode()) {
+		    			logger.error("Error connecting with the server. Code: {}", response.getStatus());
+		    		} else {
+		    			logger.info("User correctly registered");
+		    		}
+		    		
+//		        	resource.registerUser(clienteData);
+//		            JOptionPane.showMessageDialog(null, "Contraseña válida. Registro completado exitosamente.");
+//		            clienteData = new UsuarioData(txtDni.getText(), txtNombre.getText(), txtContrasenya.getText());
+		            
+		            VentLogin ventanaLogin = new VentLogin(hostname, port);
 			        ventanaLogin.setVisible(true);
 			        dispose(); // cierra la ventana actual (VentRegistro)
 			        
@@ -153,7 +184,7 @@ public class VentRegistro extends JFrame {
 		btnAtras.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        dispose();  // cierra la ventana VentRegistro
-		        VentLogin v = new VentLogin();
+		        VentLogin v = new VentLogin(hostname, port);
 		        v.setVisible(true);  // muestra la ventana VentLogin
 		    }
 		});

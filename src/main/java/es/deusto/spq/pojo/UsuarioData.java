@@ -1,24 +1,24 @@
 package es.deusto.spq.pojo;
 
-public class ClienteData {
+public class UsuarioData {
 	private String dni;
 	private String nombre;
 	private String contrasenya;
 		
-	public ClienteData(String dni, String nombre, String contrasenya) {
+	public UsuarioData(String dni, String nombre, String contrasenya) {
 		super();
 		this.dni = dni;
 		this.nombre = nombre;
 		this.contrasenya = contrasenya;
 	}
 		
-	public ClienteData(String dni, String contrasenya) {
+	public UsuarioData(String dni, String contrasenya) {
 		super();
 		this.dni = dni;
 		this.contrasenya = contrasenya;
 	}
 
-	public ClienteData() {
+	public UsuarioData() {
 		// required by serialization
 	}
 		

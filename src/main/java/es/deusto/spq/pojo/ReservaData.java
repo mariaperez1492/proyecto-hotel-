@@ -4,13 +4,13 @@ import java.sql.Date;
 
 public class ReservaData {
 	
-	private ClienteData cliente; 
+	private UsuarioData cliente; 
 	private HotelData hotel;
 	private HabitacionData habitacion;
 	private Date fecha_ini;
 	private Date fecha_fin;
 	
-	public ReservaData(ClienteData cliente, HotelData hotel, HabitacionData habitacion, Date fecha_ini, Date fecha_fin) {
+	public ReservaData(UsuarioData cliente, HotelData hotel, HabitacionData habitacion, Date fecha_ini, Date fecha_fin) {
 		super();
 		this.cliente = cliente;
 		this.hotel = hotel;
@@ -22,11 +22,11 @@ public class ReservaData {
 	public ReservaData() {
 	}
 
-	public ClienteData getCliente() {
+	public UsuarioData getCliente() {
 		return cliente;
 	}
 
-	public void setCliente(ClienteData cliente) {
+	public void setCliente(UsuarioData cliente) {
 		this.cliente = cliente;
 	}
 

@@ -16,6 +16,12 @@ import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import es.deusto.spq.pojo.HotelData;
 
@@ -32,7 +38,14 @@ public class VentListado extends JFrame{
 	
 	private static final long serialVersionUID = 1L;
 	
-	public VentListado() {
+	protected static final Logger logger = LogManager.getLogger();
+	private Client client;
+	private WebTarget webTarget;
+	
+	public VentListado(String hostname, String port) {
+		client = ClientBuilder.newClient();
+		webTarget = client.target(String.format("http://%s:%s/rest/resource", hostname, port));
+		
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setSize(1000, 650);
 		
@@ -70,12 +83,6 @@ public class VentListado extends JFrame{
 		model.addColumn("Ciudad");
 		model.addColumn("Habitaciones Disponibles");
 		table.setModel(model);
-		
-		
-//		model.addRow(new Object[]{"HL Madrid", "Madrid", "87"});
-//		model.addRow(new Object[]{"HL Barcelona", "Barcelona", "45"});
-//		model.addRow(new Object[]{"HL Bilbao", "Bilbao", "66"});
-//		model.addRow(new Object[]{"HL Valencia", "Valencia", "95"});
 		
 		HotelData hotel1 = new HotelData("HL Madrid", "Madrid", 87 );
 		HotelData hotel6 = new HotelData("HL Madrid Serrano", "Madrid", 87 );

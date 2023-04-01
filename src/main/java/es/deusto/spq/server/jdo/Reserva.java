@@ -7,7 +7,7 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import es.deusto.spq.pojo.ClienteData;
+import es.deusto.spq.pojo.UsuarioData;
 import es.deusto.spq.pojo.HabitacionData;
 import es.deusto.spq.pojo.HotelData;
 
@@ -17,7 +17,7 @@ public class Reserva {
 	@Persistent(valueStrategy=IdGeneratorStrategy.INCREMENT)
 	int ID;
 	@Persistent(defaultFetchGroup = "true")
-	ClienteData cliente; 
+	UsuarioData cliente; 
 	@Persistent(defaultFetchGroup = "true")
 	HotelData hotel;
 	@Persistent(defaultFetchGroup = "true")
@@ -25,7 +25,7 @@ public class Reserva {
 	Date fecha_ini; 
 	Date fecha_fin;
 	
-	public Reserva(ClienteData cliente, HotelData hotel, HabitacionData habitacion, Date fecha_ini, Date fecha_fin) {
+	public Reserva(UsuarioData cliente, HotelData hotel, HabitacionData habitacion, Date fecha_ini, Date fecha_fin) {
 		super();
 		this.cliente = cliente;
 		this.hotel = hotel;
@@ -34,11 +34,11 @@ public class Reserva {
 		this.fecha_fin = fecha_fin;
 	}
 
-	public ClienteData getCliente() {
+	public UsuarioData getCliente() {
 		return cliente;
 	}
 
-	public void setCliente(ClienteData cliente) {
+	public void setCliente(UsuarioData cliente) {
 		this.cliente = cliente;
 	}
 

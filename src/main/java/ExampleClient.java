@@ -1,4 +1,4 @@
-package es.deusto.spq.client;
+
 
 import javax.ws.rs.client.Client;
 
@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import es.deusto.spq.server.jdo.Cliente;
+import es.deusto.spq.server.jdo.Usuario;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -36,7 +36,7 @@ public class ExampleClient {
 		WebTarget registerUserWebTarget = webTarget.path("register");
 		Invocation.Builder invocationBuilder = registerUserWebTarget.request(MediaType.APPLICATION_JSON);
 		
-		Cliente clienteDAO = new Cliente();
+		Usuario clienteDAO = new Usuario();
 		clienteDAO.setDni(DNI);
 		clienteDAO.setContrasenya(password);
 		clienteDAO.setNombre(nombre);

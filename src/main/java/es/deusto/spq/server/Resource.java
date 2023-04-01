@@ -10,8 +10,8 @@ import java.util.List;
 import javax.jdo.JDOHelper;
 import javax.jdo.Transaction;
 
-import es.deusto.spq.server.jdo.Cliente;
-import es.deusto.spq.pojo.ClienteData;
+import es.deusto.spq.server.jdo.Usuario;
+import es.deusto.spq.pojo.UsuarioData;
 import es.deusto.spq.pojo.HotelData;
 
 import javax.ws.rs.GET;
@@ -84,17 +84,17 @@ public class Resource {
 	*/
 	@POST
 	@Path("/register")
-	public Response registerUser(ClienteData clienteData) {
+	public Response registerUser(UsuarioData clienteData) {
 		try
         {	
             tx.begin();
             logger.info("Checking whether the user already exits or not: '{}'", clienteData.getDni());
-            Cliente cliente = null;
+            Usuario cliente = null;
 			try {
-				cliente = pm.getObjectById(Cliente.class, clienteData.getDni());
-				Query<Cliente> query = pm.newQuery(Cliente.class, "dni == dniParam");
+				cliente = pm.getObjectById(Usuario.class, clienteData.getDni());
+				Query<Usuario> query = pm.newQuery(Usuario.class, "dni == dniParam");
 				query.declareParameters("String dniParam");
-				List<Cliente> clientes = (List<Cliente>) query.execute(cliente.getDni());
+				List<Usuario> clientes = (List<Usuario>) query.execute(cliente.getDni());
 				if (!clientes.isEmpty()) {
 				    cliente = clientes.get(0);
 				}
@@ -112,7 +112,7 @@ public class Resource {
 				logger.info("Name set user: {}", cliente);
 			} else {
 				logger.info("Creating user: {}", cliente);
-				cliente = new Cliente(clienteData.getDni(), clienteData.getContrasenya(), clienteData.getNombre());
+				cliente = new Usuario(clienteData.getDni(), clienteData.getNombre(), clienteData.getContrasenya());
 				pm.makePersistent(cliente);					 
 				logger.info("Cliente created: {}", cliente);
 			}

@@ -8,11 +8,16 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
 
-import com.mysql.cj.xdevapi.Client;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import javax.ws.rs.client.Client;
 
 import es.deusto.spq.server.Resource;
-import es.deusto.spq.server.jdo.Cliente;
+import es.deusto.spq.server.jdo.Usuario;
 
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -22,14 +27,33 @@ import java.awt.event.ActionEvent;
 public class VentLogin extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
+	
+	protected static final Logger logger = LogManager.getLogger();
+	private Client client;
+	private WebTarget webTarget;
+	
 	private JTextField txtDni;
 	private JTextField txtConstrasenya;
 	
+	/**
+	 * Main
+	 * @param args
+	 */
+	
 	public static void main(String[] args) {
+		
+		if (args.length != 2) {
+			logger.info("Use: java Client.Client [host] [port]");
+			System.exit(0);
+		}
+		
+		String hostname = args[0];
+		String port = args[1];
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentLogin frame = new VentLogin();
+					VentLogin frame = new VentLogin(hostname, port);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -38,12 +62,17 @@ public class VentLogin extends JFrame {
 		});
 	}
 	
-	public VentLogin() {
+	/**
+	 * Constructor
+	 */
+	
+	public VentLogin(String hostname, String port) {
+		client = ClientBuilder.newClient();
+		webTarget = client.target(String.format("http://%s:%s/rest/resource", hostname, port));
+		
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setSize(1000, 650);
 		getContentPane().setLayout(null);
-		
-		Resource resource = new Resource();
 		
 		Image imgLogo = new ImageIcon("src/main/img/logo.png").getImage();
 		ImageIcon iconLogo = new ImageIcon(imgLogo.getScaledInstance(350, 210, Image.SCALE_SMOOTH));
@@ -73,9 +102,17 @@ public class VentLogin extends JFrame {
 		btnInicio.setBounds(462, 452, 118, 23);
 		getContentPane().add(btnInicio);
 		
+		/**
+		 * Pulsar botón inicio
+		 */
+		
 		btnInicio.addActionListener(new ActionListener(){
 			
 			public void actionPerformed(ActionEvent e) {
+				
+				VentListado ventListado = new VentListado(hostname, port);
+				ventListado.setVisible(true);
+				dispose();
 	             
 	                // Enviar la solicitud de inicio de sesión al servidor
 //	                boolean success = resource.loginUser(cliente);
@@ -93,9 +130,15 @@ public class VentLogin extends JFrame {
 		btnRegistro.setBounds(462, 487, 118, 23);
 		getContentPane().add(btnRegistro);
 		
+		/**
+		 * Pulsar botón registro
+		 */
+		
 		btnRegistro.addActionListener(new ActionListener() {
+			
 			public void actionPerformed(ActionEvent e) {
-				VentRegistro ventRegistro = new VentRegistro();
+				
+				VentRegistro ventRegistro = new VentRegistro(hostname, port);
 				ventRegistro.setVisible(true);
 				dispose(); // Cierra la ventana actual (VentLogin)
 			}

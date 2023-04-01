@@ -5,20 +5,20 @@ import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
 @PersistenceCapable
-public class Cliente {
+public class Usuario {
 	@PrimaryKey
 	String dni;
 	String nombre;
 	String contrasenya;
 	
-	public Cliente(String dni, String nombre, String contrasenya) {
+	public Usuario(String dni, String nombre, String contrasenya) {
 		super();
 		this.dni = dni;
 		this.nombre = nombre;
 		this.contrasenya = contrasenya;
 	}
 
-	public Cliente() {
+	public Usuario() {
 		super();
 	}
 
