@@ -19,7 +19,6 @@ import org.apache.logging.log4j.Logger;
 
 import javax.ws.rs.client.Client;
 
-import es.deusto.spq.server.Resource;
 import es.deusto.spq.server.jdo.Usuario;
 
 import javax.swing.JButton;
@@ -165,5 +164,12 @@ public class VentLogin extends JFrame {
 				dispose(); // Cierra la ventana actual (VentLogin)
 			}
 		});
+		
+		
+		/**
+		 * Prueba
+		 */
+		
+		
 	}
 }

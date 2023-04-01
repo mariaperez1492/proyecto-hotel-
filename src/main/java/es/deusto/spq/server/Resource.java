@@ -15,6 +15,7 @@ import javax.jdo.JDOHelper;
 import javax.jdo.Transaction;
 import javax.swing.JOptionPane;
 
+import es.deusto.spq.server.jdo.Hotel;
 import es.deusto.spq.server.jdo.Usuario;
 import es.deusto.spq.pojo.UsuarioData;
 import es.deusto.spq.pojo.HotelData;
@@ -28,8 +29,6 @@ import javax.ws.rs.core.Response;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
-
-
 
 
 @Path("/resource")
@@ -87,6 +86,13 @@ public class Resource {
 		}
 	}
 	*/
+	
+	/**
+	 * Comprueba que el dni no se encuentra en la bd, en caso de que no crea un nuevo usuario
+	 * @param clienteData
+	 * @return
+	 */
+	
 	@POST
 	@Path("/register")
 	public Response registerUser(UsuarioData clienteData) {
@@ -99,7 +105,8 @@ public class Resource {
 				cliente = pm.getObjectById(Usuario.class, clienteData.getDni());
 				Query<Usuario> query = pm.newQuery(Usuario.class, "dni == dniParam");
 				query.declareParameters("String dniParam");
-				List<Usuario> clientes = (List<Usuario>) query.execute(cliente.getDni());
+				@SuppressWarnings("unchecked")
+				List<Usuario> clientes = (List<Usuario>) query.execute(clienteData.getDni());
 				if (!clientes.isEmpty()) {
 				    cliente = clientes.get(0);
 				}
@@ -108,13 +115,10 @@ public class Resource {
 			}
 
 			logger.info("Cliente: {}", cliente);
+			
 			if (cliente != null) {
-				logger.info("Setting password user: {}", cliente);
-				cliente.setContrasenya(clienteData.getContrasenya());
-				logger.info("Password set user: {}", cliente);
-				logger.info("Setting name user: {}", cliente);
-				cliente.setNombre(clienteData.getNombre());
-				logger.info("Name set user: {}", cliente);
+				logger.info("User already exists", cliente);
+				
 			} else {
 				logger.info("Creating user: {}", cliente);
 				cliente = new Usuario(clienteData.getDni(), clienteData.getNombre(), clienteData.getContrasenya());
@@ -130,25 +134,33 @@ public class Resource {
             {
                 tx.rollback();
             }
-      
 		}
-		
 	}
+	
+	/**
+	 * Obtiene todos los datos de la tabla de hoteles de la bd. 
+	 * @return
+	 */
 
 	@GET
 	@Path("/getHoteles")
 	public Response getHoteles() {
-		List<HotelData> list = null;
+		List<HotelData> list = new ArrayList<>();
 		
 		try {
 			tx.begin();
-			Query<HotelData> query = pm.newQuery(HotelData.class);
-			list = query.executeList();
-			tx.commit();
+	        Query<Hotel> query = pm.newQuery(Hotel.class);
+	        List<Hotel> hotels = query.executeList();
+	        
+	        for (Hotel h : hotels) {
+	            HotelData hotelData = new HotelData(h.getNombre(), h.getCiudad(), h.getHabitaciones_disp());
+	            list.add(hotelData);
+	        }
+	        logger.info("Retrieved hotels from database: " + list.size());
+	        tx.commit();
 			
 		} catch (Exception e) {
 			logger.error("Error retrieving hotels from database", e);
-			//return Response.status(Status.INTERNAL_SERVER_ERROR).build();
 		
 		} finally {
 			if (tx.isActive()) {
@@ -159,12 +171,6 @@ public class Resource {
 		return Response.ok(list).build();
 	}
 
-	@GET
-	@Path("/hello")
-	@Produces(MediaType.TEXT_PLAIN)
-	public Response sayHello() {
-		return Response.ok("Hola mundo!").build();
-	}
 	
 	
 	@GET
@@ -200,14 +206,6 @@ public class Resource {
 		return false;
 		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	@GET
