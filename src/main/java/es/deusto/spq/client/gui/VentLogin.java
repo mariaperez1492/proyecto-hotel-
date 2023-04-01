@@ -1,5 +1,6 @@
 package es.deusto.spq.client.gui;
 
+import java.awt.EventQueue;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
@@ -21,60 +22,61 @@ import java.awt.event.ActionEvent;
 public class VentLogin extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
-	private JTextField textField;
-	private JTextField textField_1;
+	private JTextField txtDni;
+	private JTextField txtConstrasenya;
 	
 	public static void main(String[] args) {
-		VentLogin v = new VentLogin();
-		v.setVisible(true);
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					VentLogin frame = new VentLogin();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 	
 	public VentLogin() {
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setSize(1000, 650);
 		getContentPane().setLayout(null);
+		
 		Resource resource = new Resource();
 		
-
-		//Image imgStrava = new ImageIcon(VentLogin.class.getResource("logo.png")).getImage();
-		//ImageIcon iconStrava = new ImageIcon(imgStrava.getScaledInstance(350, 210, Image.SCALE_SMOOTH));
-		//JLabel lblNewLabel = new JLabel(iconStrava);
-		//lblNewLabel.setBounds(312, 59, 400, 200);
-		//getContentPane().add(lblNewLabel);
+		Image imgLogo = new ImageIcon("src/main/img/logo.png").getImage();
+		ImageIcon iconLogo = new ImageIcon(imgLogo.getScaledInstance(350, 210, Image.SCALE_SMOOTH));
+		JLabel lblLogo = new JLabel(iconLogo);
+		lblLogo.setBounds(312, 59, 400, 200);
+		getContentPane().add(lblLogo);
 		
-		textField = new JTextField();
-		textField.setBounds(383, 295, 254, 20);
-		getContentPane().add(textField);
-		textField.setColumns(10);
+		JLabel lblDni = new JLabel("DNI");
+		lblDni.setBounds(384, 270, 49, 14);
+		getContentPane().add(lblDni);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(383, 365, 254, 20);
-		getContentPane().add(textField_1);
-		textField_1.setColumns(10);
+		JLabel lblContrasenya = new JLabel("Contrase\u00F1a");
+		lblContrasenya.setBounds(383, 340, 78, 14);
+		getContentPane().add(lblContrasenya);
 		
+		txtDni = new JTextField();
+		txtDni.setBounds(383, 295, 254, 20);
+		getContentPane().add(txtDni);
+		txtDni.setColumns(10);
 		
-		JLabel lblNewLabel_1 = new JLabel("DNI");
-		lblNewLabel_1.setBounds(384, 270, 49, 14);
-		getContentPane().add(lblNewLabel_1);
+		txtConstrasenya = new JTextField();
+		txtConstrasenya.setBounds(383, 365, 254, 20);
+		getContentPane().add(txtConstrasenya);
+		txtConstrasenya.setColumns(10);
 		
-		JLabel lblNewLabel_2 = new JLabel("Contrase\u00F1a");
-		lblNewLabel_2.setBounds(383, 340, 78, 14);
-		getContentPane().add(lblNewLabel_2);
+		JButton btnInicio = new JButton("Inicio Sesi\u00F3n");
+		btnInicio.setBounds(462, 452, 118, 23);
+		getContentPane().add(btnInicio);
 		
-		JButton btnNewButton = new JButton("Inicio Sesi\u00F3n");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnNewButton.setBounds(462, 434, 118, 23);
-		getContentPane().add(btnNewButton);
-		
-		
-		btnNewButton.addActionListener(new ActionListener(){
+		btnInicio.addActionListener(new ActionListener(){
 			
 			public void actionPerformed(ActionEvent e) {
-				 String dni = lblNewLabel_1.getText();
-	             String password = new String(lblNewLabel_2.getText());
+	             
 	                // Enviar la solicitud de inicio de sesión al servidor
 //	                boolean success = resource.loginUser(cliente);
 //	                if (success) {
@@ -83,23 +85,20 @@ public class VentLogin extends JFrame {
 //	                    // Mostrar un mensaje de error
 //	                    JOptionPane.showMessageDialog(LoginFrame.this, "El DNI o la contraseña son incorrectos", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
 //	                }
+	             	
 	            }
 	        });
 		
+		JButton btnRegistro = new JButton("Registrar");
+		btnRegistro.setBounds(462, 487, 118, 23);
+		getContentPane().add(btnRegistro);
 		
-		
-		JButton btnNewButton_1 = new JButton("Registrar");
-		btnNewButton_1.setBounds(462, 487, 118, 23);
-		getContentPane().add(btnNewButton_1);
-		btnNewButton_1.addActionListener(new ActionListener() {
+		btnRegistro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				VentRegistro ventRegistro = new VentRegistro();
 				ventRegistro.setVisible(true);
 				dispose(); // Cierra la ventana actual (VentLogin)
 			}
 		});
-		
-		
-		
 	}
 }

@@ -32,11 +32,6 @@ public class VentListado extends JFrame{
 	
 	private static final long serialVersionUID = 1L;
 	
-	public static void main(String[] args) {
-		VentListado v = new VentListado();
-		v.setVisible(true);
-	}
-	
 	public VentListado() {
 		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		this.setSize(1000, 650);
@@ -44,19 +39,17 @@ public class VentListado extends JFrame{
 		JPanel panelSup = new JPanel();
 		getContentPane().add(panelSup, BorderLayout.NORTH);
 		
-		Image imgStrava = new ImageIcon(VentLogin.class.getResource("logo.png")).getImage();
-		ImageIcon iconStrava = new ImageIcon(imgStrava.getScaledInstance(180, 110, Image.SCALE_SMOOTH));
-		JLabel lblNewLabel = new JLabel(iconStrava);
-		lblNewLabel.setSize(180, 110);
-		panelSup.add(lblNewLabel);
+		Image imgLogo = new ImageIcon(VentLogin.class.getResource("logo.png")).getImage();
+		ImageIcon iconLogo = new ImageIcon(imgLogo.getScaledInstance(180, 110, Image.SCALE_SMOOTH));
+		JLabel lblLogo = new JLabel(iconLogo);
+		lblLogo.setSize(180, 110);
+		panelSup.add(lblLogo);
 		
 		JPanel panelFiltros = new JPanel(new GridLayout(19, 1)); 
 		getContentPane().add(panelFiltros, BorderLayout.WEST);
 		
 		JLabel lblNewLabel_1 = new JLabel("Eliga la ciudad: ");
 		panelFiltros.add(lblNewLabel_1);
-		
-		
 		
 		JComboBox<String> comboBox = new JComboBox<>();
 		comboBox.addItem("Seleccione una ciudad");
