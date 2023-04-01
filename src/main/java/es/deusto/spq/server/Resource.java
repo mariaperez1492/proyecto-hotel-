@@ -4,6 +4,10 @@ import javax.jdo.PersistenceManager;
 
 import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -162,6 +166,50 @@ public class Resource {
 		return Response.ok("Hola mundo!").build();
 	}
 	
+	
+	@GET
+	@Path("/userExist")
+	public Boolean userExist(String dni) {
+		List<UsuarioData> list = null;
+		//Query<?> query = pm.newQuery("SELECT retos FROM " + Usuario.class.getName() + " WHERE email == '" + u.getEmail() + "'");
+
+		try {
+			tx.begin();
+			Query<UsuarioData> query = pm.newQuery("SELECT dni FROM usuario WHERE DNI == '" + dni + "'");
+			list = query.executeList();
+			tx.commit();
+			
+			if(list.size() !=0) {
+				return true;
+			}else {
+				return false;
+			}
+			
+			
+			
+		} catch (Exception e) {
+			logger.error("Error retrieving users from database", e);
+			//return Response.status(Status.INTERNAL_SERVER_ERROR).build();
+		
+		} finally {
+			if (tx.isActive()) {
+		        tx.rollback();
+		    }
+		}
+		
+		return false;
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	@GET
 	@Path("/getUsuario")
 	public Response getUsuario(UsuarioData u) {
@@ -170,7 +218,7 @@ public class Resource {
 
 		try {
 			tx.begin();
-			Query<UsuarioData> query = pm.newQuery("SELECT * FROM usuario WHERE DNI == '" + u.getDni() + "'");
+			Query<UsuarioData> query = pm.newQuery("SELECT dni FROM usuario WHERE DNI == '" + u.getDni() + "'");
 			list = query.executeList();
 			tx.commit();
 			
@@ -187,4 +235,6 @@ public class Resource {
 		return Response.ok(list).build();
 		
 	}
+	
+
 }

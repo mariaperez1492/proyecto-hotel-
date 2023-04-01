@@ -145,19 +145,33 @@ public class VentRegistro extends JFrame {
 		        String dni = txtDni.getText();
 
 
-		        // Verificar si la contraseña cumple con los requisitos
+//		         Verificar si la contraseña cumple con los requisitos
 		        if (password.length() < 8 || !password.matches(".*[A-Z].*") || !password.matches(".*[a-z].*") || !password.matches(".*\\d.*")) {
 		            JOptionPane.showMessageDialog(null, "La contraseña debe tener al menos 8 caracteres, una letra mayúscula, una letra minúscula y un número.");
 		        }
-		        else if(dni == "12345644A"){
-		        	System.out.println("HOOOOOLAAAAA");
+		        else if(true){
+		        	
+		    		Usuario usuario2 = new Usuario();
+		    		usuario2.setContrasenya(txtContrasenya.getText());
+		    		usuario2.setNombre(txtNombre.getText());
+		    		usuario2.setDni(txtDni.getText());
+		    		
 		        	WebTarget registerUserWebTarget2 = webTarget.path("getUsuario");
-		    		Invocation.Builder invocationBuilder2 = registerUserWebTarget2.request(MediaType.APPLICATION_JSON);
-//		    		Usuario usuario2 = new Usuario();
-//		    		usuario2.setContrasenya(txtContrasenya.getText());
-//		    		usuario2.setNombre(txtNombre.getText());
-//		    		usuario2.setDni(txtDni.getText());
-//		    		Response response = invocationBuilder2.post(Entity.entity(usuario2, MediaType.APPLICATION_JSON));
+		    		Invocation.Builder invocationBuilder2 = registerUserWebTarget2
+		    			    .queryParam("dni", usuario2.getDni())
+		    			    .queryParam("contrasenya", usuario2.getContrasenya())
+		    			    .queryParam("nombre", usuario2.getNombre())
+		    				.request(MediaType.APPLICATION_JSON);
+		    		
+		    		Response response2 = invocationBuilder2.get();
+		    		
+		        	JOptionPane.showMessageDialog(null, usuario2.getDni()+"-----" + response2 +"-----" +response2.getHeaderString(dni));
+
+		    				    		
+		    		if (response2.equals(usuario2)){
+			        	JOptionPane.showMessageDialog(null, "El usuario ya está registrado");
+
+		    		}
 		        	JOptionPane.showMessageDialog(null, "El usuario ya está registrado");
 		        }else if(!contrasenya.equals(contrasenya2)){
 		        	JOptionPane.showMessageDialog(null, "Las contraseñas introducidas no coinciden");

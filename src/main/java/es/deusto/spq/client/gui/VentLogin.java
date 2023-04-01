@@ -9,7 +9,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -110,10 +113,29 @@ public class VentLogin extends JFrame {
 			
 			public void actionPerformed(ActionEvent e) {
 				
-				VentListado ventListado = new VentListado(hostname, port);
-				ventListado.setVisible(true);
-				dispose();
-	             
+	        	WebTarget loginUserWebTarget = webTarget.path("getUsuario");
+	    		Invocation.Builder invocationBuilder2 = loginUserWebTarget
+	    			    .queryParam("dni", txtDni.getText())
+	    			    .queryParam("contrasenya", txtConstrasenya.getText())
+	    				.request(MediaType.APPLICATION_JSON);
+	    		
+	    		Response response2 = invocationBuilder2.get();
+	    		
+	    		Usuario usuario2 = response2.readEntity(Usuario.class);
+				
+				if (usuario2.getContrasenya().equals( txtConstrasenya.getText()) && usuario2.getDni().equals( txtDni.getText())) {
+		        	JOptionPane.showMessageDialog(null, "¡Bienvenido!");
+		        	
+					VentListado ventListado = new VentListado(hostname, port);
+					ventListado.setVisible(true);
+					dispose();		    		
+
+				}
+				
+				else {
+		        	JOptionPane.showMessageDialog(null, "La contraseña es incorrecta.");
+
+				}
 	                // Enviar la solicitud de inicio de sesión al servidor
 //	                boolean success = resource.loginUser(cliente);
 //	                if (success) {
