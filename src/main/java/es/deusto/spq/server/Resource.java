@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.Transaction;
@@ -26,6 +27,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -89,6 +91,36 @@ public class Resource {
 	}
 	*/
 	
+	@GET
+	@Path("/login")
+	public Response loginUser(@QueryParam("dni") String dni, @QueryParam("contrasenya") String contrasenya) {
+		try {
+			tx.begin();
+			Usuario cliente = null;
+	
+			try {
+	            cliente = pm.getObjectById(Usuario.class, dni);
+	        } catch (javax.jdo.JDOObjectNotFoundException jonfe) {
+	            logger.info("Exception launched: {}", jonfe.getMessage());
+	        }
+			
+			if (cliente != null && cliente.getContrasenya().equals(contrasenya)) { 
+				String token = UUID.randomUUID().toString();
+	            tx.commit();
+	            return Response.ok().entity(token).build();
+	        } else {
+	            tx.commit();
+	            return Response.status(Response.Status.UNAUTHORIZED).build();
+	        }
+		} catch (Exception e) {
+			return Response.status(Response.Status.UNAUTHORIZED).build();
+		} finally {
+			if (tx.isActive()) {
+	            tx.rollback();
+	        }
+		}
+	}
+
 	/**
 	 * Comprueba que el dni no se encuentra en la bd, en caso de que no crea un nuevo usuario
 	 * @param clienteData
