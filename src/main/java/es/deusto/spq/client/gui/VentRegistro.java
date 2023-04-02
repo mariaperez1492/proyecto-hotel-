@@ -251,17 +251,6 @@ public class VentRegistro extends JFrame {
 		        VentLogin v = new VentLogin(hostname, port);
 		        v.setVisible(true);  // muestra la ventana VentLogin
 		    }
-		});
-		
-		//PRUEBA
-		WebTarget hotelTarget = webTarget.path("getHoteles");
-		Invocation.Builder invocationBuilder = hotelTarget.request(MediaType.APPLICATION_JSON);
-		
-		Response response = invocationBuilder.get();
-		
-		@SuppressWarnings("unchecked")
-		List<HotelData> list = response.readEntity(new ArrayList<HotelData>().getClass());
-	    System.out.println(list);
-	
+		});	
 	}
 }

@@ -9,7 +9,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.jdo.JDOHelper;
 import javax.jdo.Transaction;
@@ -141,7 +143,7 @@ public class Resource {
 	 * Obtiene todos los datos de la tabla de hoteles de la bd. 
 	 * @return
 	 */
-
+	
 	@GET
 	@Path("/getHoteles")
 	public Response getHoteles() {
