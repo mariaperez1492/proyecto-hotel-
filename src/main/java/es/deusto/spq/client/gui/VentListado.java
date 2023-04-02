@@ -36,6 +36,7 @@ import java.awt.GridLayout;
 import javax.swing.JComboBox;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import javax.swing.JButton;
 
 public class VentListado extends JFrame{
 	
@@ -71,9 +72,9 @@ public class VentListado extends JFrame{
 		JComboBox<String> comboBox = new JComboBox<>();
 		comboBox.addItem("Seleccione una ciudad");
 		comboBox.addItem("Barcelona");
-		comboBox.addItem("Bilbao");
+		comboBox.addItem("San Sebastián");
 		comboBox.addItem("Madrid");
-		comboBox.addItem("Sevilla");
+		comboBox.addItem("Málaga");
 		comboBox.addItem("Valencia");
 		panelFiltros.add(comboBox);
 		
@@ -83,6 +84,19 @@ public class VentListado extends JFrame{
 		
 		JPanel panelLista = new JPanel();
 		getContentPane().add(panelLista, BorderLayout.CENTER);
+		
+		JPanel panelSur = new JPanel();
+		getContentPane().add(panelSur, BorderLayout.SOUTH);
+		
+		JButton btnCerrarSesion = new JButton("Cerrar Sesion");
+		btnCerrarSesion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentLogin ventLogin = new VentLogin(hostname, port);
+				ventLogin.setVisible(true);
+				dispose();
+			}
+		});
+		panelSur.add(btnCerrarSesion);
 		
 		JTable table = new JTable();
 		DefaultTableModel model = new DefaultTableModel();
@@ -161,7 +175,7 @@ public class VentListado extends JFrame{
 	                };
 	                ((TableRowSorter) table.getRowSorter()).setRowFilter(rf);
 					
-				}else if (valorSeleccionado == "Bilbao") {
+				}else if (valorSeleccionado == "San Sebastián") {
 					RowFilter<Object, Object> rf = new RowFilter<Object, Object>() {
 	                    public boolean include(Entry<?, ?> entry) {
 	                        Object value = entry.getValue(1);
@@ -186,7 +200,7 @@ public class VentListado extends JFrame{
 	                };
 	                ((TableRowSorter) table.getRowSorter()).setRowFilter(rf);
 					
-				}else if (valorSeleccionado == "Sevilla") {
+				}else if (valorSeleccionado == "Málaga") {
 					RowFilter<Object, Object> rf = new RowFilter<Object, Object>() {
 	                    public boolean include(Entry<?, ?> entry) {
 	                        Object value = entry.getValue(1);
@@ -195,6 +209,9 @@ public class VentListado extends JFrame{
 	                };
 	                ((TableRowSorter) table.getRowSorter()).setRowFilter(rf);
 					
+				}else {
+					TableRowSorter<TableModel> trsfiltro = new TableRowSorter(table.getModel());
+					table.setRowSorter(trsfiltro);
 				}
 				
 			}

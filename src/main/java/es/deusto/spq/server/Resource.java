@@ -23,6 +23,7 @@ import es.deusto.spq.server.jdo.Usuario;
 import es.deusto.spq.pojo.UsuarioData;
 import es.deusto.spq.pojo.HotelData;
 
+import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -242,7 +243,7 @@ public class Resource {
 	}
 	
 	
-	@GET
+	@POST
 	@Path("/getUsuario")
 	public Response getUsuario(UsuarioData u) {
 		List<UsuarioData> list = null;
@@ -267,6 +268,8 @@ public class Resource {
 		return Response.ok(list).build();
 		
 	}
+	
+	
 	
 
 }
