@@ -7,6 +7,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation;
@@ -35,7 +36,7 @@ public class VentLogin extends JFrame {
 	private WebTarget webTarget;
 	
 	private JTextField txtDni;
-	private JTextField txtConstrasenya;
+	private JPasswordField txtConstrasenya;
 	
 	/**
 	 * Main
@@ -95,7 +96,7 @@ public class VentLogin extends JFrame {
 		getContentPane().add(txtDni);
 		txtDni.setColumns(10);
 		
-		txtConstrasenya = new JTextField();
+		txtConstrasenya = new JPasswordField();
 		txtConstrasenya.setBounds(383, 365, 254, 20);
 		getContentPane().add(txtConstrasenya);
 		txtConstrasenya.setColumns(10);
@@ -111,10 +112,22 @@ public class VentLogin extends JFrame {
 		btnInicio.addActionListener(new ActionListener(){
 			
 			public void actionPerformed(ActionEvent e) {
+				WebTarget target = webTarget.path("login")
+					.queryParam("dni", txtDni.getText())
+					.queryParam("contrasenya", txtConstrasenya.getText());
 				
-				VentListado ventListado = new VentListado(hostname, port);
-				ventListado.setVisible(true);
-				dispose();
+				Invocation.Builder invocationBuilder = target.request(MediaType.APPLICATION_JSON);
+				
+				Response response = invocationBuilder.get();
+				
+				if (response.getStatus() == Response.Status.OK.getStatusCode()) {
+					VentListado ventListado = new VentListado(hostname, port);
+					ventListado.setVisible(true);
+					dispose();
+				} else {
+					JOptionPane.showMessageDialog(null, "La contraseña o DNI es incorrecta.");
+				}
+				
 				
 //	        	WebTarget loginUserWebTarget = webTarget.path("getUsuario");
 //	    		Invocation.Builder invocationBuilder2 = loginUserWebTarget
@@ -168,12 +181,5 @@ public class VentLogin extends JFrame {
 				dispose(); // Cierra la ventana actual (VentLogin)
 			}
 		});
-		
-		
-		/**
-		 * Prueba
-		 */
-		
-		
 	}
 }

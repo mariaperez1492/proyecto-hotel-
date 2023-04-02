@@ -128,32 +128,7 @@ public class VentListado extends JFrame{
 		} catch (Exception e) {
 		
 		}
-
-//		HotelData hotel1 = new HotelData("HL Madrid", "Madrid", 87 );
-//		HotelData hotel6 = new HotelData("HL Madrid Serrano", "Madrid", 87 );
-//		HotelData hotel2 = new HotelData( "HL Barcelona", "Barcelona", 45);
-//		HotelData hotel3 = new HotelData( "HL Bilbao", "Bilbao", 66);
-//		HotelData hotel4 = new HotelData( "HL Valencia", "Valencia", 95);
-//		HotelData hotel5 = new HotelData( "HL Sevilla", "Sevilla", 95);
-//		
-//		List<HotelData> listaH = new ArrayList<HotelData>();
-//		listaH.add(hotel1);
-//		listaH.add(hotel2);
-//		listaH.add(hotel3);
-//		listaH.add(hotel4);
-//		listaH.add(hotel5);
-//		listaH.add(hotel6);
-//		
-//		Object[] fila;
-//		
-//		for (HotelData hotel : listaH) {
-//			fila = new Object[listaH.size()];
-//			fila[0] = hotel.getNombre();
-//			fila[1] = hotel.getCiudad();
-//			fila[2] = hotel.getHabitaciones_disp();
-//			model.addRow(fila);
-//		}
-//		
+		
 		JScrollPane scrollPane = new JScrollPane(table);
 		panelLista.add(scrollPane);
 		
@@ -216,12 +191,5 @@ public class VentListado extends JFrame{
 				
 			}
 		});
-		
-		
-	}
-
-
-	
-	
-	
+	}	
 }
