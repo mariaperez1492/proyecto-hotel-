@@ -1,25 +1,27 @@
-mvn jetty:runmvn jetty:runJersey + DataNucleus + MySQL
+Proyecto Hotel: Jersey + DataNucleus + MySQL
 ============================
 
-This example relies on the DataNucleus Maven plugin. Check the database configuration in the *datanucleus.properties* file and the JDBC driver dependency specified in the *pom.xml* file. In addition, the project contains the server and client example codes.
+Este ejemplo se basa en el complemento DataNucleus Maven. Compruebe la configuración de la base de datos en el archivo *datanucleus.properties* y la dependencia del controlador JDBC especificada en el archivo *pom.xml*. Además, el proyecto contiene los códigos de ejemplo de servidor y cliente.
 
-Run the following command to build everything and enhance the DB classes:
+1. Ejecute el siguiente comando para compilar todo y mejorar las clases de base de datos:
 
       mvn clean compile
 
-Make sure that the database was correctly configured. Use the contents of the file *create-message.sql* to create the database and grant privileges. For example,
+2. Asegúrese de que la base de datos se haya configurado correctamente. Use el contenido del archivo *create-message.sql* para crear la base de datos y otorgar privilegios. Por ejemplo,
 
-      mysql –uroot -p < sql/create-messages.sql
+      mysql –uroot -p < sql/HLHotelesdb.sql
 
-Run the following command to create database schema for this sample.
+3. Ejecute el siguiente comando para crear un esquema de base de datos para esta muestra.
 
       mvn datanucleus:schema-create
+      
+4. Abra MySQL y ejecute el script ejemplos-hoteles.sql
 
-To launch the server run the command
+5. Para iniciar el servidor, ejecute el comando
 
     mvn jetty:run
 
-Now, the client sample code can be executed in a new command window with
+6. Ahora, el código de muestra del cliente se puede ejecutar en una nueva ventana de comandos con
 
     mvn exec:java -Pclient
 
