@@ -3,10 +3,8 @@ package es.deusto.spq.client.gui;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.util.List;
 
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -40,7 +38,7 @@ import javax.swing.JComboBox;
 import com.fasterxml.jackson.core.type.TypeReference;
 import javax.swing.JButton;
 
-public class VentListado extends JFrame{
+public class VentHabitacion extends JFrame{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -48,7 +46,7 @@ public class VentListado extends JFrame{
 	private Client client;
 	private WebTarget webTarget;
 
-	public VentListado(String hostname, String port) {
+	public VentHabitacion(String hostname, String port) {
 		
 		client = ClientBuilder.newClient();
 		webTarget = client.target(String.format("http://%s:%s/rest/resource", hostname, port));
@@ -68,16 +66,16 @@ public class VentListado extends JFrame{
 		JPanel panelFiltros = new JPanel(new GridLayout(19, 1)); 
 		getContentPane().add(panelFiltros, BorderLayout.WEST);
 		
-		JLabel lblNewLabel_1 = new JLabel("Eliga la ciudad: ");
+		JLabel lblNewLabel_1 = new JLabel("Eliga el tipo de habitación: ");
 		panelFiltros.add(lblNewLabel_1);
 		
 		JComboBox<String> comboBox = new JComboBox<>();
-		comboBox.addItem("Seleccione una ciudad");
-		comboBox.addItem("Barcelona");
-		comboBox.addItem("San Sebastián");
-		comboBox.addItem("Madrid");
-		comboBox.addItem("Málaga");
-		comboBox.addItem("Valencia");
+		comboBox.addItem("Seleccione el tipo de habitación");
+		comboBox.addItem("Suite");
+		comboBox.addItem("Deluxe");
+		comboBox.addItem("Estándar");
+		comboBox.addItem("Cama extragrande");
+
 		panelFiltros.add(comboBox);
 		
 		/**
@@ -103,8 +101,8 @@ public class VentListado extends JFrame{
 		JTable table = new JTable();
 		DefaultTableModel model = new DefaultTableModel();
 		
-		model.addColumn("Hotel");
-		model.addColumn("Ciudad");
+		model.addColumn("Capacidad");
+		model.addColumn("Precio");
 		model.addColumn("Habitaciones Disponibles");
 		table.setModel(model);
 		
@@ -115,20 +113,26 @@ public class VentListado extends JFrame{
 		ObjectMapper mapper = new ObjectMapper();
 		
 		try {
-			List<HotelData> listData = mapper.readValue(response.readEntity(String.class), new TypeReference<List<HotelData>>(){});
-			
-			Object[] fila;
-			for (HotelData hotel : listData) {
-			    fila = new Object[listData.size()];
-			    fila[0] = hotel.getNombre();
-			    fila[1] = hotel.getCiudad();
-			    fila[2] = hotel.getHabitaciones_disp();
-			    
-			    model.addRow(fila);
-			    }
+			ImageIcon imagen = new ImageIcon("src/main/img/Barcelona.jpeg");
+			JLabel labelImagen = new JLabel(imagen);
+
+			JPanel panel = new JPanel();
+			panel.add(labelImagen);
+			getContentPane().add(panel);
+
+			JPanel panelSup2 = new JPanel();
+			getContentPane().add(panelSup2, BorderLayout.NORTH);
+
+			// Cargar la imagen desde el archivo
+			Image imgLogo2 = new ImageIcon("ruta/a/la/imagen.jpg").getImage();
+			// Escalar la imagen a un tamaño adecuado
+			ImageIcon iconLogo2 = new ImageIcon(imgLogo.getScaledInstance(180, 110, Image.SCALE_SMOOTH));
+			// Crear un JLabel con la imagen
+			JLabel lblLogo2 = new JLabel(iconLogo2);
+			lblLogo2.setSize(180, 110);
+			panelSup2.add(lblLogo2);
+
 				
-		
-			
 		} catch (Exception e) {
 		
 		}
@@ -145,7 +149,7 @@ public class VentListado extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				String valorSeleccionado = comboBox.getSelectedItem().toString();
-				if(valorSeleccionado == "Madrid") {
+				if(valorSeleccionado == "Suite") {
 					RowFilter<Object, Object> rf = new RowFilter<Object, Object>() {
 	                    public boolean include(Entry<?, ?> entry) {
 	                        Object value = entry.getValue(1);
@@ -154,7 +158,7 @@ public class VentListado extends JFrame{
 	                };
 	                ((TableRowSorter) table.getRowSorter()).setRowFilter(rf);
 					
-				}else if (valorSeleccionado == "San Sebastián") {
+				}else if (valorSeleccionado == "Deluxe") {
 					RowFilter<Object, Object> rf = new RowFilter<Object, Object>() {
 	                    public boolean include(Entry<?, ?> entry) {
 	                        Object value = entry.getValue(1);
@@ -162,7 +166,7 @@ public class VentListado extends JFrame{
 	                    }
 	                };
 	                ((TableRowSorter) table.getRowSorter()).setRowFilter(rf);
-				}else if (valorSeleccionado == "Barcelona") {
+				}else if (valorSeleccionado == "Estándar") {
 					RowFilter<Object, Object> rf = new RowFilter<Object, Object>() {
 	                    public boolean include(Entry<?, ?> entry) {
 	                        Object value = entry.getValue(1);
@@ -170,7 +174,7 @@ public class VentListado extends JFrame{
 	                    }
 	                };
 	                ((TableRowSorter) table.getRowSorter()).setRowFilter(rf);
-				}else if (valorSeleccionado == "Valencia") {
+				}else if (valorSeleccionado == "Cama extragrande") {
 					RowFilter<Object, Object> rf = new RowFilter<Object, Object>() {
 	                    public boolean include(Entry<?, ?> entry) {
 	                        Object value = entry.getValue(1);
@@ -179,14 +183,7 @@ public class VentListado extends JFrame{
 	                };
 	                ((TableRowSorter) table.getRowSorter()).setRowFilter(rf);
 					
-				}else if (valorSeleccionado == "Málaga") {
-					RowFilter<Object, Object> rf = new RowFilter<Object, Object>() {
-	                    public boolean include(Entry<?, ?> entry) {
-	                        Object value = entry.getValue(1);
-	                        return value.equals(valorSeleccionado);
-	                    }
-	                };
-	                ((TableRowSorter) table.getRowSorter()).setRowFilter(rf);
+	
 					
 				}else {
 					TableRowSorter<TableModel> trsfiltro = new TableRowSorter(table.getModel());
