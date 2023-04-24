@@ -68,7 +68,7 @@ public class VentListado extends JFrame{
 		JPanel panelFiltros = new JPanel(new GridLayout(19, 1)); 
 		getContentPane().add(panelFiltros, BorderLayout.WEST);
 		
-		JLabel lblNewLabel_1 = new JLabel("Eliga la ciudad: ");
+		JLabel lblNewLabel_1 = new JLabel("Elija la ciudad: ");
 		panelFiltros.add(lblNewLabel_1);
 		
 		JComboBox<String> comboBox = new JComboBox<>();
