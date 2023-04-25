@@ -152,10 +152,13 @@ public class VentListado extends JFrame{
 
 		            VentHabitacion vent = new VentHabitacion(hostname, port);
 		            vent.setVisible(true);
+		            dispose(); 
 		        }
 		    }
 		});
 
+		JScrollPane scrollPane = new JScrollPane(table);
+		panelLista.add(scrollPane);
 		
 		/**
 		 * FILTROS
