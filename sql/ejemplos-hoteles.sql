@@ -8,4 +8,7 @@ VALUES
 (4, 'Hotel Valencia', 'Valencia', 80),
 (5, 'Hotel San Sebastian', 'San Sebastián', 60);
 
+INSERT INTO usuario VALUES ("0000000A", "usuario", "1234567Ab*");
+
 SELECT * FROM hlhotelesdb.hotel;
+SELECT * FROM hlhotelesdb.usuario;

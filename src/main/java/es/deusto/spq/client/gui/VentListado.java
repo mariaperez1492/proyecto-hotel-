@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 
 import javax.swing.DefaultListModel;
@@ -11,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.RowFilter;
+import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -80,10 +82,6 @@ public class VentListado extends JFrame{
 		comboBox.addItem("Valencia");
 		panelFiltros.add(comboBox);
 		
-		/**
-		 * TABLA
-		 */
-		
 		JPanel panelLista = new JPanel();
 		getContentPane().add(panelLista, BorderLayout.CENTER);
 		
@@ -100,8 +98,14 @@ public class VentListado extends JFrame{
 		});
 		panelSur.add(btnCerrarSesion);
 		
+		/**
+		 * TABLA
+		 */
+		
 		JTable table = new JTable();
 		DefaultTableModel model = new DefaultTableModel();
+		
+		table.setDefaultEditor(Object.class, null);
 		
 		model.addColumn("Hotel");
 		model.addColumn("Ciudad");
@@ -126,15 +130,36 @@ public class VentListado extends JFrame{
 			    
 			    model.addRow(fila);
 			    }
-				
-		
 			
 		} catch (Exception e) {
 		
 		}
 		
-		JScrollPane scrollPane = new JScrollPane(table);
-		panelLista.add(scrollPane);
+		/* Al seleccionar una fila de la tabla */
+		
+		table.addMouseListener(new MouseAdapter() {
+			
+		    public void mouseClicked(MouseEvent e) {
+		    	
+		        if (e.getClickCount() == 1) {
+		        	
+		            JTable target = (JTable) e.getSource();
+		            int row = target.getSelectedRow();
+		            
+		            String hotel = (String) target.getValueAt(row, 0);
+		            String ciudad = (String) target.getValueAt(row, 1);
+		            int habitaciones = (int) target.getValueAt(row, 2);
+
+		            VentHabitacion vent = new VentHabitacion(hostname, port);
+		            vent.setVisible(true);
+		        }
+		    }
+		});
+
+		
+		/**
+		 * FILTROS
+		 */
 		
 		TableRowSorter<TableModel> trsfiltro = new TableRowSorter(table.getModel());
 		table.setRowSorter(trsfiltro);
@@ -143,7 +168,7 @@ public class VentListado extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+				
 				String valorSeleccionado = comboBox.getSelectedItem().toString();
 				if(valorSeleccionado == "Madrid") {
 					RowFilter<Object, Object> rf = new RowFilter<Object, Object>() {
@@ -192,7 +217,6 @@ public class VentListado extends JFrame{
 					TableRowSorter<TableModel> trsfiltro = new TableRowSorter(table.getModel());
 					table.setRowSorter(trsfiltro);
 				}
-				
 			}
 		});
 	}	
