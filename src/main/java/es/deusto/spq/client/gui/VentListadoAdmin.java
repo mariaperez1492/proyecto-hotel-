@@ -14,11 +14,18 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.WebTarget;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class VentListadoAdmin extends JFrame {
 
-	
-	
+	protected static final Logger logger = LogManager.getLogger();
+	private Client client;
+	private WebTarget webTarget;
 	
 	/**
 	 * 
@@ -36,10 +43,17 @@ public class VentListadoAdmin extends JFrame {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
+		if (args.length != 2) {
+			logger.info("Use: java Client.Client [host] [port]");
+			System.exit(0);
+		}
+		
+		String hostname = args[0];
+		String port = args[1];
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					VentListadoAdmin frame = new VentListadoAdmin();
+					VentListadoAdmin frame = new VentListadoAdmin(hostname, port);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,7 +62,10 @@ public class VentListadoAdmin extends JFrame {
 		});
 	}
 
-public VentListadoAdmin() {
+public VentListadoAdmin(String hostname, String port) {
+	client = ClientBuilder.newClient();
+	webTarget = client.target(String.format("http://%s:%s/rest/resource", hostname, port));
+	
 	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -58,7 +75,7 @@ public VentListadoAdmin() {
 		setContentPane(contentPane);
 		
 		ph = new PanelHoteles();
-		pr = new PanelReservas();
+		pr = new PanelReservas(hostname, port);
 		
 		JPanel panelNorte = new JPanel();
 		getContentPane().add(panelNorte, BorderLayout.NORTH);
