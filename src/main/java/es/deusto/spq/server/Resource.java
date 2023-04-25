@@ -19,9 +19,11 @@ import javax.jdo.Transaction;
 import javax.swing.JOptionPane;
 
 import es.deusto.spq.server.jdo.Hotel;
+import es.deusto.spq.server.jdo.Reserva;
 import es.deusto.spq.server.jdo.Usuario;
 import es.deusto.spq.pojo.UsuarioData;
 import es.deusto.spq.pojo.HotelData;
+import es.deusto.spq.pojo.ReservaData;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -155,6 +157,34 @@ public class Resource {
 			
 		} catch (Exception e) {
 			logger.error("Error retrieving hotels from database", e);
+		
+		} finally {
+			if (tx.isActive()) {
+		        tx.rollback();
+		    }
+		}
+		return Response.ok(list).build();
+	}
+	
+	@GET
+	@Path("/getReservas")
+	public Response getReservas() {
+		List<ReservaData> list = new ArrayList<>();
+		
+		try {
+			tx.begin();
+	        Query<Reserva> query = pm.newQuery(Reserva.class);
+	        List<Reserva> reservas = query.executeList();
+	        
+	        for (Reserva r : reservas) {
+	            ReservaData reservaData = new ReservaData(r.getCliente(), r.getHotel(), r.getHabitacion(), r.getFecha_ini(), r.getFecha_fin());
+	            list.add(reservaData);
+	        }
+	        logger.info("Retrieved reservas from database: " + list.size());
+	        tx.commit();
+			
+		} catch (Exception e) {
+			logger.error("Error retrieving reservas from database", e);
 		
 		} finally {
 			if (tx.isActive()) {
