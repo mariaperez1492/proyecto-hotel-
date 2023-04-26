@@ -1,5 +1,5 @@
 package es.deusto.spq.pojo;
 
 public enum EnumTipoHabitacion {
-	ESTANDAR, DELUXE, SUITE
+	ESTANDAR, DELUXE, SUITE, CAMA_EXTRAGRANDE
 }

@@ -18,10 +18,12 @@ import javax.jdo.JDOHelper;
 import javax.jdo.Transaction;
 import javax.swing.JOptionPane;
 
+import es.deusto.spq.server.jdo.Habitacion;
 import es.deusto.spq.server.jdo.Hotel;
 import es.deusto.spq.server.jdo.Reserva;
 import es.deusto.spq.server.jdo.Usuario;
 import es.deusto.spq.pojo.UsuarioData;
+import es.deusto.spq.pojo.HabitacionData;
 import es.deusto.spq.pojo.HotelData;
 import es.deusto.spq.pojo.ReservaData;
 
@@ -193,6 +195,35 @@ public class Resource {
 		}
 		return Response.ok(list).build();
 	}
+	
+	@GET
+	@Path("/getHabitaciones")
+	public Response getHabitaciones() {
+		List<HabitacionData> list = new ArrayList<>();
+		
+		try {
+			tx.begin();
+	        Query<Habitacion> query = pm.newQuery(Habitacion.class);
+	        List<Habitacion> listaHabitacion = query.executeList();
+	        
+	        for (Habitacion h : listaHabitacion) {
+	            HabitacionData habitacionData = new HabitacionData(h.getTipoHabitacion(), h.getPersonas(), h.getPrecio());
+	            list.add(habitacionData);
+	        }
+	        logger.info("Retrieved listaHabitacion from database: " + list.size());
+	        tx.commit();
+			
+		} catch (Exception e) {
+			logger.error("Error retrieving listaHabitacion from database", e);
+		
+		} finally {
+			if (tx.isActive()) {
+		        tx.rollback();
+		    }
+		}
+		return Response.ok(list).build();
+	}
+
 	
 //	@GET
 //	@Path("/userExist")
