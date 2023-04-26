@@ -10,5 +10,13 @@ VALUES
 
 INSERT INTO usuario (dni, contrasenya, nombre) VALUES ("0000000A", "1234567Ab*", "usuario");
 
+INSERT INTO habitacion (tipoHabitacion, personas, precio)
+VALUES 
+('SUITE', 4, 140),
+('SUITE', 5, 180),
+('DELUXE', 2, 90),
+('ESTANDAR', 1, 65),
+('CAMA_EXTRAGRANDE', 2, 80);
+
 SELECT * FROM hlhotelesdb.hotel;
 SELECT * FROM hlhotelesdb.usuario;
