@@ -90,15 +90,6 @@ public class VentHabitacion extends JFrame{
 		JPanel panelLista = new JPanel();
 		getContentPane().add(panelLista, BorderLayout.CENTER);
 		
-		btnAtras = new JButton("Atrás");
-		btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		btnAtras.setBounds(786, 531, 122, 27);
-		
-		
-		btnAtras.setBounds(783, 531, 122, 27);
-		//btnAtras.setBounds(362, 487, 118, 23);
-		getContentPane().add(btnAtras);
-		
 		
 		JPanel panelSur = new JPanel();
 		getContentPane().add(panelSur, BorderLayout.SOUTH);
@@ -113,9 +104,27 @@ public class VentHabitacion extends JFrame{
 		});
 		panelSur.add(btnCerrarSesion);
 		
+		btnAtras = new JButton("Atrás");
+		panelSur.add(btnAtras);
+		btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnAtras.setBounds(786, 531, 122, 27);
+		
+		
+		btnAtras.setBounds(783, 531, 122, 27);
+		
+		
+		btnAtras.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        dispose();  // cierra la ventana VentRegistro
+		        VentListado v = new VentListado(hostname, port);
+		        v.setVisible(true);  // muestra la ventana VentLogin
+		    }
+		});
+		
 		JTable table = new JTable();
 		DefaultTableModel model = new DefaultTableModel();
 		
+	
 		model.addColumn("Tipo de Habitacion");
 		model.addColumn("Capacidad");
 		model.addColumn("Precio");
@@ -187,15 +196,6 @@ public class VentHabitacion extends JFrame{
 		        }
 		    }
 		});
-		
-		
-		btnAtras.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        dispose();  // cierra la ventana VentRegistro
-		        VentListado v = new VentListado(hostname, port);
-		        v.setVisible(true);  // muestra la ventana VentLogin
-		    }
-		});
 		JScrollPane scrollPane = new JScrollPane(table);
 		panelLista.add(scrollPane);
 		
@@ -211,7 +211,7 @@ public class VentHabitacion extends JFrame{
 				if(valorSeleccionado == "SUITE") {
 					RowFilter<Object, Object> rf = new RowFilter<Object, Object>() {
 	                    public boolean include(Entry<?, ?> entry) {
-	                        Object value = entry.getValue(0);
+	                        Object value = entry.getValue(1);
 	                        return value.equals(valorSeleccionado);
 	                    }
 	                };
