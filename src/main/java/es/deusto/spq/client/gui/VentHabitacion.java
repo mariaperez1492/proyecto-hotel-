@@ -31,6 +31,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.JComboBox;
@@ -44,6 +45,7 @@ public class VentHabitacion extends JFrame{
 	
 	protected static final Logger logger = LogManager.getLogger();
 	private Client client;
+	private JButton btnAtras;
 	private WebTarget webTarget;
 
 	public VentHabitacion(String hostname, String port) {
@@ -84,6 +86,16 @@ public class VentHabitacion extends JFrame{
 		
 		JPanel panelLista = new JPanel();
 		getContentPane().add(panelLista, BorderLayout.CENTER);
+		
+		btnAtras = new JButton("Atrás");
+		btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnAtras.setBounds(786, 531, 122, 27);
+		
+		
+		btnAtras.setBounds(783, 531, 122, 27);
+		//btnAtras.setBounds(362, 487, 118, 23);
+		getContentPane().add(btnAtras);
+		
 		
 		JPanel panelSur = new JPanel();
 		getContentPane().add(panelSur, BorderLayout.SOUTH);
@@ -137,6 +149,13 @@ public class VentHabitacion extends JFrame{
 		
 		}
 		
+		btnAtras.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        dispose();  // cierra la ventana VentRegistro
+		        VentListado v = new VentListado(hostname, port);
+		        v.setVisible(true);  // muestra la ventana VentLogin
+		    }
+		});
 		JScrollPane scrollPane = new JScrollPane(table);
 		panelLista.add(scrollPane);
 		
