@@ -168,6 +168,11 @@ public class Resource {
 		return Response.ok(list).build();
 	}
 	
+	/**
+	 * Obtiene todos los datos de la tabla de reservas de la bd. 
+	 * @return
+	 */
+	
 	@GET
 	@Path("/getReservas")
 	public Response getReservas() {
@@ -196,6 +201,11 @@ public class Resource {
 		return Response.ok(list).build();
 	}
 	
+	/**
+	 * Obtiene todos los datos de la tabla de habitaciones de la bd. 
+	 * @return
+	 */
+	
 	@GET
 	@Path("/getHabitaciones")
 	public Response getHabitaciones() {
@@ -222,70 +232,12 @@ public class Resource {
 		    }
 		}
 		return Response.ok(list).build();
+	}	
+	
+	@POST
+	@Path("/reserve")
+	public Response makeReservation() {
+		return null;
 	}
-
-	
-//	@GET
-//	@Path("/userExist")
-//	public Boolean userExist(String dni) {
-//		List<UsuarioData> list = null;
-//		//Query<?> query = pm.newQuery("SELECT retos FROM " + Usuario.class.getName() + " WHERE email == '" + u.getEmail() + "'");
-//
-//		try {
-//			tx.begin();
-//			Query<UsuarioData> query = pm.newQuery("SELECT dni FROM usuario WHERE DNI == '" + dni + "'");
-//			list = query.executeList();
-//			tx.commit();
-//			
-//			if(list.size() !=0) {
-//				return true;
-//			}else {
-//				return false;
-//			}
-//			
-//			
-//			
-//		} catch (Exception e) {
-//			logger.error("Error retrieving users from database", e);
-//			//return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-//		
-//		} finally {
-//			if (tx.isActive()) {
-//		        tx.rollback();
-//		    }
-//		}
-//		
-//		return false;
-//		
-//	}
-//	
-//	
-//	@POST
-//	@Path("/getUsuario")
-//	public Response getUsuario(UsuarioData u) {
-//		List<UsuarioData> list = null;
-//		//Query<?> query = pm.newQuery("SELECT retos FROM " + Usuario.class.getName() + " WHERE email == '" + u.getEmail() + "'");
-//
-//		try {
-//			tx.begin();
-//			Query<UsuarioData> query = pm.newQuery("SELECT dni FROM usuario WHERE DNI == '" + u.getDni() + "'");
-//			list = query.executeList();
-//			tx.commit();
-//			
-//		} catch (Exception e) {
-//			logger.error("Error retrieving users from database", e);
-//			//return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-//		
-//		} finally {
-//			if (tx.isActive()) {
-//		        tx.rollback();
-//		    }
-//		}
-//		
-//		return Response.ok(list).build();
-//	}
-//	
-	
-	
 
 }

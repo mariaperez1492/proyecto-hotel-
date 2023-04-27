@@ -24,8 +24,11 @@ import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import es.deusto.spq.pojo.EnumTipoHabitacion;
+import es.deusto.spq.pojo.HabitacionData;
 import es.deusto.spq.pojo.HotelData;
 import es.deusto.spq.pojo.UsuarioData;
+import es.deusto.spq.server.jdo.Habitacion;
 import es.deusto.spq.server.jdo.Hotel;
 import es.deusto.spq.server.jdo.Usuario;
 
@@ -148,11 +151,42 @@ public class ResourceTest
 	
 	@Test
 	public void getHabitacionesTest() throws Exception {
-		//Habitacion habitacion1 = new Habitacion();
+		Habitacion habitacion1 = new Habitacion();
+		habitacion1.setTipoHabitacion(EnumTipoHabitacion.ESTANDAR);
+		habitacion1.setPersonas(2);
+		habitacion1.setPrecio(105.5f);
+		
+		Habitacion habitacion2 = new Habitacion();
+		habitacion2.setTipoHabitacion(EnumTipoHabitacion.DELUXE);
+		habitacion1.setPersonas(1);
+		habitacion1.setPrecio(30.5f);
+		
+		@SuppressWarnings("unchecked") Query<Habitacion> query = mock(Query.class);
+        when(persistenceManager.newQuery(Habitacion.class)).thenReturn(query);
+        
+        List<Habitacion> habitaciones = new ArrayList<>();
+        habitaciones.add(habitacion1);
+        habitaciones.add(habitacion2);
+        when(query.executeList()).thenReturn(habitaciones);
+        
+        Response response = resource.getHabitaciones();
+        
+        assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
+        
+        @SuppressWarnings("unchecked")List<HabitacionData> habitacionDataList = (List<HabitacionData>) response.getEntity();
+        assertEquals(habitacionDataList.size(), habitaciones.size());
+        assertEquals(habitacionDataList.get(0).getTipoHabitacion(), habitacion1.getTipoHabitacion());
+        assertEquals(habitacionDataList.get(0).getPersonas(), habitacion1.getPersonas());
+        //assertEquals(habitacionDataList.get(0).getPrecio(), habitacion1.getPrecio());
 	}
 	
 	@Test
 	public void getReservasTest() throws Exception {
+		
+	}
+	
+	@Test
+	public void makeReservationTest() throws Exception {
 		
 	}
 	

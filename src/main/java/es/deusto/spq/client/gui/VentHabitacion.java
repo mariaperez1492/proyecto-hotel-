@@ -24,10 +24,10 @@ import javax.ws.rs.core.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import es.deusto.spq.pojo.HabitacionData;
-import es.deusto.spq.pojo.HotelData;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -39,6 +39,7 @@ import java.awt.GridLayout;
 
 import javax.swing.JComboBox;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import javax.swing.JButton;
 
@@ -51,6 +52,7 @@ public class VentHabitacion extends JFrame{
 	private JButton btnAtras;
 	private WebTarget webTarget;
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public VentHabitacion(String hostname, String port) {
 		
 		client = ClientBuilder.newClient();
@@ -153,15 +155,8 @@ public class VentHabitacion extends JFrame{
 		 * }
 		 */
 		
-		WebTarget habitacionTarget = webTarget.path("getHabitaciones");
-		Invocation.Builder invocationBuilder = habitacionTarget.request(MediaType.APPLICATION_JSON);
-				
-		Response response = invocationBuilder.get();
-		ObjectMapper mapper = new ObjectMapper();
-		
-		
 		try {
-			List<HabitacionData> listData = mapper.readValue(response.readEntity(String.class), new TypeReference<List<HabitacionData>>(){});
+			List<HabitacionData> listData = getHabitaciones();
 			
 			Object[] fila;
 			for (HabitacionData habitacion : listData) {
@@ -206,7 +201,7 @@ public class VentHabitacion extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
+
 				String valorSeleccionado = comboBox.getSelectedItem().toString();
 				if(valorSeleccionado == "SUITE") {
 					RowFilter<Object, Object> rf = new RowFilter<Object, Object>() {
@@ -252,4 +247,15 @@ public class VentHabitacion extends JFrame{
 			}
 		});
 	}	
+	
+	public List<HabitacionData> getHabitaciones() throws JsonMappingException, JsonProcessingException {
+		WebTarget habitacionTarget = webTarget.path("getHabitaciones");
+		Invocation.Builder invocationBuilder = habitacionTarget.request(MediaType.APPLICATION_JSON);
+				
+		Response response = invocationBuilder.get();
+		ObjectMapper mapper = new ObjectMapper();
+		
+		List<HabitacionData> listData = mapper.readValue(response.readEntity(String.class), new TypeReference<List<HabitacionData>>(){});
+		return listData;
+	}
 }
