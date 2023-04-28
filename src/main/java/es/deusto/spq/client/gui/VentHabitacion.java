@@ -26,6 +26,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import es.deusto.spq.pojo.EnumTipoHabitacion;
 import es.deusto.spq.pojo.HabitacionData;
 import es.deusto.spq.pojo.HotelData;
 
@@ -186,11 +187,11 @@ public class VentHabitacion extends JFrame{
 		            JTable target = (JTable) e.getSource();
 		            int row = target.getSelectedRow();
 		            
-		            String tipo = (String) target.getValueAt(row, 0);
+		            EnumTipoHabitacion tipo = (EnumTipoHabitacion) target.getValueAt(row, 0);
 		            int personas = (int) target.getValueAt(row, 1);
-		            int precio = (int) target.getValueAt(row, 2);
+		            float precio = (float) target.getValueAt(row, 2);
 
-		            VentHabitacion vent = new VentHabitacion(hostname, port);
+		            VentPago vent = new VentPago(hostname, port);
 		            vent.setVisible(true);
 		            dispose(); 
 		        }
