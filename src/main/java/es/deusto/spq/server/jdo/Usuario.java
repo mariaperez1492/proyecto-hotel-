@@ -3,18 +3,24 @@ package es.deusto.spq.server.jdo;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.PrimaryKey;
 
+import es.deusto.spq.pojo.EnumTipoUsuario;
+
 @PersistenceCapable
 public class Usuario {
 	@PrimaryKey
 	String dni;
 	String nombre;
 	String contrasenya;
+	EnumTipoUsuario tipoUsuario;
 	
-	public Usuario(String dni, String nombre, String contrasenya) {
+	
+
+	public Usuario(String dni, String nombre, String contrasenya, EnumTipoUsuario tipoUsuario) {
 		super();
 		this.dni = dni;
 		this.nombre = nombre;
 		this.contrasenya = contrasenya;
+		this.tipoUsuario = tipoUsuario;
 	}
 
 	public Usuario() {
@@ -44,12 +50,25 @@ public class Usuario {
 	public void setContrasenya(String contrasenya) {
 		this.contrasenya = contrasenya;
 	}
+	
+	
 
+	public EnumTipoUsuario getTipoUsuario() {
+		return tipoUsuario;
+	}
+
+	public void setTipoUsuario(EnumTipoUsuario tipoUsuario) {
+		this.tipoUsuario = tipoUsuario;
+	}
 
 	@Override
 	public String toString() {
-		return "ClienteDAO [dni=" + dni + ", nombre=" + nombre + ", contrasenya=" + contrasenya + "]";
-	} 
+		return "Usuario [dni=" + dni + ", nombre=" + nombre + ", contrasenya=" + contrasenya + ", tipoUsuario="
+				+ tipoUsuario + "]";
+	}
+
+
+	
 	
 	
 	

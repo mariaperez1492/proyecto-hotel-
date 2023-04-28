@@ -119,7 +119,7 @@ public class Resource {
 				
 			} else {
 				logger.info("Creating user: {}", cliente);
-				cliente = new Usuario(clienteData.getDni(), clienteData.getNombre(), clienteData.getContrasenya());
+				cliente = new Usuario(clienteData.getDni(), clienteData.getNombre(), clienteData.getContrasenya(), clienteData.getTipoUsuario());
 				pm.makePersistent(cliente);					 
 				logger.info("Cliente created: {}", cliente);
 			}

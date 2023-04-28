@@ -7,10 +7,10 @@ public class ReservaData {
 	private UsuarioData cliente; 
 	private HotelData hotel;
 	private HabitacionData habitacion;
-	private Date fecha_ini;
-	private Date fecha_fin;
+	private String fecha_ini;
+	private String fecha_fin;
 	
-	public ReservaData(UsuarioData cliente, HotelData hotel, HabitacionData habitacion, Date fecha_ini, Date fecha_fin) {
+	public ReservaData(UsuarioData cliente, HotelData hotel, HabitacionData habitacion, String fecha_ini, String fecha_fin) {
 		super();
 		this.cliente = cliente;
 		this.hotel = hotel;
@@ -46,19 +46,19 @@ public class ReservaData {
 		this.habitacion = habitacion;
 	}
 
-	public Date getFecha_ini() {
+	public String getFecha_ini() {
 		return fecha_ini;
 	}
 
-	public void setFecha_ini(Date fecha_ini) {
+	public void setFecha_ini(String fecha_ini) {
 		this.fecha_ini = fecha_ini;
 	}
 
-	public Date getFecha_fin() {
+	public String getFecha_fin() {
 		return fecha_fin;
 	}
 
-	public void setFecha_fin(Date fecha_fin) {
+	public void setFecha_fin(String fecha_fin) {
 		this.fecha_fin = fecha_fin;
 	}
 	

@@ -4,14 +4,17 @@ public class UsuarioData {
 	private String dni;
 	private String nombre;
 	private String contrasenya;
+	private EnumTipoUsuario tipoUsuario;
 		
-	public UsuarioData(String dni, String nombre, String contrasenya) {
+		
+	public UsuarioData(String dni, String nombre, String contrasenya, EnumTipoUsuario tipoUsuario) {
 		super();
 		this.dni = dni;
 		this.nombre = nombre;
 		this.contrasenya = contrasenya;
+		this.tipoUsuario = tipoUsuario;
 	}
-		
+
 	public UsuarioData(String dni, String contrasenya) {
 		super();
 		this.dni = dni;
@@ -44,5 +47,15 @@ public class UsuarioData {
 
 	public void setContrasenya(String contrasenya) {
 		this.contrasenya = contrasenya;
-	}	
+	}
+
+	public EnumTipoUsuario getTipoUsuario() {
+		return tipoUsuario;
+	}
+
+	public void setTipoUsuario(EnumTipoUsuario tipoUsuario) {
+		this.tipoUsuario = tipoUsuario;
+	}
+	
+	
 }

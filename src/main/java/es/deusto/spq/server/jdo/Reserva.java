@@ -22,11 +22,10 @@ public class Reserva {
 	HotelData hotel;
 	@Persistent(defaultFetchGroup = "true")
 	HabitacionData habitacion; 
-	Date fecha_ini; 
-	Date fecha_fin;
+	String fecha_ini; 
+	String fecha_fin;
 	
-	public Reserva(UsuarioData cliente, HotelData hotel, HabitacionData habitacion, Date fecha_ini, Date fecha_fin) {
-		super();
+	public Reserva(UsuarioData cliente, HotelData hotel, HabitacionData habitacion, String fecha_ini, String fecha_fin) {
 		this.cliente = cliente;
 		this.hotel = hotel;
 		this.habitacion = habitacion;
@@ -58,19 +57,19 @@ public class Reserva {
 		this.habitacion = habitacion;
 	}
 
-	public Date getFecha_ini() {
+	public String getFecha_ini() {
 		return fecha_ini;
 	}
 
-	public void setFecha_ini(Date fecha_ini) {
+	public void setFecha_ini(String fecha_ini) {
 		this.fecha_ini = fecha_ini;
 	}
 
-	public Date getFecha_fin() {
+	public String getFecha_fin() {
 		return fecha_fin;
 	}
 
-	public void setFecha_fin(Date fecha_fin) {
+	public void setFecha_fin(String fecha_fin) {
 		this.fecha_fin = fecha_fin;
 	}
 

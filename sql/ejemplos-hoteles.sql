@@ -18,5 +18,6 @@ VALUES
 (4, 1, 65, 'ESTANDAR'),
 (5, 2, 80, 'CAMA_EXTRAGRANDE');
 
+
 SELECT * FROM hlhotelesdb.hotel;
 SELECT * FROM hlhotelesdb.usuario;
