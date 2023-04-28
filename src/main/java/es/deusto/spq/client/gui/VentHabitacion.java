@@ -7,9 +7,12 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
+import java.util.logging.*;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -43,6 +46,7 @@ import javax.swing.JComboBox;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import javax.swing.JButton;
+import javax.swing.JRadioButton;
 
 public class VentHabitacion extends JFrame{
 	
@@ -52,6 +56,10 @@ public class VentHabitacion extends JFrame{
 	private Client client;
 	private JButton btnAtras;
 	private WebTarget webTarget;
+	private int personas = 0;
+	private float precio = 0;
+	private EnumTipoHabitacion tipo;
+	
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public VentHabitacion(String hostname, String port) {
@@ -106,6 +114,10 @@ public class VentHabitacion extends JFrame{
 			}
 		});
 		panelSur.add(btnCerrarSesion);
+		
+		JButton btnNewButton = new JButton("Reservar");
+		
+		panelSur.add(btnNewButton);
 		
 		btnAtras = new JButton("Atrás");
 		panelSur.add(btnAtras);
@@ -182,17 +194,30 @@ public class VentHabitacion extends JFrame{
 		            JTable target = (JTable) e.getSource();
 		            int row = target.getSelectedRow();
 		            
-		            EnumTipoHabitacion tipo = (EnumTipoHabitacion) target.getValueAt(row, 0);
-		            int personas = (int) target.getValueAt(row, 1);
-		            float precio = (float) target.getValueAt(row, 2);
+		            tipo = (EnumTipoHabitacion) target.getValueAt(row, 0);
+		            personas = (int) target.getValueAt(row, 1);
+		            precio = (float) target.getValueAt(row, 2);
 
-		            VentPago vent = new VentPago(hostname, port);
-		            vent.setVisible(true);
-		            dispose(); 
+//		            VentPago vent = new VentPago(hostname, port);
+//		            vent.setVisible(true);
+//		            dispose(); 
 		        }
 		    }
 		});
+		
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+	            //logger.info(personas);		
+	            VentPago vent = new VentPago(hostname, port, tipo, personas, precio);
+	            vent.setVisible(true);
+	            dispose(); 
+
+			}
+		});
+		
+		panelLista.setLayout(null);
 		JScrollPane scrollPane = new JScrollPane(table);
+		scrollPane.setBounds(205, 5, 452, 402);
 		panelLista.add(scrollPane);
 		
 		TableRowSorter<TableModel> trsfiltro = new TableRowSorter(table.getModel());
