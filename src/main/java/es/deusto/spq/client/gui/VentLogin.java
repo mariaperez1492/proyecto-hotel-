@@ -20,11 +20,8 @@ import org.apache.logging.log4j.Logger;
 
 import javax.ws.rs.client.Client;
 
-import es.deusto.spq.server.jdo.Usuario;
-
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
-import java.util.TreeMap;
 import java.awt.event.ActionEvent;
 
 public class VentLogin extends JFrame {
@@ -63,6 +60,7 @@ public class VentLogin extends JFrame {
 				}
 			}
 		});
+	
 	}
 	
 	/**
@@ -111,58 +109,18 @@ public class VentLogin extends JFrame {
 		
 		btnInicio.addActionListener(new ActionListener(){
 			
+			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
-				WebTarget target = webTarget.path("login")
-					.queryParam("dni", txtDni.getText())
-					.queryParam("contrasenya", txtConstrasenya.getText());
 				
-				Invocation.Builder invocationBuilder = target.request(MediaType.APPLICATION_JSON);
-				
-				Response response = invocationBuilder.get();
-				
-				if (response.getStatus() == Response.Status.OK.getStatusCode()) {
+				if(loginUser(txtDni.getText(), txtConstrasenya.getText())) {
 					VentListado ventListado = new VentListado(hostname, port);
 					ventListado.setVisible(true);
 					dispose();
 				} else {
 					JOptionPane.showMessageDialog(null, "La contraseña o DNI es incorrecta.");
 				}
-				
-				
-//	        	WebTarget loginUserWebTarget = webTarget.path("getUsuario");
-//	    		Invocation.Builder invocationBuilder2 = loginUserWebTarget
-//	    			    .queryParam("dni", txtDni.getText())
-//	    			    .queryParam("contrasenya", txtConstrasenya.getText())
-//	    				.request(MediaType.APPLICATION_JSON);
-//	    		
-//	    		Response response2 = invocationBuilder2.get();
-//	    		
-//	    		Usuario usuario2 = response2.readEntity(Usuario.class);
-//				
-//				if (usuario2.getContrasenya().equals( txtConstrasenya.getText()) && usuario2.getDni().equals( txtDni.getText())) {
-//		        	JOptionPane.showMessageDialog(null, "¡Bienvenido!");
-//		        	
-//					VentListado ventListado = new VentListado(hostname, port);
-//					ventListado.setVisible(true);
-//					dispose();		    		
-//
-//				}
-//				
-//				else {
-//		        	JOptionPane.showMessageDialog(null, "La contraseña es incorrecta.");
-//
-//				}
-	                // Enviar la solicitud de inicio de sesión al servidor
-//	                boolean success = resource.loginUser(cliente);
-//	                if (success) {
-//
-//	                } else {
-//	                    // Mostrar un mensaje de error
-//	                    JOptionPane.showMessageDialog(LoginFrame.this, "El DNI o la contraseña son incorrectos", "Error de inicio de sesión", JOptionPane.ERROR_MESSAGE);
-//	                }
-	             	
-	            }
-	        });
+			}
+		});
 		
 		JButton btnRegistro = new JButton("Registrar");
 		btnRegistro.setBounds(462, 487, 118, 23);
@@ -178,8 +136,25 @@ public class VentLogin extends JFrame {
 				
 				VentRegistro ventRegistro = new VentRegistro(hostname, port);
 				ventRegistro.setVisible(true);
-				dispose(); // Cierra la ventana actual (VentLogin)
+				dispose(); 
 			}
 		});
+	}
+	
+
+	public boolean loginUser(String dni, String contrasenya) {
+		WebTarget target = webTarget.path("login")
+				.queryParam("dni", dni)
+				.queryParam("contrasenya", contrasenya);
+			
+		Invocation.Builder invocationBuilder = target.request(MediaType.APPLICATION_JSON);
+			
+		Response response = invocationBuilder.get();
+			
+		if (response.getStatus() == Response.Status.OK.getStatusCode()) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

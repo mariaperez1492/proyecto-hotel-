@@ -7,12 +7,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.RowFilter;
-import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -26,6 +24,7 @@ import javax.ws.rs.core.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import es.deusto.spq.pojo.HotelData;
@@ -39,6 +38,7 @@ import java.awt.GridLayout;
 
 import javax.swing.JComboBox;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import javax.swing.JButton;
 
@@ -50,6 +50,7 @@ public class VentListado extends JFrame{
 	private Client client;
 	private WebTarget webTarget;
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public VentListado(String hostname, String port) {
 		
 		client = ClientBuilder.newClient();
@@ -112,14 +113,15 @@ public class VentListado extends JFrame{
 		model.addColumn("Habitaciones Disponibles");
 		table.setModel(model);
 		
-		WebTarget hotelTarget = webTarget.path("getHoteles");
-		Invocation.Builder invocationBuilder = hotelTarget.request(MediaType.APPLICATION_JSON);
-				
-		Response response = invocationBuilder.get();
-		ObjectMapper mapper = new ObjectMapper();
+//		WebTarget hotelTarget = webTarget.path("getHoteles");
+//		Invocation.Builder invocationBuilder = hotelTarget.request(MediaType.APPLICATION_JSON);
+//				
+//		Response response = invocationBuilder.get();
+//		ObjectMapper mapper = new ObjectMapper();
 		
 		try {
-			List<HotelData> listData = mapper.readValue(response.readEntity(String.class), new TypeReference<List<HotelData>>(){});
+//			List<HotelData> listData = mapper.readValue(response.readEntity(String.class), new TypeReference<List<HotelData>>(){});
+			List<HotelData> listData = getHoteles();
 			
 			Object[] fila;
 			for (HotelData hotel : listData) {
@@ -163,6 +165,7 @@ public class VentListado extends JFrame{
 		/**
 		 * FILTROS
 		 */
+		
 		
 		TableRowSorter<TableModel> trsfiltro = new TableRowSorter(table.getModel());
 		table.setRowSorter(trsfiltro);
@@ -223,4 +226,15 @@ public class VentListado extends JFrame{
 			}
 		});
 	}	
+	
+	public List<HotelData> getHoteles() throws JsonMappingException, JsonProcessingException {
+		WebTarget hotelTarget = webTarget.path("getHoteles");
+		Invocation.Builder invocationBuilder = hotelTarget.request(MediaType.APPLICATION_JSON);
+				
+		Response response = invocationBuilder.get();
+		ObjectMapper mapper = new ObjectMapper();
+		
+		List<HotelData> listData = mapper.readValue(response.readEntity(String.class), new TypeReference<List<HotelData>>(){});
+		return listData;
+	}
 }

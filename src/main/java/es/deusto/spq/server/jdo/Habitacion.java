@@ -23,6 +23,8 @@ public class Habitacion {
 		this.personas = personas;
 		this.precio = precio;
 	}
+	
+	public Habitacion() { }
 
 	public EnumTipoHabitacion getTipoHabitacion() {
 		return tipoHabitacion;
