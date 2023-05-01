@@ -36,6 +36,8 @@ public class Reserva {
 		this.fecha_ini = fecha_ini;
 		this.fecha_fin = fecha_fin;
 	}
+	
+	public Reserva() {}
 
 	public UsuarioData getCliente() {
 		return cliente;
