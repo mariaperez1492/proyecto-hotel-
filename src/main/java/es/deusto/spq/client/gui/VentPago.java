@@ -36,6 +36,7 @@ public class VentPago extends JFrame {
 	
 	protected static final Logger logger = LogManager.getLogger();
 	private Client client;
+//	private JButton btnAtras;
 	private WebTarget webTarget;
 
 	private JPanel contentPane;
@@ -56,6 +57,9 @@ public class VentPago extends JFrame {
 		
 		JPanel panelSup = new JPanel();
 		getContentPane().add(panelSup, BorderLayout.NORTH);
+		
+		JPanel panelSur = new JPanel();
+		getContentPane().add(panelSur, BorderLayout.SOUTH);
 		
 		Image imgLogo = new ImageIcon("src/main/img/logo.png").getImage();
 		ImageIcon iconLogo = new ImageIcon(imgLogo.getScaledInstance(180, 110, Image.SCALE_SMOOTH));
@@ -114,6 +118,24 @@ public class VentPago extends JFrame {
         lblNewLabel.setBounds(21, 519, 226, 63);
         contentPane.add(lblNewLabel);
         
+//
+//		btnAtras = new JButton("Atrás");
+//		panelSur.add(btnAtras);
+//		btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 14));
+//		btnAtras.setBounds(786, 531, 122, 27);
+//		
+//		
+//		btnAtras.setBounds(783, 531, 122, 27);
+//		
+//		
+//		btnAtras.addActionListener(new ActionListener() {
+//		    public void actionPerformed(ActionEvent e) {
+//		        dispose();  // cierra la ventana VentRegistro
+//		        VentListado v = new VentListado(hostname, port);
+//		        v.setVisible(true);  // muestra la ventana VentLogin
+//		    }
+//		});
+//        
 
         
         // Agregar los componentes a la ventana

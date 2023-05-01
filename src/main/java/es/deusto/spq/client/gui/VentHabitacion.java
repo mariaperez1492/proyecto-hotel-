@@ -5,8 +5,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
 import java.util.List;
-
+import java.util.Map;
 import java.util.logging.*;
 
 import javax.swing.ImageIcon;
@@ -168,6 +169,18 @@ public class VentHabitacion extends JFrame{
 		 * }
 		 */
 		
+		JPanel panel = new JPanel();
+		panel.setBounds(117, 270, 651, 273);
+		panelLista.add(panel);
+
+		ImageIcon imagenOriginal = new ImageIcon("src/main/img/estandar1.jpeg");
+		Image imagenEscalada = imagenOriginal.getImage().getScaledInstance(400, 200, Image.SCALE_SMOOTH);
+		ImageIcon imagenNueva = new ImageIcon(imagenEscalada);
+
+		JLabel etiquetaImagen = new JLabel(imagenNueva);
+		panel.add(etiquetaImagen);
+
+		
 		try {
 			List<HabitacionData> listData = getHabitaciones();
 			
@@ -217,12 +230,18 @@ public class VentHabitacion extends JFrame{
 		
 		panelLista.setLayout(null);
 		JScrollPane scrollPane = new JScrollPane(table);
-		scrollPane.setBounds(205, 5, 452, 402);
+		scrollPane.setBounds(205, 5, 452, 219);
 		panelLista.add(scrollPane);
 		
 
 		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
 		table.setRowSorter(sorter);
+		
+		Map<String, String> imagenesHabitaciones = new HashMap<>();
+		imagenesHabitaciones.put("Estandar", "Barcelona.jpeg");
+		imagenesHabitaciones.put("Suite", "suite4.jpeg");
+		imagenesHabitaciones.put("Deluxe", "deluxe2.jpeg");
+		imagenesHabitaciones.put("Cama extragrande", "cama_extragrande2.jpeg");
 		comboBox.addActionListener(new ActionListener() {
 			
 			@Override
@@ -230,6 +249,23 @@ public class VentHabitacion extends JFrame{
 				String valorSeleccionado = comboBox.getSelectedItem().toString();
 		        RowFilter<DefaultTableModel, Object> filtro = RowFilter.regexFilter(valorSeleccionado, 0);
 		        sorter.setRowFilter(filtro);
+		        
+//		        
+//		     // Obtener el tipo de habitación seleccionado
+//		        String tipoHabitacionSeleccionado = model.getValueAt(table.getSelectedRow(), 1).toString();
+//
+//		        // Obtener el nombre de la imagen correspondiente
+//		        String nombreImagen = imagenesHabitaciones.get(tipoHabitacionSeleccionado);
+//
+//		        // Crear un JLabel con la imagen
+//		        ImageIcon imagen = new ImageIcon(nombreImagen);
+//		        JLabel labelImagen = new JLabel(imagen);
+//
+//		        // Agregar el JLabel al JPanel
+//		        panel.removeAll();
+//		        panel.add(labelImagen);
+//		        panel.revalidate();
+//		        panel.repaint();
 				
 			}
 		});
