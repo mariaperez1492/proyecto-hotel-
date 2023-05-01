@@ -61,7 +61,4 @@ public class ReservaData {
 	public void setFecha_fin(String fecha_fin) {
 		this.fecha_fin = fecha_fin;
 	}
-	
-	
-	
 }

@@ -8,6 +8,7 @@ import javax.jdo.Query;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -236,8 +237,23 @@ public class Resource {
 	
 	@POST
 	@Path("/reserve")
-	public Response makeReservation() {
-		return null;
+	public Response makeReservation(ReservaData reservaData) {
+		try {
+			tx.begin();
+			
+			Reserva reserva = new Reserva(reservaData.getCliente(), reservaData.getHotel(),
+					reservaData.getHabitacion(), reservaData.getFecha_ini(), reservaData.getFecha_fin());
+			
+			pm.makePersistent(reserva);
+			tx.commit();
+			return Response.status(Response.Status.OK).build();
+		} catch (Exception e) {
+			return Response.status(Response.Status.UNAUTHORIZED).build();
+		} finally {
+			if (tx.isActive()) {
+	            tx.rollback();
+	        }
+			pm.close();
+		}
 	}
-
 }
