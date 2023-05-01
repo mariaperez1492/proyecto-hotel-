@@ -8,28 +8,28 @@ import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
 
-import es.deusto.spq.pojo.UsuarioData;
-import es.deusto.spq.pojo.HabitacionData;
-import es.deusto.spq.pojo.HotelData;
-
 @PersistenceCapable
 public class Reserva {
 	@PrimaryKey
 	@Persistent(valueStrategy=IdGeneratorStrategy.INCREMENT)
 	int ID;
+	
 	@Join
-	@Persistent(mappedBy="usuario", dependentElement="true", defaultFetchGroup="true")
-	UsuarioData cliente; 
+	@Persistent(defaultFetchGroup="true")
+	Usuario cliente; 
+	
 	@Join
-	@Persistent(mappedBy="hotel", dependentElement="true", defaultFetchGroup="true")
-	HotelData hotel;
+	@Persistent(defaultFetchGroup="true")
+	Hotel hotel;
+	
 	@Join
-	@Persistent(mappedBy="habitacion", dependentElement="true", defaultFetchGroup="true")
-	HabitacionData habitacion; 
+	@Persistent(defaultFetchGroup="true")
+	Habitacion habitacion; 
+	
 	String fecha_ini; 
 	String fecha_fin;
 	
-	public Reserva(UsuarioData cliente, HotelData hotel, HabitacionData habitacion, String fecha_ini, String fecha_fin) {
+	public Reserva(Usuario cliente, Hotel hotel, Habitacion habitacion, String fecha_ini, String fecha_fin) {
 		this.cliente = cliente;
 		this.hotel = hotel;
 		this.habitacion = habitacion;
@@ -39,27 +39,27 @@ public class Reserva {
 	
 	public Reserva() {}
 
-	public UsuarioData getCliente() {
+	public Usuario getCliente() {
 		return cliente;
 	}
 
-	public void setCliente(UsuarioData cliente) {
+	public void setCliente(Usuario cliente) {
 		this.cliente = cliente;
 	}
 
-	public HotelData getHotel() {
+	public Hotel getHotel() {
 		return hotel;
 	}
 
-	public void setHotel(HotelData hotel) {
+	public void setHotel(Hotel hotel) {
 		this.hotel = hotel;
 	}
 
-	public HabitacionData getHabitacion() {
+	public Habitacion getHabitacion() {
 		return habitacion;
 	}
 
-	public void setHabitacion(HabitacionData habitacion) {
+	public void setHabitacion(Habitacion habitacion) {
 		this.habitacion = habitacion;
 	}
 
@@ -84,8 +84,4 @@ public class Reserva {
 		return "ReservaDAO [cliente=" + cliente + ", hotel=" + hotel + ", habitacion=" + habitacion + ", fecha_ini="
 				+ fecha_ini + ", fecha_fin=" + fecha_fin + "]";
 	} 
-	
-	
-	
-	
 }

@@ -26,5 +26,10 @@ VALUES
 (1, "0000000A", '2023-04-12', '2023-04-01', 1, 1),
 (2, "0000000A", '2023-04-20', '2023-04-11', 2, 2);
 
+INSERT INTO reserva (id, fecha_ini, fecha_fin) VALUES (1, '2023-05-10', '2023-05-15');
+INSERT INTO reserva_cliente (ID_OID, DNI_ID) VALUES (1, "0000000A");
+INSERT INTO reserva_habitacion(ID_OID, NUMHABITACION_ID) VALUES (1,1);
+INSERT INTO reserva_hotel(ID_OID, ID_ID) VALUES (1,1);
+
 SELECT * FROM hlhotelesdb.hotel;
 SELECT * FROM hlhotelesdb.usuario;

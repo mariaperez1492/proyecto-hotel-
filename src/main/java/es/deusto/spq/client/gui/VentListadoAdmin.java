@@ -130,15 +130,9 @@ public VentListadoAdmin(String hostname, String port) {
 			}
 		});
 		
-		
-		
-		
-		
-		
-		
-		
-		
 		this.setVisible(true);	
 	}
+
+
 
 }

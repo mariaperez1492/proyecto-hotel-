@@ -50,8 +50,6 @@ public class Usuario {
 	public void setContrasenya(String contrasenya) {
 		this.contrasenya = contrasenya;
 	}
-	
-	
 
 	public EnumTipoUsuario getTipoUsuario() {
 		return tipoUsuario;

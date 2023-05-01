@@ -12,13 +12,16 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import es.deusto.spq.pojo.HotelData;
@@ -61,10 +64,6 @@ public class PanelReservas extends JPanel {
 		model.addColumn("Habitacion");
 		table.setModel(model);
 		
-		WebTarget reservaTarget = webTarget.path("getReservas");
-		Invocation.Builder invocationBuilder = reservaTarget.request(MediaType.APPLICATION_JSON);
-		
-		
 		setLayout(new BorderLayout(0, 0));
 		
 		JPanel panelNorte = new JPanel();
@@ -94,28 +93,36 @@ public class PanelReservas extends JPanel {
 		comboBox.addItem("Hotel Valencia");
 		panelIzquierda.add(comboBox);
 		
+		WebTarget reservaTarget = webTarget.path("getReservas");
+		Invocation.Builder invocationBuilder = reservaTarget.request(MediaType.APPLICATION_JSON);
+		
 		Response response = invocationBuilder.get();
 		ObjectMapper mapper = new ObjectMapper();
+		String json = response.readEntity(String.class);
+		
 		try {
-			List<ReservaData> listData = mapper.readValue(response.readEntity(String.class), new TypeReference<List<ReservaData>>(){});
 			
+			List<ReservaData> listData = mapper.readValue(response.readEntity(String.class), new TypeReference<List<ReservaData>>(){});
+			System.out.println(listData);
+						
 			Object[] fila;
+			
 			for (ReservaData reserva : listData) {
 			    fila = new Object[listData.size()];
-			    fila[0] = reserva.getCliente();
+			    
+			    fila[0] = reserva.getCliente().getDni();
 			    fila[1] = reserva.getFecha_fin();
 			    fila[2] = reserva.getFecha_ini();
-			    fila[3] = reserva.getHabitacion();
-			    fila[4] = reserva.getHotel();
+			    fila[3] = reserva.getHabitacion().getTipoHabitacion();
+			    fila[4] = reserva.getHotel().getNombre();
 			    
 			    model.addRow(fila);
-			    }
-				
-		
+			 }
 			
 		} catch (Exception e) {
-		
+			//logger.error("Error retrieving reservas from database", e);
 		}
+		
 		TableRowSorter<TableModel> trsfiltro = new TableRowSorter(table.getModel());
 		table.setRowSorter(trsfiltro);
 		
@@ -133,6 +140,16 @@ public class PanelReservas extends JPanel {
 					
 			}
 		});
+	}
+	
+	public List<ReservaData> getHoteles() throws JsonMappingException, JsonProcessingException {
+		WebTarget hotelTarget = webTarget.path("getReservas");
+		Invocation.Builder invocationBuilder = hotelTarget.request(MediaType.APPLICATION_JSON);
+				
+		Response response = invocationBuilder.get();
+		ObjectMapper mapper = new ObjectMapper();
+		
+		return null;
 	}
 
 }

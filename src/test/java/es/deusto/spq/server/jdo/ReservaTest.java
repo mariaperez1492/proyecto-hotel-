@@ -17,13 +17,13 @@ public class ReservaTest {
 	Reserva reserva;
 	
 	@Mock
-    UsuarioData usuario;
+    Usuario usuario;
 	
 	@Mock
-	HotelData hotel;
+	Hotel hotel;
 	
 	@Mock
-	HabitacionData habitacion;
+	Habitacion habitacion;
 	
 	@Before
 	public void setUp() {

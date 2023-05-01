@@ -185,7 +185,22 @@ public class Resource {
 	        List<Reserva> reservas = query.executeList();
 	        
 	        for (Reserva r : reservas) {
-	            ReservaData reservaData = new ReservaData(r.getCliente(), r.getHotel(), r.getHabitacion(), r.getFecha_ini(), r.getFecha_fin());
+	        	
+	        	UsuarioData u = new UsuarioData(r.getCliente().getDni(),
+	        			r.getCliente().getNombre(),
+	        			r.getCliente().getDni(),
+	        			r.getCliente().getTipoUsuario());
+	        	
+	        	HotelData h = new HotelData(r.getHotel().getNombre(),
+	        			r.getHotel().getCiudad(),
+	        			r.getHotel().getHabitaciones_disp());
+	        	
+	        	HabitacionData hb = new HabitacionData(r.getHabitacion().getTipoHabitacion(),
+	        			r.getHabitacion().getPersonas(),
+	        			r.getHabitacion().getPrecio());
+	        	
+	            ReservaData reservaData = new ReservaData(u, h, hb, 
+	            		r.getFecha_ini(), r.getFecha_fin());
 	            list.add(reservaData);
 	        }
 	        logger.info("Retrieved reservas from database: " + list.size());
@@ -241,8 +256,21 @@ public class Resource {
 		try {
 			tx.begin();
 			
-			Reserva reserva = new Reserva(reservaData.getCliente(), reservaData.getHotel(),
-					reservaData.getHabitacion(), reservaData.getFecha_ini(), reservaData.getFecha_fin());
+			Usuario usuario = new Usuario(reservaData.getCliente().getDni(),
+					reservaData.getCliente().getNombre(),
+					reservaData.getCliente().getContrasenya(),
+					reservaData.getCliente().getTipoUsuario());
+			
+			Hotel hotel = new Hotel(reservaData.getHotel().getNombre(),
+					reservaData.getHotel().getCiudad(),
+					reservaData.getHotel().getHabitaciones_disp());	
+			
+			Habitacion habitacion = new Habitacion(reservaData.getHabitacion().getTipoHabitacion(),
+					reservaData.getHabitacion().getPersonas(),
+					reservaData.getHabitacion().getPrecio());
+					
+			Reserva reserva = new Reserva(usuario, hotel, habitacion, 
+					reservaData.getFecha_ini(), reservaData.getFecha_fin());
 			
 			pm.makePersistent(reserva);
 			tx.commit();

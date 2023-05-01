@@ -2,10 +2,15 @@ package es.deusto.spq.pojo;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ReservaData {
 	
+	@JsonProperty("cliente")
 	private UsuarioData cliente; 
+	@JsonProperty("hotel")
 	private HotelData hotel;
+	@JsonProperty("habitacion")
 	private HabitacionData habitacion;
 	private String fecha_ini;
 	private String fecha_fin;
