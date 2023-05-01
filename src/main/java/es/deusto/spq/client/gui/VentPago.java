@@ -118,7 +118,7 @@ public class VentPago extends JFrame {
 			pension = pension + "gimnasio, ";
         }
 		
-        contentPane.setLayout(null);
+        //contentPane.setLayout(null);
         
 
         
@@ -177,12 +177,12 @@ public class VentPago extends JFrame {
 //		LocalDate fecha1 = fechaInicioChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 //		LocalDate fecha2 = fechaFinChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		
-		SimpleDateFormat fecha = new SimpleDateFormat("yyyy-MM-dd");
-		
-		Date fecha1 = (Date) fechaInicioChooser.getDate();
-		Date fecha2 = (Date) fechaFinChooser.getDate();
-		String fechaIni = fecha.format(fecha1);
-		String fechaFin = fecha.format(fecha2);
+//		SimpleDateFormat fecha = new SimpleDateFormat("yyyy-MM-dd");
+//		
+//		Date fecha1 = (Date) fechaInicioChooser.getDate();
+//		Date fecha2 = (Date) fechaFinChooser.getDate();
+//		String fechaIni = fecha.format(fecha1);
+//		String fechaFin = fecha.format(fecha2);
 		
 		
 //
@@ -221,7 +221,7 @@ public class VentPago extends JFrame {
 		btnPagar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 	            //logger.info(personas);	
-				ReservaData res = new ReservaData(u, hot, hab, fechaIni, fechaFin, pension, 0);
+				ReservaData res = new ReservaData(u, hot, hab, "2025-02-02", "2025-02-10", pension, 0);
 				VentResumen vent = new VentResumen(hostname, port, res);
 	            vent.setVisible(true);
 	            dispose(); 
