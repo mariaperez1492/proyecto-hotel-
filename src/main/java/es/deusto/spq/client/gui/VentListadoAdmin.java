@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -68,13 +69,13 @@ public VentListadoAdmin(String hostname, String port) {
 	
 	
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 750, 550);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 	
 		setContentPane(contentPane);
 		
-		ph = new PanelHoteles();
+		ph = new PanelHoteles(hostname, port);
 		pr = new PanelReservas(hostname, port);
 		
 		JPanel panelNorte = new JPanel();

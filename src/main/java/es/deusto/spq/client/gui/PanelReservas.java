@@ -78,10 +78,7 @@ public class PanelReservas extends JPanel {
 		
 		JPanel panelDerecha = new JPanel();
 		add(panelDerecha, BorderLayout.EAST);
-		
-		JPanel panelCentro = new JPanel();
-		//add(panelCentro, BorderLayout.CENTER);
-		
+				
 		JScrollPane scrollPane = new JScrollPane(table);
 		add(scrollPane, BorderLayout.CENTER);
 		
