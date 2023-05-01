@@ -21,6 +21,11 @@ VALUES
 (4, 1, 65, 'ESTANDAR'),
 (5, 2, 80, 'CAMA_EXTRAGRANDE');
 
+INSERT INTO reserva (id, cliente, fecha_fin, fecha_ini, habitacion, hotel)
+VALUES
+(1, "0000000A", '2023-04-12', '2023-04-01', 1, 1),
+(2, "0000000A", '2023-04-20', '2023-04-11', 2, 2);
 
 SELECT * FROM hlhotelesdb.hotel;
 SELECT * FROM hlhotelesdb.usuario;
+SELECT * FROM hlhotelesdb.reserva;

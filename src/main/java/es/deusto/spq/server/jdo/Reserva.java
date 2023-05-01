@@ -3,6 +3,7 @@ package es.deusto.spq.server.jdo;
 import java.sql.Date;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
+import javax.jdo.annotations.Join;
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 import javax.jdo.annotations.PrimaryKey;
@@ -16,11 +17,14 @@ public class Reserva {
 	@PrimaryKey
 	@Persistent(valueStrategy=IdGeneratorStrategy.INCREMENT)
 	int ID;
-	@Persistent(defaultFetchGroup = "true")
+	@Join
+	@Persistent(mappedBy="usuario", dependentElement="true", defaultFetchGroup="true")
 	UsuarioData cliente; 
-	@Persistent(defaultFetchGroup = "true")
+	@Join
+	@Persistent(mappedBy="hotel", dependentElement="true", defaultFetchGroup="true")
 	HotelData hotel;
-	@Persistent(defaultFetchGroup = "true")
+	@Join
+	@Persistent(mappedBy="habitacion", dependentElement="true", defaultFetchGroup="true")
 	HabitacionData habitacion; 
 	String fecha_ini; 
 	String fecha_fin;
