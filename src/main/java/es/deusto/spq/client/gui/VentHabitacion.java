@@ -66,12 +66,6 @@ public class VentHabitacion extends JFrame{
 	private HabitacionData hab;
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public VentHabitacion(String hostname, String port) {
-		
-	}
-
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public VentHabitacion(String hostname, String port, UsuarioData u, HotelData hot) {
 		
 		client = ClientBuilder.newClient();

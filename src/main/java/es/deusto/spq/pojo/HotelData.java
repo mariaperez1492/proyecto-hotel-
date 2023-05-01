@@ -2,6 +2,7 @@ package es.deusto.spq.pojo;
 
 public class HotelData {
 	
+	private int id;
 	private String nombre; 
 	private String ciudad; 
 	private int habitaciones_disp;
@@ -38,6 +39,14 @@ public class HotelData {
 
 	public void setHabitaciones_disp(int habitaciones_disp) {
 		this.habitaciones_disp = habitaciones_disp;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	

@@ -62,7 +62,7 @@ public class VentTest {
 
             ventLogin = new VentLogin("localhost", "8080");
             ventRegistro = new VentRegistro("localhost", "8080");
-            ventListado = new VentListado("localhost", "8080");
+            ventListado = new VentListado("localhost", "8080", null);
         }
 	}
 	

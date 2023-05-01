@@ -200,7 +200,7 @@ public class Resource {
 	        			r.getHabitacion().getPrecio());
 	        	
 	            ReservaData reservaData = new ReservaData(u, h, hb, 
-	            		r.getFecha_ini(), r.getFecha_fin());
+	            		r.getFecha_ini(), r.getFecha_fin(), r.getPension(), r.getPrecio());
 	            list.add(reservaData);
 	        }
 	        logger.info("Retrieved reservas from database: " + list.size());
@@ -268,9 +268,10 @@ public class Resource {
 			Habitacion habitacion = new Habitacion(reservaData.getHabitacion().getTipoHabitacion(),
 					reservaData.getHabitacion().getPersonas(),
 					reservaData.getHabitacion().getPrecio());
+
 					
-			Reserva reserva = new Reserva(usuario, hotel, habitacion, 
-					reservaData.getFecha_ini(), reservaData.getFecha_fin());
+			Reserva reserva = new Reserva(usuario, reservaData.getFecha_ini(), reservaData.getFecha_fin(), hotel, habitacion, reservaData.getPension(), reservaData.getPrecio()
+					);
 			
 			pm.makePersistent(reserva);
 			tx.commit();

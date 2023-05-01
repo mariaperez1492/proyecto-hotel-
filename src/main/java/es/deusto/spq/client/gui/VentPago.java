@@ -5,6 +5,8 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
@@ -25,6 +27,7 @@ import org.apache.logging.log4j.Logger;
 import es.deusto.spq.pojo.EnumTipoHabitacion;
 import es.deusto.spq.pojo.HabitacionData;
 import es.deusto.spq.pojo.HotelData;
+import es.deusto.spq.pojo.ReservaData;
 import es.deusto.spq.pojo.UsuarioData;
 
 import javax.swing.JRadioButton;
@@ -46,6 +49,7 @@ public class VentPago extends JFrame {
 	
 	private float precioTotal = 0;
 	private long dias = 0;
+	private String pension = "";
 
 	/**
 	 * Create the frame.
@@ -87,7 +91,7 @@ public class VentPago extends JFrame {
 		breakfastBox.setBounds(234, 426, 167, 63);
 		
 		if (breakfastBox.isSelected()) {
-			precioTotal = precioTotal + 12;
+			pension = pension + "desayuno, ";
         }
 		
 		JCheckBox poolBox = new JCheckBox("Piscina (10€/día)");
@@ -95,7 +99,7 @@ public class VentPago extends JFrame {
 		poolBox.setBounds(21, 361, 188, 63);
 		
 		if (poolBox.isSelected()) {
-			precioTotal = precioTotal + 10;
+			pension = pension + "piscina, ";
         }
 		
 		JCheckBox spaBox = new JCheckBox("Spa (30€/día)");
@@ -103,7 +107,7 @@ public class VentPago extends JFrame {
 		spaBox.setBounds(231, 361, 142, 63);
 		
 		if (spaBox.isSelected()) {
-			precioTotal = precioTotal + 16;
+			pension = pension + "spa, ";
         }
 		
 		JCheckBox gymBox = new JCheckBox("Gimnasio (15€/día)");
@@ -111,15 +115,12 @@ public class VentPago extends JFrame {
 		gymBox.setBounds(21, 426, 163, 63);
 		
 		if (gymBox.isSelected()) {
-			precioTotal = precioTotal + 15;
+			pension = pension + "gimnasio, ";
         }
 		
         contentPane.setLayout(null);
         
-        JLabel lblNewLabel = new JLabel("Pago total: " + precioTotal +". Dias totales: "+ dias);
-        lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-        lblNewLabel.setBounds(21, 519, 226, 63);
-        contentPane.add(lblNewLabel);
+
         
 //
 //		btnAtras = new JButton("Atrás");
@@ -147,20 +148,7 @@ public class VentPago extends JFrame {
         getContentPane().add(spaBox);
         getContentPane().add(gymBox);
 		
-		JButton btnCerrarSesion = new JButton("Pagar");
-		btnCerrarSesion.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnCerrarSesion.setBounds(496, 574, 88, 29);
-		contentPane.add(btnCerrarSesion);
-		
-		btnCerrarSesion.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-	            //logger.info(personas);		
-	            VentPago vent = new VentPago(hostname, port, u, hot, hab);
-	            vent.setVisible(true);
-	            dispose(); 
 
-			}
-		}); 
 
 		
 //		JLabel lblNewLabel_2 = new JLabel("Resumen de su reserva: Una habitación " + hab.getTipoHabitacion() +" para "+ hab.getPersonas()+" personas por "+hab.getPrecio()+ "€ por día.");
@@ -184,8 +172,19 @@ public class VentPago extends JFrame {
 		contentPane.add(fechaInicioChooser);
 		contentPane.add(fechaFinChooser);
 		
+		
+		
 //		LocalDate fecha1 = fechaInicioChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 //		LocalDate fecha2 = fechaFinChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		
+		SimpleDateFormat fecha = new SimpleDateFormat("yyyy-MM-dd");
+		
+		Date fecha1 = (Date) fechaInicioChooser.getDate();
+		Date fecha2 = (Date) fechaFinChooser.getDate();
+		String fechaIni = fecha.format(fecha1);
+		String fechaFin = fecha.format(fecha2);
+		
+		
 //
 //		// Calcula la diferencia de días entre las dos fechas
 //		dias = ChronoUnit.DAYS.between(fecha1, fecha2);
@@ -212,15 +211,23 @@ public class VentPago extends JFrame {
 		lblFechaFin.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblFechaFin.setBounds(396, 216, 131, 63);
 		contentPane.add(lblFechaFin);
-		btnCerrarSesion.addActionListener(new ActionListener() {
+
+		
+		JButton btnPagar = new JButton("Pagar");
+		btnPagar.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		btnPagar.setBounds(496, 574, 88, 29);
+		contentPane.add(btnPagar);
+		
+		btnPagar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentLogin ventLogin = new VentLogin(hostname, port);
-				ventLogin.setVisible(true);
-				dispose();
+	            //logger.info(personas);	
+				ReservaData res = new ReservaData(u, hot, hab, fechaIni, fechaFin, pension, 0);
+				VentResumen vent = new VentResumen(hostname, port, res);
+	            vent.setVisible(true);
+	            dispose(); 
+
 			}
-		});
-		
-		
+		}); 
         
 
 	}

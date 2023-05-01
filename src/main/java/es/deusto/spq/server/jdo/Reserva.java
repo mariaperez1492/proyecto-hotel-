@@ -1,6 +1,7 @@
 package es.deusto.spq.server.jdo;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 import javax.jdo.annotations.IdGeneratorStrategy;
 import javax.jdo.annotations.Join;
@@ -18,6 +19,9 @@ public class Reserva {
 	@Persistent(defaultFetchGroup="true")
 	Usuario cliente; 
 	
+	String fecha_ini; 
+	String fecha_fin;
+	
 	@Join
 	@Persistent(defaultFetchGroup="true")
 	Hotel hotel;
@@ -26,15 +30,42 @@ public class Reserva {
 	@Persistent(defaultFetchGroup="true")
 	Habitacion habitacion; 
 	
-	String fecha_ini; 
-	String fecha_fin;
+	String pension;
+	float precio;
 	
-	public Reserva(Usuario cliente, Hotel hotel, Habitacion habitacion, String fecha_ini, String fecha_fin) {
+	public int getID() {
+		return ID;
+	}
+
+	public void setID(int iD) {
+		ID = iD;
+	}
+
+	public String getPension() {
+		return pension;
+	}
+
+	public void setPension(String pension) {
+		this.pension = pension;
+	}
+
+	public float getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(float precio) {
+		this.precio = precio;
+	}
+
+	public Reserva(Usuario cliente, String fecha_ini, String fecha_fin, Hotel hotel, Habitacion habitacion, String pension, float precio) {
 		this.cliente = cliente;
-		this.hotel = hotel;
-		this.habitacion = habitacion;
 		this.fecha_ini = fecha_ini;
 		this.fecha_fin = fecha_fin;
+		this.hotel = hotel;
+		this.habitacion = habitacion;
+		this.pension = pension;
+		this.precio = precio;
+
 	}
 	
 	public Reserva() {}

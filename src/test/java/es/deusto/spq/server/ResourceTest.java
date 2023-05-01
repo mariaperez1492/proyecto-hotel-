@@ -248,7 +248,7 @@ public class ResourceTest
 		String fecha_fin = "2023-01-20";
 		
 		ReservaData reservaData = new ReservaData(usuarioData, hotelData, habitacionData, 
-				fecha_ini, fecha_fin);
+				fecha_ini, fecha_fin, null, 0);
 		
 		Response response = resource.makeReservation(reservaData);
 		

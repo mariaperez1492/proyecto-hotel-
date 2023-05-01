@@ -2,6 +2,7 @@ package es.deusto.spq.pojo;
 
 public class HabitacionData {
 			
+	private int id;
 	private EnumTipoHabitacion tipoHabitacion;
 	private int personas; 
 	private float precio;
@@ -39,6 +40,14 @@ public class HabitacionData {
 
 	public void setPrecio(float precio) {
 		this.precio = precio;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	} 
 	
 	
