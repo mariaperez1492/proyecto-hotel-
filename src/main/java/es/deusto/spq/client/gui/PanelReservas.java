@@ -85,12 +85,18 @@ public class PanelReservas extends JPanel {
 		panelIzquierda.add(lblNewLabel_1);
 		JComboBox<String> comboBox = new JComboBox<>();
 		comboBox.addItem("Seleccione un hotel");
-		comboBox.addItem("Hotel Barcelona1");
-		comboBox.addItem("Hotel Barcelona2");
-		comboBox.addItem("Hotel San Sebastián");
-		comboBox.addItem("Hotel Madrid");
-		comboBox.addItem("Hotel Málaga");
-		comboBox.addItem("Hotel Valencia");
+		try {
+//			List<HotelData> listData = mapper.readValue(response.readEntity(String.class), new TypeReference<List<HotelData>>(){});
+			List<HotelData> listData = getHoteles();
+			
+			for (HotelData hotel : listData) {
+
+			    comboBox.addItem(hotel.getNombre());
+			    }
+			
+		} catch (Exception e) {
+		
+		}
 		panelIzquierda.add(comboBox);
 		
 		WebTarget reservaTarget = webTarget.path("getReservas");
@@ -115,6 +121,8 @@ public class PanelReservas extends JPanel {
 			    fila[2] = reserva.getFecha_ini();
 			    fila[3] = reserva.getHabitacion().getTipoHabitacion();
 			    fila[4] = reserva.getHotel().getNombre();
+			    fila[5] = reserva.getPension();
+			    fila[6] = reserva.getPrecio();
 			    
 			    model.addRow(fila);
 			 }
@@ -133,7 +141,7 @@ public class PanelReservas extends JPanel {
 				// TODO Auto-generated method stub
 				String hotelSeleccionado = comboBox.getSelectedItem().toString();
 				 TableRowSorter<TableModel> sorter = new TableRowSorter<>(table.getModel());
-			        sorter.setRowFilter(RowFilter.regexFilter(hotelSeleccionado, 1)); // 1 es el índice de la columna donde se encuentra el nombre del hotel
+			        sorter.setRowFilter(RowFilter.regexFilter(hotelSeleccionado, 4)); // 1 es el índice de la columna donde se encuentra el nombre del hotel
 			        
 			        // Aplicamos el filtro a la tabla
 			        table.setRowSorter(sorter);
@@ -142,14 +150,27 @@ public class PanelReservas extends JPanel {
 		});
 	}
 	
-	public List<ReservaData> getHoteles() throws JsonMappingException, JsonProcessingException {
-		WebTarget hotelTarget = webTarget.path("getReservas");
+	public List<HotelData> getHoteles() throws JsonMappingException, JsonProcessingException {
+		WebTarget hotelTarget = webTarget.path("getHoteles");
 		Invocation.Builder invocationBuilder = hotelTarget.request(MediaType.APPLICATION_JSON);
 				
 		Response response = invocationBuilder.get();
 		ObjectMapper mapper = new ObjectMapper();
 		
-		return null;
+		List<HotelData> listData = mapper.readValue(response.readEntity(String.class), new TypeReference<List<HotelData>>(){});
+		return listData;
+	}
+
+
+	public List<ReservaData> getReservas() throws JsonMappingException, JsonProcessingException {
+		WebTarget reservaTarget = webTarget.path("getReservas");
+		Invocation.Builder invocationBuilder = reservaTarget.request(MediaType.APPLICATION_JSON);
+				
+		Response response = invocationBuilder.get();
+		ObjectMapper mapper = new ObjectMapper();
+		
+		List<ReservaData> listData = mapper.readValue(response.readEntity(String.class), new TypeReference<List<ReservaData>>(){});
+		return listData;
 	}
 
 }
