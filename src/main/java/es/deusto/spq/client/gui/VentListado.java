@@ -28,6 +28,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import es.deusto.spq.pojo.HotelData;
+import es.deusto.spq.pojo.UsuarioData;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -51,7 +52,7 @@ public class VentListado extends JFrame{
 	private WebTarget webTarget;
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public VentListado(String hostname, String port) {
+	public VentListado(String hostname, String port, UsuarioData u) {
 		
 		client = ClientBuilder.newClient();
 		webTarget = client.target(String.format("http://%s:%s/rest/resource", hostname, port));
@@ -152,7 +153,9 @@ public class VentListado extends JFrame{
 		            String ciudad = (String) target.getValueAt(row, 1);
 		            int habitaciones = (int) target.getValueAt(row, 2);
 
-		            VentHabitacion vent = new VentHabitacion(hostname, port);
+		            HotelData hot = new HotelData(hotel, ciudad, habitaciones);
+		            
+		            VentHabitacion vent = new VentHabitacion(hostname, port, u, hot);
 		            vent.setVisible(true);
 		            dispose(); 
 		        }

@@ -100,27 +100,6 @@ public class PanelHoteles extends JPanel {
 		} catch (Exception e) {
 		
 		}
-		
-		/* Al seleccionar una fila de la tabla */
-		
-		tabla.addMouseListener(new MouseAdapter() {
-			
-		    public void mouseClicked(MouseEvent e) {
-		    	
-		        if (e.getClickCount() == 1) {
-		        	
-		            JTable target = (JTable) e.getSource();
-		            int row = target.getSelectedRow();
-		            
-		            String hotel = (String) target.getValueAt(row, 0);
-		            String ciudad = (String) target.getValueAt(row, 1);
-		            int habitaciones = (int) target.getValueAt(row, 2);
-
-		            VentHabitacion vent = new VentHabitacion(hostname, port);
-		            vent.setVisible(true);
-		        }
-		    }
-		});
 
 
 		

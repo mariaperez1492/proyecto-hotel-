@@ -1,6 +1,8 @@
 package es.deusto.spq.pojo;
 
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -65,5 +67,11 @@ public class ReservaData {
 
 	public void setFecha_fin(String fecha_fin) {
 		this.fecha_fin = fecha_fin;
+	}
+	
+	public long calcularDias() {
+	    LocalDate fechaInicio = LocalDate.parse(this.fecha_ini);
+	    LocalDate fechaFin = LocalDate.parse(this.fecha_fin);
+	    return ChronoUnit.DAYS.between(fechaInicio, fechaFin);
 	}
 }

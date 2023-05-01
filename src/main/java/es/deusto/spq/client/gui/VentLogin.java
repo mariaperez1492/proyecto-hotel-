@@ -18,6 +18,8 @@ import javax.ws.rs.core.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import es.deusto.spq.pojo.UsuarioData;
+
 import javax.ws.rs.client.Client;
 
 import javax.swing.JButton;
@@ -113,7 +115,8 @@ public class VentLogin extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				if(loginUser(txtDni.getText(), txtConstrasenya.getText())== 1) {
-					VentListado ventListado = new VentListado(hostname, port);
+					UsuarioData u = new UsuarioData(txtDni.getText(), txtConstrasenya.getText());
+					VentListado ventListado = new VentListado(hostname, port, u);
 					ventListado.setVisible(true);
 					dispose();
 				} else if(loginUser(txtDni.getText(), txtConstrasenya.getText())== 2) {

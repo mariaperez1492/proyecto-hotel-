@@ -23,6 +23,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import es.deusto.spq.pojo.EnumTipoHabitacion;
+import es.deusto.spq.pojo.HabitacionData;
+import es.deusto.spq.pojo.HotelData;
+import es.deusto.spq.pojo.UsuarioData;
 
 import javax.swing.JRadioButton;
 import javax.swing.JCheckBox;
@@ -47,7 +50,7 @@ public class VentPago extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public VentPago(String hostname, String port, EnumTipoHabitacion tipo, int personas, float precio) {
+	public VentPago(String hostname, String port, UsuarioData u, HotelData hot, HabitacionData hab) {
 		
 		client = ClientBuilder.newClient();
 		webTarget = client.target(String.format("http://%s:%s/rest/resource", hostname, port));
@@ -149,10 +152,21 @@ public class VentPago extends JFrame {
 		btnCerrarSesion.setBounds(496, 574, 88, 29);
 		contentPane.add(btnCerrarSesion);
 		
-		JLabel lblNewLabel_2 = new JLabel("Resumen de su reserva: Una habitación " + tipo +" para "+ personas+" personas por "+precio+ "€ por día.");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		lblNewLabel_2.setBounds(21, 108, 795, 63);
-		contentPane.add(lblNewLabel_2);
+		btnCerrarSesion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+	            //logger.info(personas);		
+	            VentPago vent = new VentPago(hostname, port, u, hot, hab);
+	            vent.setVisible(true);
+	            dispose(); 
+
+			}
+		}); 
+
+		
+//		JLabel lblNewLabel_2 = new JLabel("Resumen de su reserva: Una habitación " + hab.getTipoHabitacion() +" para "+ hab.getPersonas()+" personas por "+hab.getPrecio()+ "€ por día.");
+//		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
+//		lblNewLabel_2.setBounds(21, 108, 795, 63);
+//		contentPane.add(lblNewLabel_2);
 		
 		JLabel lblElijaElTipo = new JLabel("Elija el tipo de pensión:");
 		lblElijaElTipo.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -175,6 +189,17 @@ public class VentPago extends JFrame {
 //
 //		// Calcula la diferencia de días entre las dos fechas
 //		dias = ChronoUnit.DAYS.between(fecha1, fecha2);
+		
+		JButton atras = new JButton("Atrás");
+		atras.setBounds(594, 574, 104, 28);
+		contentPane.add(atras);
+		atras.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        dispose();  // cierra la ventana VentRegistro
+		        VentHabitacion v = new VentHabitacion(hostname, port, u, hot);
+		        v.setVisible(true);  // muestra la ventana VentLogin
+		    }
+		});
 		
 		contentPane.add(lblFechasDeEstancia);
 		

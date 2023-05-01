@@ -33,12 +33,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import es.deusto.spq.pojo.EnumTipoHabitacion;
 import es.deusto.spq.pojo.HabitacionData;
+import es.deusto.spq.pojo.HotelData;
+import es.deusto.spq.pojo.UsuarioData;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 
@@ -60,10 +63,16 @@ public class VentHabitacion extends JFrame{
 	private int personas = 0;
 	private float precio = 0;
 	private EnumTipoHabitacion tipo;
+	private HabitacionData hab;
 	
-
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public VentHabitacion(String hostname, String port) {
+		
+	}
+
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public VentHabitacion(String hostname, String port, UsuarioData u, HotelData hot) {
 		
 		client = ClientBuilder.newClient();
 		webTarget = client.target(String.format("http://%s:%s/rest/resource", hostname, port));
@@ -132,7 +141,7 @@ public class VentHabitacion extends JFrame{
 		btnAtras.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        dispose();  // cierra la ventana VentRegistro
-		        VentListado v = new VentListado(hostname, port);
+		        VentListado v = new VentListado(hostname, port, u);
 		        v.setVisible(true);  // muestra la ventana VentLogin
 		    }
 		});
@@ -173,7 +182,7 @@ public class VentHabitacion extends JFrame{
 		panel.setBounds(117, 270, 651, 273);
 		panelLista.add(panel);
 
-		ImageIcon imagenOriginal = new ImageIcon("src/main/img/estandar1.jpeg");
+		ImageIcon imagenOriginal = new ImageIcon("src/main/img/Barcelona.jpeg");
 		Image imagenEscalada = imagenOriginal.getImage().getScaledInstance(400, 200, Image.SCALE_SMOOTH);
 		ImageIcon imagenNueva = new ImageIcon(imagenEscalada);
 
@@ -211,6 +220,8 @@ public class VentHabitacion extends JFrame{
 		            personas = (int) target.getValueAt(row, 1);
 		            precio = (float) target.getValueAt(row, 2);
 
+		            hab = new HabitacionData(tipo, personas, precio);
+		            
 //		            VentPago vent = new VentPago(hostname, port);
 //		            vent.setVisible(true);
 //		            dispose(); 
@@ -221,7 +232,7 @@ public class VentHabitacion extends JFrame{
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 	            //logger.info(personas);		
-	            VentPago vent = new VentPago(hostname, port, tipo, personas, precio);
+	            VentPago vent = new VentPago(hostname, port, u, hot, hab);
 	            vent.setVisible(true);
 	            dispose(); 
 
@@ -238,10 +249,10 @@ public class VentHabitacion extends JFrame{
 		table.setRowSorter(sorter);
 		
 		Map<String, String> imagenesHabitaciones = new HashMap<>();
-		imagenesHabitaciones.put("Estandar", "Barcelona.jpeg");
-		imagenesHabitaciones.put("Suite", "suite4.jpeg");
-		imagenesHabitaciones.put("Deluxe", "deluxe2.jpeg");
-		imagenesHabitaciones.put("Cama extragrande", "cama_extragrande2.jpeg");
+		imagenesHabitaciones.put("ESTANDAR", "estandar1.jpeg");
+		imagenesHabitaciones.put("SUITE", "suite4.jpeg");
+		imagenesHabitaciones.put("DELUXE", "deluxe2.jpeg");
+		imagenesHabitaciones.put("CAMA_EXTRAGRANDE", "cama_extragrande2.jpeg");
 		comboBox.addActionListener(new ActionListener() {
 			
 			@Override
@@ -250,22 +261,29 @@ public class VentHabitacion extends JFrame{
 		        RowFilter<DefaultTableModel, Object> filtro = RowFilter.regexFilter(valorSeleccionado, 0);
 		        sorter.setRowFilter(filtro);
 		        
-//		        
-//		     // Obtener el tipo de habitación seleccionado
-//		        String tipoHabitacionSeleccionado = model.getValueAt(table.getSelectedRow(), 1).toString();
-//
-//		        // Obtener el nombre de la imagen correspondiente
-//		        String nombreImagen = imagenesHabitaciones.get(tipoHabitacionSeleccionado);
-//
-//		        // Crear un JLabel con la imagen
-//		        ImageIcon imagen = new ImageIcon(nombreImagen);
-//		        JLabel labelImagen = new JLabel(imagen);
-//
-//		        // Agregar el JLabel al JPanel
-//		        panel.removeAll();
-//		        panel.add(labelImagen);
-//		        panel.revalidate();
-//		        panel.repaint();
+		        
+		     // Obtener el tipo de habitación seleccionado
+		        logger.info(valorSeleccionado);
+		        // String tipoHabitacionSeleccionado = model.getValueAt(table.getSelectedRow(), 1).toString();
+
+		        // Obtener el nombre de la imagen correspondiente
+		        String nombreImagen = imagenesHabitaciones.get(valorSeleccionado);
+		        logger.info(nombreImagen);
+		        // Crear un JLabel con la imagen
+				panel.setBounds(117, 270, 651, 273);
+		        ImageIcon imagen2 = new ImageIcon("src/main/img/"+nombreImagen);
+		        Image imagenEscalada2 = imagen2.getImage().getScaledInstance(300, 300, Image.SCALE_AREA_AVERAGING);
+		        JLabel labelImagen = new JLabel(imagen2);
+		        labelImagen.setIcon(imagen2);
+		        labelImagen.setHorizontalAlignment(JLabel.CENTER);
+		        labelImagen.setPreferredSize(new Dimension(800, 400));
+
+
+		        // Agregar el JLabel al JPanel
+		        panel.removeAll();
+		        panel.add(labelImagen);
+		        panel.revalidate();
+		        panel.repaint();
 				
 			}
 		});
