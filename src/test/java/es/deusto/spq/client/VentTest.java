@@ -74,7 +74,8 @@ public class VentTest {
 		when(webTarget.queryParam("dni", "11111111A").queryParam("contrasenya", "password")
 				.request(MediaType.APPLICATION_JSON).get()).thenReturn(response);
 		
-		assertTrue(ventLogin.loginUser("11111111A", "password"));
+		assertEquals(1, ventLogin.loginUser("11111111A", "password"));
+		assertEquals(2, ventLogin.loginUser("0000", "admin"));
 		
 		verify(webTarget.queryParam("dni", "11111111A").queryParam("contrasenya", "password")
                 .request(MediaType.APPLICATION_JSON)).get();
