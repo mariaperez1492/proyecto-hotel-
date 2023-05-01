@@ -28,14 +28,19 @@ import org.mockito.MockitoAnnotations;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import es.deusto.spq.client.gui.PanelHoteles;
+import es.deusto.spq.client.gui.PanelReservas;
 import es.deusto.spq.client.gui.VentHabitacion;
 import es.deusto.spq.client.gui.VentListado;
+import es.deusto.spq.client.gui.VentListadoAdmin;
 import es.deusto.spq.client.gui.VentLogin;
+import es.deusto.spq.client.gui.VentPago;
 import es.deusto.spq.client.gui.VentRegistro;
 import es.deusto.spq.pojo.HotelData;
 import es.deusto.spq.pojo.UsuarioData;
 import es.deusto.spq.server.jdo.Usuario;
 
+@SuppressWarnings("unused")
 public class VentTest {
 	
 	@Mock
@@ -47,10 +52,15 @@ public class VentTest {
 	@Captor
     private ArgumentCaptor<Entity<UsuarioData>> usuarioDataEntityCaptor;
 	
-	private VentLogin ventLogin;
-	private VentRegistro ventRegistro;
-	private VentListado ventListado;
+	private PanelHoteles pHoteles;
+	private PanelReservas pReservas;
 	private VentHabitacion ventHabitacion;
+	private VentListado ventListado;
+	private VentListadoAdmin ventListadoAdmin;
+	private VentLogin ventLogin;
+	private VentPago ventPago;
+	private VentRegistro ventRegistro;
+
 	
 	@Before 
 	public void setUp() {
@@ -60,9 +70,14 @@ public class VentTest {
             clientBuilder.when(ClientBuilder::newClient).thenReturn(client);
             when(client.target("http://localhost:8080/rest/resource")).thenReturn(webTarget);
 
+            pHoteles = new PanelHoteles("localhost", "8080");
+            pReservas = new PanelReservas("localhost", "8080");
+            //ventHabitacion = new VentHabitacion("localhost", "8080");
+            //ventListado = new VentListado("localhost", "8080");
+            ventListadoAdmin = new VentListadoAdmin("localhost", "8080");
+            //ventPago = new VentPago();
             ventLogin = new VentLogin("localhost", "8080");
             ventRegistro = new VentRegistro("localhost", "8080");
-            ventListado = new VentListado("localhost", "8080", null);
         }
 	}
 	
@@ -102,23 +117,16 @@ public class VentTest {
 	public void getHotelesTest() throws JsonProcessingException {
 		when(webTarget.path("getHoteles")).thenReturn(webTarget);
 		
-//		List<HotelData> expectedHoteles = new ArrayList<>();
-//	    expectedHoteles.add(new HotelData("Hotel 1", "Dirección 1", 4));
-//	    expectedHoteles.add(new HotelData("Hotel 2", "Dirección 2", 4));
-//
-//	    String jsonHoteles = new ObjectMapper().writeValueAsString(expectedHoteles);
-//
-//	    Response response = Response.ok().entity(jsonHoteles).build();
-//
-//	    when(webTarget.request(MediaType.APPLICATION_JSON).get()).thenReturn(response);
-//	    
-//	    List<HotelData> actualHoteles = ventListado.getHoteles();
-//
-//	    assertEquals(expectedHoteles.size(), actualHoteles.size());
-//	    assertEquals(expectedHoteles.get(0).getNombre(), actualHoteles.get(0).getNombre());
-//	    assertEquals(expectedHoteles.get(0).getCiudad(), actualHoteles.get(0).getCiudad());
-//	    assertEquals(expectedHoteles.get(1).getNombre(), actualHoteles.get(1).getNombre());
-//	    assertEquals(expectedHoteles.get(1).getCiudad(), actualHoteles.get(1).getCiudad());
+		 List<HotelData> expectedHotels = new ArrayList<>();
+		 expectedHotels.add(new HotelData("hotel1", "address1", 5));
+		 expectedHotels.add(new HotelData("hotel2", "address2", 7));
+	     
+	     String mockResponse = new ObjectMapper().writeValueAsString(expectedHotels);
+	     
+	     Response response = Response.ok(mockResponse).build();
+	     when(webTarget.request(MediaType.APPLICATION_JSON).get()).thenReturn(response);
+	    
+	     //assertEquals(expectedHotels, ventListado.getHoteles());));
 	}
 	
 	@Test

@@ -199,6 +199,8 @@ public class ResourceTest
 		reserva1.setHabitacion(hab1);
 		reserva1.setFecha_ini("14/07/2023");
 		reserva1.setFecha_fin("09/08/2023");
+		reserva1.setPension("pension1");
+		reserva1.setPrecio(10);
 		
 		Reserva reserva2 = spy(Reserva.class);
 		
@@ -210,6 +212,8 @@ public class ResourceTest
 		reserva2.setHabitacion(hab2);
 		reserva2.setFecha_ini("10/07/2023");
 		reserva2.setFecha_fin("10/08/2023");
+		reserva2.setPension("pension2");
+		reserva2.setPrecio(20);
 		
 		@SuppressWarnings("unchecked") Query<Reserva> query = mock(Query.class);
         when(persistenceManager.newQuery(Reserva.class)).thenReturn(query);
