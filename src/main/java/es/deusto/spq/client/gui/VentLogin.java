@@ -112,10 +112,13 @@ public class VentLogin extends JFrame {
 			@SuppressWarnings("deprecation")
 			public void actionPerformed(ActionEvent e) {
 				
-				if(loginUser(txtDni.getText(), txtConstrasenya.getText())) {
+				if(loginUser(txtDni.getText(), txtConstrasenya.getText())== 1) {
 					VentListado ventListado = new VentListado(hostname, port);
 					ventListado.setVisible(true);
 					dispose();
+				} else if(loginUser(txtDni.getText(), txtConstrasenya.getText())== 2) {
+					VentListadoAdmin ventAdmin = new VentListadoAdmin(hostname, port);
+					ventAdmin.setVisible(true);
 				} else {
 					JOptionPane.showMessageDialog(null, "La contraseña o DNI es incorrecta.");
 				}
@@ -142,7 +145,7 @@ public class VentLogin extends JFrame {
 	}
 	
 
-	public boolean loginUser(String dni, String contrasenya) {
+	public int loginUser(String dni, String contrasenya) {
 		WebTarget target = webTarget.path("login")
 				.queryParam("dni", dni)
 				.queryParam("contrasenya", contrasenya);
@@ -152,9 +155,13 @@ public class VentLogin extends JFrame {
 		Response response = invocationBuilder.get();
 			
 		if (response.getStatus() == Response.Status.OK.getStatusCode()) {
-			return true;
+			if (dni.equals("0000")) {
+				return 2;
+			} else {
+				return 1;
+			}
 		} else {
-			return false;
+			return 0;
 		}
 	}
 }

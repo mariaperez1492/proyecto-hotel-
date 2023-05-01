@@ -8,7 +8,10 @@ VALUES
 (4, 'Hotel Valencia', 'Valencia', 80),
 (5, 'Hotel San Sebastian', 'San Sebastián', 60);
 
-INSERT INTO usuario (dni, contrasenya, nombre) VALUES ("0000000A", "1234567Ab*", "usuario");
+INSERT INTO usuario (dni, contrasenya, nombre) 
+VALUES 
+("0000000A", "1234567Ab*", "usuario"),
+("0000", "admin", "admin");
 
 INSERT INTO habitacion (numhabitacion, personas, precio, tipoHabitacion)
 VALUES 
