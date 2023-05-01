@@ -20,7 +20,7 @@ public class Hotel {
 		this.ciudad = ciudad;
 		this.habitaciones_disp = habitaciones_disp;
 	}
-
+	public Hotel() {}
 	public String getNombre() {
 		return nombre;
 	}

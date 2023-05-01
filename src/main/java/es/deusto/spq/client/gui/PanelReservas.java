@@ -55,10 +55,10 @@ public class PanelReservas extends JPanel {
 		JTable table = new JTable();
 		DefaultTableModel model = new DefaultTableModel();
 		model.addColumn("Cliente");
+		model.addColumn("Fecha fin");
+		model.addColumn("Fecha inicio");
 		model.addColumn("Hotel");
 		model.addColumn("Habitacion");
-		model.addColumn("Fecha inicio");
-		model.addColumn("Fecha fin");
 		table.setModel(model);
 		
 		WebTarget reservaTarget = webTarget.path("getReservas");
@@ -103,10 +103,10 @@ public class PanelReservas extends JPanel {
 			for (ReservaData reserva : listData) {
 			    fila = new Object[listData.size()];
 			    fila[0] = reserva.getCliente();
-			    fila[1] = reserva.getHotel();
-			    fila[2] = reserva.getHabitacion();
-			    fila[3] = reserva.getFecha_ini();
-			    fila[4] = reserva.getFecha_fin();
+			    fila[1] = reserva.getFecha_fin();
+			    fila[2] = reserva.getFecha_ini();
+			    fila[3] = reserva.getHabitacion();
+			    fila[4] = reserva.getHotel();
 			    
 			    model.addRow(fila);
 			    }

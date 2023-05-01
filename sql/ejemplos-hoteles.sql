@@ -28,4 +28,3 @@ VALUES
 
 SELECT * FROM hlhotelesdb.hotel;
 SELECT * FROM hlhotelesdb.usuario;
-SELECT * FROM hlhotelesdb.reserva;
