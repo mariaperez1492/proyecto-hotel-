@@ -220,55 +220,16 @@ public class VentHabitacion extends JFrame{
 		scrollPane.setBounds(205, 5, 452, 402);
 		panelLista.add(scrollPane);
 		
-		TableRowSorter<TableModel> trsfiltro = new TableRowSorter(table.getModel());
-		table.setRowSorter(trsfiltro);
-		
+
+		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+		table.setRowSorter(sorter);
 		comboBox.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-
 				String valorSeleccionado = comboBox.getSelectedItem().toString();
-				if(valorSeleccionado == "SUITE") {
-					RowFilter<Object, Object> rf = new RowFilter<Object, Object>() {
-	                    public boolean include(Entry<?, ?> entry) {
-	                        Object value = entry.getValue(1);
-	                        return value.equals(valorSeleccionado);
-	                    }
-	                };
-	                ((TableRowSorter) table.getRowSorter()).setRowFilter(rf);
-					
-				}else if (valorSeleccionado == "DELUXE") {
-					RowFilter<Object, Object> rf = new RowFilter<Object, Object>() {
-	                    public boolean include(Entry<?, ?> entry) {
-	                        Object value = entry.getValue(0);
-	                        return value.equals(valorSeleccionado);
-	                    }
-	                };
-	                ((TableRowSorter) table.getRowSorter()).setRowFilter(rf);
-				}else if (valorSeleccionado == "ESTANDAR") {
-					RowFilter<Object, Object> rf = new RowFilter<Object, Object>() {
-	                    public boolean include(Entry<?, ?> entry) {
-	                        Object value = entry.getValue(0);
-	                        return value.equals(valorSeleccionado);
-	                    }
-	                };
-	                ((TableRowSorter) table.getRowSorter()).setRowFilter(rf);
-				}else if (valorSeleccionado == "CAMA_EXTRAGRANDE") {
-					RowFilter<Object, Object> rf = new RowFilter<Object, Object>() {
-	                    public boolean include(Entry<?, ?> entry) {
-	                        Object value = entry.getValue(0);
-	                        return value.equals(valorSeleccionado);
-	                    }
-	                };
-	                ((TableRowSorter) table.getRowSorter()).setRowFilter(rf);
-					
-	
-					
-				}else {
-					TableRowSorter<TableModel> trsfiltro = new TableRowSorter(table.getModel());
-					table.setRowSorter(trsfiltro);
-				}
+		        RowFilter<DefaultTableModel, Object> filtro = RowFilter.regexFilter(valorSeleccionado, 0);
+		        sorter.setRowFilter(filtro);
 				
 			}
 		});
