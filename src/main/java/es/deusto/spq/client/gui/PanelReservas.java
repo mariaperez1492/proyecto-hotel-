@@ -105,6 +105,7 @@ public class PanelReservas extends JPanel {
 		Response response = invocationBuilder.get();
 		ObjectMapper mapper = new ObjectMapper();
 		String json = response.readEntity(String.class);
+		System.out.println(json);
 		
 		try {
 			
@@ -168,6 +169,8 @@ public class PanelReservas extends JPanel {
 				
 		Response response = invocationBuilder.get();
 		ObjectMapper mapper = new ObjectMapper();
+		String json = response.readEntity(String.class);
+		System.out.println(json);
 		
 		List<ReservaData> listData = mapper.readValue(response.readEntity(String.class), new TypeReference<List<ReservaData>>(){});
 		return listData;
