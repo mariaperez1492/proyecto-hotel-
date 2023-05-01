@@ -14,7 +14,6 @@ public class Usuario {
 	EnumTipoUsuario tipoUsuario;
 	
 	
-
 	public Usuario(String dni, String nombre, String contrasenya, EnumTipoUsuario tipoUsuario) {
 		super();
 		this.dni = dni;
@@ -58,18 +57,5 @@ public class Usuario {
 	public void setTipoUsuario(EnumTipoUsuario tipoUsuario) {
 		this.tipoUsuario = tipoUsuario;
 	}
-
-	@Override
-	public String toString() {
-		return "Usuario [dni=" + dni + ", nombre=" + nombre + ", contrasenya=" + contrasenya + ", tipoUsuario="
-				+ tipoUsuario + "]";
-	}
-
-
-	
-	
-	
-	
-	
 
 }

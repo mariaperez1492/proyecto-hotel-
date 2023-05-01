@@ -9,13 +9,10 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ReservaData {
 	
-	@JsonProperty("cliente")
 	private UsuarioData cliente; 
 	private String fecha_ini;
 	private String fecha_fin;
-	@JsonProperty("hotel")
 	private HotelData hotel;
-	@JsonProperty("habitacion")
 	private HabitacionData habitacion;
 	private String pension;
 	private float precio;

@@ -49,13 +49,4 @@ public class Habitacion {
 	public void setPrecio(float precio) {
 		this.precio = precio;
 	}
-
-	@Override
-	public String toString() {
-		return "HabitacionDAO [tipoHabitacion=" + tipoHabitacion + ", personas=" + personas + ", precio=" + precio
-				+ "]";
-	} 
-	
-	
-	
 }

@@ -31,8 +31,9 @@ public class ReservaTest {
 		reserva.setCliente(usuario);
 		reserva.setHotel(hotel);
 		reserva.setHabitacion(habitacion);
-		reserva.setFecha_ini(null);
-		reserva.setFecha_fin(null);
+		reserva.setFecha_ini("2022-06-01");
+		reserva.setFecha_fin("2022-06-15");
+		reserva.setPension("pension");
 	}
 	
 	@Test
@@ -52,12 +53,17 @@ public class ReservaTest {
 	
 	@Test
 	public void testGetFecha_ini() {
-		
+		assertEquals("2022-06-01", reserva.getFecha_ini());
 	}
 	
 	@Test
 	public void testGetFecha_Fin() {
-		
+		assertEquals("2022-06-15", reserva.getFecha_fin());
+	}
+	
+	@Test
+	public void testGetPension() {
+		assertEquals("pension", reserva.getPension());
 	}
 }
 

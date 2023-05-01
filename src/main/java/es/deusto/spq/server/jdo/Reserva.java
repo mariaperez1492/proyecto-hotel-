@@ -109,10 +109,4 @@ public class Reserva {
 	public void setFecha_fin(String fecha_fin) {
 		this.fecha_fin = fecha_fin;
 	}
-
-	@Override
-	public String toString() {
-		return "ReservaDAO [cliente=" + cliente + ", hotel=" + hotel + ", habitacion=" + habitacion + ", fecha_ini="
-				+ fecha_ini + ", fecha_fin=" + fecha_fin + "]";
-	} 
 }

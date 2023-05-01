@@ -72,8 +72,8 @@ public class VentTest {
 
             pHoteles = new PanelHoteles("localhost", "8080");
             pReservas = new PanelReservas("localhost", "8080");
-            //ventHabitacion = new VentHabitacion("localhost", "8080");
-            //ventListado = new VentListado("localhost", "8080");
+            ventHabitacion = new VentHabitacion("localhost", "8080", new UsuarioData(), new HotelData());
+            ventListado = new VentListado("localhost", "8080", new UsuarioData());
             ventListadoAdmin = new VentListadoAdmin("localhost", "8080");
             //ventPago = new VentPago();
             ventLogin = new VentLogin("localhost", "8080");
@@ -126,7 +126,7 @@ public class VentTest {
 	     Response response = Response.ok(mockResponse).build();
 	     when(webTarget.request(MediaType.APPLICATION_JSON).get()).thenReturn(response);
 	    
-	     //assertEquals(expectedHotels, ventListado.getHoteles());));
+	     //assertEquals(expectedHotels, ventListado.getHoteles());
 	}
 	
 	@Test

@@ -44,14 +44,5 @@ public class Hotel {
 	public void setHabitaciones_disp(int habitaciones_disp) {
 		this.habitaciones_disp = habitaciones_disp;
 	}
-
-	@Override
-	public String toString() {
-		return "HotelDAO [nombre=" + nombre + ", ciudad=" + ciudad + ", habitaciones_disp=" + habitaciones_disp + "]";
-	}
-	
-	
-	
-	
 	
 }

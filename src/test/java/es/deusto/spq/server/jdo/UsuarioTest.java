@@ -49,9 +49,4 @@ public class UsuarioTest {
 		usuario.setContrasenya("new-contra");
 		assertEquals("new-contra", usuario.getContrasenya());
 	}
-	
-	@Test
-	public void testToString() {
-		
-	}
 }
