@@ -68,11 +68,7 @@ public class VentPago extends JFrame {
 		JPanel panelSur = new JPanel();
 		getContentPane().add(panelSur, BorderLayout.SOUTH);
 		
-		Image imgLogo = new ImageIcon("src/main/img/logo.png").getImage();
-		ImageIcon iconLogo = new ImageIcon(imgLogo.getScaledInstance(180, 110, Image.SCALE_SMOOTH));
-		JLabel lblLogo = new JLabel(iconLogo);
-		lblLogo.setSize(180, 110);
-		panelSup.add(lblLogo);
+		
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -118,7 +114,7 @@ public class VentPago extends JFrame {
 			pension = pension + "gimnasio, ";
         }
 		
-        //contentPane.setLayout(null);
+        contentPane.setLayout(null);
         
 
         
@@ -211,24 +207,53 @@ public class VentPago extends JFrame {
 		lblFechaFin.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblFechaFin.setBounds(396, 216, 131, 63);
 		contentPane.add(lblFechaFin);
-
 		
-		JButton btnPagar = new JButton("Pagar");
-		btnPagar.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		btnPagar.setBounds(496, 574, 88, 29);
-		contentPane.add(btnPagar);
+		JPanel panel = new JPanel();
+		contentPane.add(panel);
 		
-		btnPagar.addActionListener(new ActionListener() {
+		JPanel panel_1 = new JPanel();
+		contentPane.add(panel_1);
+		
+	
+		
+		
+		JButton btnNewButton_1 = new JButton("Pagar");
+		btnNewButton_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
+//				LocalDate fecha1 = fechaInicioChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+//				LocalDate fecha2 = fechaFinChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+				
+//				SimpleDateFormat fecha = new SimpleDateFormat("yyyy-MM-dd");
+//				
+//				Date fecha1 = (Date) fechaInicioChooser.getDate();
+//				Date fecha2 = (Date) fechaFinChooser.getDate();
+//				String fechaIni = fecha.format(fecha1);
+//				String fechaFin = fecha.format(fecha2);
+				
 	            //logger.info(personas);	
 				ReservaData res = new ReservaData(u, hot, hab, "2025-02-02", "2025-02-10", pension, 0);
 				VentResumen vent = new VentResumen(hostname, port, res);
 	            vent.setVisible(true);
-	            dispose(); 
+	            dispose();
+	            
+		    }
+				});
+		btnNewButton_1.setBounds(285, 561, 89, 23);
+		contentPane.add(btnNewButton_1);
+		
+		JPanel panel_4 = new JPanel();
+		panel_4.setBounds(234, 49, 199, 102);
+		contentPane.add(panel_4);
+		
+		Image imgLogo = new ImageIcon("src/main/img/logo.png").getImage();
+		ImageIcon iconLogo = new ImageIcon(imgLogo.getScaledInstance(180, 110, Image.SCALE_SMOOTH));
+		JLabel lblLogo = new JLabel(iconLogo);
+		lblLogo.setSize(180, 110);
+		panel_4.add(lblLogo);
 
-			}
-		}); 
-        
-
+		
+		
+		
 	}
 }

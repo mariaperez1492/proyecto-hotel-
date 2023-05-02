@@ -106,17 +106,17 @@ public class VentResumen extends JFrame {
 		
 		
 		JLabel lblNewLabel_2 = new JLabel("Resumen de su reserva: Una habitación " + res.getHabitacion().getTipoHabitacion() +" en el hotel "+res.getHotel().getNombre()+" para "+ res.getHabitacion().getPersonas()+" personas por "+res.getHabitacion().getPrecio()+ "€ por día. Incluyendo las siguientes pensiones: " + res.getPension()+ " para "+ res.calcularDias()+" dias.");
-		lblNewLabel_2.setBounds(-87, 5, 1032, 57);
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		lblNewLabel_2.setBounds(10, 11, 1032, 57);
+		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		contentPane2.add(lblNewLabel_2);
 		
         JLabel lblNewLabel3 = new JLabel("Pago total: " + precioTotal);
-        lblNewLabel3.setBounds(439, 116, 120, 57);
+        lblNewLabel3.setBounds(333, 197, 344, 57);
         lblNewLabel3.setFont(new Font("Tahoma", Font.PLAIN, 16));
         contentPane2.add(lblNewLabel3);
         
         JButton atras = new JButton("Atrás");
-        atras.setBounds(500, 205, 59, 23);
+        atras.setBounds(436, 312, 91, 38);
 		contentPane2.add(atras);
 		atras.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
@@ -127,31 +127,34 @@ public class VentResumen extends JFrame {
 		});
 		
 		JButton btnPagar = new JButton("Pagar");
-		btnPagar.setBounds(335, 184, 120, 42);
+		btnPagar.setBounds(278, 312, 120, 42);
 		btnPagar.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		contentPane2.add(btnPagar);
 		
-		btnPagar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				makeReservation(res);
-			}
-		}); 
+//		btnPagar.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent e) {
+//				makeReservation(res);
+//			}
+//		}); 
+//		
+		
+		
 	}
 		
-		public boolean makeReservation (ReservaData res) {
-			WebTarget makeReservationWebTarget = webTarget.path("reserve");
-			Invocation.Builder invocationBuilder = makeReservationWebTarget.request(MediaType.APPLICATION_JSON);
-		
-			Response response = invocationBuilder.post(Entity.entity(res, MediaType.APPLICATION_JSON));
-		
-			if (response.getStatus() == Status.OK.getStatusCode()) {
-				return true;
-			} else {
-				logger.error("Error connecting with the server. Code: {}", response.getStatus());
-				return false;
-			}
-		}
-			
+//		public boolean makeReservation (ReservaData res) {
+//			WebTarget makeReservationWebTarget = webTarget.path("reserve");
+//			Invocation.Builder invocationBuilder = makeReservationWebTarget.request(MediaType.APPLICATION_JSON);
+//		
+//			Response response = invocationBuilder.post(Entity.entity(res, MediaType.APPLICATION_JSON));
+//		
+//			if (response.getStatus() == Status.OK.getStatusCode()) {
+//				return true;
+//			} else {
+//				logger.error("Error connecting with the server. Code: {}", response.getStatus());
+//				return false;
+//			}
+//		}
+//			
 		
 		
 	
