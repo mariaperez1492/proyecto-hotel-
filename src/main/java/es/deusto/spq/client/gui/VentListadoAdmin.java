@@ -130,6 +130,17 @@ public VentListadoAdmin(String hostname, String port) {
 			}
 		});
 		
+		JButton btnCerrarSesion = new JButton("Cerrar Sesion");
+		btnCerrarSesion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				VentLogin ventLogin = new VentLogin(hostname, port);
+				dispose();
+				ventLogin.setVisible(true);
+				
+			}
+		});
+		panelSur.add(btnCerrarSesion);
+		
 		this.setVisible(true);	
 	}
 
