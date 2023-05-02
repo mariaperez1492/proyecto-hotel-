@@ -4,7 +4,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
-import javax.swing.RowFilter.Entry;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -12,7 +11,6 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -27,9 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import es.deusto.spq.pojo.HotelData;
 import es.deusto.spq.pojo.ReservaData;
 
-
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -58,10 +54,12 @@ public class PanelReservas extends JPanel {
 		JTable table = new JTable();
 		DefaultTableModel model = new DefaultTableModel();
 		model.addColumn("Cliente");
-		model.addColumn("Fecha fin");
 		model.addColumn("Fecha inicio");
+		model.addColumn("Fecha fin");
 		model.addColumn("Hotel");
 		model.addColumn("Habitacion");
+		model.addColumn("Pension");
+		model.addColumn("Precio");
 		table.setModel(model);
 		
 		setLayout(new BorderLayout(0, 0));
@@ -71,6 +69,14 @@ public class PanelReservas extends JPanel {
 		
 		JPanel panelSur = new JPanel();
 		add(panelSur, BorderLayout.SOUTH);
+		
+		JButton btnSalir = new JButton("New button");
+		btnSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		panelSur.add(btnSalir);
 		
 		JPanel panelIzquierda = new JPanel();
 		add(panelIzquierda, BorderLayout.WEST);
@@ -99,37 +105,28 @@ public class PanelReservas extends JPanel {
 		}
 		panelIzquierda.add(comboBox);
 		
-		WebTarget reservaTarget = webTarget.path("getReservas");
-		Invocation.Builder invocationBuilder = reservaTarget.request(MediaType.APPLICATION_JSON);
-		
-		Response response = invocationBuilder.get();
-		ObjectMapper mapper = new ObjectMapper();
-		String json = response.readEntity(String.class);
-		System.out.println(json);
-		
 		try {
 			
-			List<ReservaData> listData = mapper.readValue(response.readEntity(String.class), new TypeReference<List<ReservaData>>(){});
-			System.out.println(listData);
-						
-			Object[] fila;
+			List<ReservaData> listData = getReservas();
+			Object[] fila ;
 			
-			for (ReservaData reserva : listData) {
-			    fila = new Object[listData.size()];
-			    
-			    fila[0] = reserva.getCliente().getDni();
-			    fila[1] = reserva.getFecha_fin();
-			    fila[2] = reserva.getFecha_ini();
-			    fila[3] = reserva.getHabitacion().getTipoHabitacion();
-			    fila[4] = reserva.getHotel().getNombre();
-			    fila[5] = reserva.getPension();
-			    fila[6] = reserva.getPrecio();
-			    
-			    model.addRow(fila);
-			 }
+			if (!listData.isEmpty()) {
+			    fila = new Object[7];
+
+			    for (ReservaData reserva : listData) {
+			        fila[0] = reserva.getCliente().getDni();
+			        fila[1] = reserva.getFecha_fin();
+			        fila[2] = reserva.getFecha_ini();
+			        fila[3] = reserva.getHotel().getNombre();
+			        fila[4] = reserva.getHabitacion().getTipoHabitacion();
+			        fila[5] = reserva.getPension();
+			        fila[6] = reserva.getPrecio();
+			        model.addRow(fila);
+			    }
+			}
 			
 		} catch (Exception e) {
-			//logger.error("Error retrieving reservas from database", e);
+			logger.error("Error retrieving reservas from database", e);
 		}
 		
 		TableRowSorter<TableModel> trsfiltro = new TableRowSorter(table.getModel());
@@ -152,7 +149,8 @@ public class PanelReservas extends JPanel {
 	}
 	
 	public List<HotelData> getHoteles() throws JsonMappingException, JsonProcessingException {
-		WebTarget hotelTarget = webTarget.path("getHoteles");
+		
+		WebTarget hotelTarget = webTarget.path("getReservas");
 		Invocation.Builder invocationBuilder = hotelTarget.request(MediaType.APPLICATION_JSON);
 				
 		Response response = invocationBuilder.get();
@@ -164,17 +162,15 @@ public class PanelReservas extends JPanel {
 
 
 	public List<ReservaData> getReservas() throws JsonMappingException, JsonProcessingException {
+		
 		WebTarget reservaTarget = webTarget.path("getReservas");
 		Invocation.Builder invocationBuilder = reservaTarget.request(MediaType.APPLICATION_JSON);
-				
+		
 		Response response = invocationBuilder.get();
 		ObjectMapper mapper = new ObjectMapper();
-		String json = response.readEntity(String.class);
-		System.out.println(json);
 		
 		List<ReservaData> listData = mapper.readValue(response.readEntity(String.class), new TypeReference<List<ReservaData>>(){});
 		return listData;
 	}
 
 }
-
