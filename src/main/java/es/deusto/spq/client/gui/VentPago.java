@@ -5,7 +5,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
+import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -86,33 +86,22 @@ public class VentPago extends JFrame {
 		breakfastBox.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		breakfastBox.setBounds(234, 426, 167, 63);
 		
-		if (breakfastBox.isSelected()) {
-			pension = pension + "desayuno, ";
-        }
+
 		
 		JCheckBox poolBox = new JCheckBox("Piscina (10€/día)");
 		poolBox.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		poolBox.setBounds(21, 361, 188, 63);
 		
-		if (poolBox.isSelected()) {
-			pension = pension + "piscina, ";
-        }
-		
+
 		JCheckBox spaBox = new JCheckBox("Spa (30€/día)");
 		spaBox.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		spaBox.setBounds(231, 361, 142, 63);
-		
-		if (spaBox.isSelected()) {
-			pension = pension + "spa, ";
-        }
+
 		
 		JCheckBox gymBox = new JCheckBox("Gimnasio (15€/día)");
 		gymBox.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		gymBox.setBounds(21, 426, 163, 63);
 		
-		if (gymBox.isSelected()) {
-			pension = pension + "gimnasio, ";
-        }
 		
         contentPane.setLayout(null);
         
@@ -224,15 +213,42 @@ public class VentPago extends JFrame {
 //				LocalDate fecha1 = fechaInicioChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 //				LocalDate fecha2 = fechaFinChooser.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 				
-//				SimpleDateFormat fecha = new SimpleDateFormat("yyyy-MM-dd");
-//				
-//				Date fecha1 = (Date) fechaInicioChooser.getDate();
-//				Date fecha2 = (Date) fechaFinChooser.getDate();
-//				String fechaIni = fecha.format(fecha1);
-//				String fechaFin = fecha.format(fecha2);
+				SimpleDateFormat fecha = new SimpleDateFormat("yyyy-MM-dd");
+				
+				
+				Date fecha1 = fechaInicioChooser.getDate();
+				logger.info(fecha1);
+				Date fecha2 =  fechaFinChooser.getDate();
+				String fechaIni = fecha.format(fecha1);
+				logger.info(fechaIni);
+				String fechaFin = fecha.format(fecha2);
 				
 	            //logger.info(personas);	
-				ReservaData res = new ReservaData(u, hot, hab, "2025-02-02", "2025-02-10", pension, 0);
+				
+				if (breakfastBox.isSelected()) {
+					logger.info("breakfast selected");
+					pension = pension + "desayuno, ";
+		        }
+				
+				if (poolBox.isSelected()) {
+					pension = pension + "piscina, ";
+		        }
+				
+
+				
+				if (spaBox.isSelected()) {
+					pension = pension + "spa, ";
+		        }
+				
+
+				if (gymBox.isSelected()) {
+					pension = pension + "gimnasio, ";
+		        }
+				
+								
+				
+				
+				ReservaData res = new ReservaData(u, hot, hab, fechaIni, fechaFin, pension, 0);
 				VentResumen vent = new VentResumen(hostname, port, res);
 	            vent.setVisible(true);
 	            dispose();
