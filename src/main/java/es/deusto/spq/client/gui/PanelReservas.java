@@ -42,6 +42,7 @@ public class PanelReservas extends JPanel {
 
 	private Client client;
 	private WebTarget webTarget;
+	private MetodosFuncionalidadVent meto;
 	
 	/**
 	 * Create the panel.
@@ -129,28 +130,25 @@ public class PanelReservas extends JPanel {
 			logger.error("Error retrieving reservas from database", e);
 		}
 		
-		TableRowSorter<TableModel> trsfiltro = new TableRowSorter(table.getModel());
-		table.setRowSorter(trsfiltro);
+		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+		table.setRowSorter(sorter);
+		
 		
 		comboBox.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				String hotelSeleccionado = comboBox.getSelectedItem().toString();
-				 TableRowSorter<TableModel> sorter = new TableRowSorter<>(table.getModel());
-			        sorter.setRowFilter(RowFilter.regexFilter(hotelSeleccionado, 4)); // 1 es el índice de la columna donde se encuentra el nombre del hotel
-			        
-			        // Aplicamos el filtro a la tabla
-			        table.setRowSorter(sorter);
+				String valorSeleccionado = comboBox.getSelectedItem().toString();
+		        RowFilter<DefaultTableModel, Object> filtro = RowFilter.regexFilter(valorSeleccionado, 3);
+		        sorter.setRowFilter(filtro);
 					
 			}
 		});
 	}
 	
 	public List<HotelData> getHoteles() throws JsonMappingException, JsonProcessingException {
-		
-		WebTarget hotelTarget = webTarget.path("getReservas");
+		WebTarget hotelTarget = webTarget.path("getHoteles");
 		Invocation.Builder invocationBuilder = hotelTarget.request(MediaType.APPLICATION_JSON);
 				
 		Response response = invocationBuilder.get();
@@ -159,8 +157,6 @@ public class PanelReservas extends JPanel {
 		List<HotelData> listData = mapper.readValue(response.readEntity(String.class), new TypeReference<List<HotelData>>(){});
 		return listData;
 	}
-
-
 	public List<ReservaData> getReservas() throws JsonMappingException, JsonProcessingException {
 		
 		WebTarget reservaTarget = webTarget.path("getReservas");
@@ -172,5 +168,8 @@ public class PanelReservas extends JPanel {
 		List<ReservaData> listData = mapper.readValue(response.readEntity(String.class), new TypeReference<List<ReservaData>>(){});
 		return listData;
 	}
+
+
+
 
 }
