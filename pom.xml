@@ -17,8 +17,9 @@
 		<jersey.version>2.35</jersey.version>
 		<server.hostname>127.0.0.1</server.hostname>
 		<server.port>8080</server.port>
+		<!-- Pruebas de integración -->
+		<doxygen.config.file>${basedir}/src/main/resources/Doxyfile</doxygen.config.file>
 	</properties>
-	
 
 	<dependencyManagement>
         <dependencies>
@@ -126,6 +127,16 @@
 		</resources>
 
 		<plugins>
+		<!-- Pruebas de integración -->
+			<plugin>
+ 				<groupId>com.soebes.maven.plugins.dmg</groupId>
+				<artifactId>doxygen-maven-plugin</artifactId>
+				<version>1.1.0</version>
+				<configuration>
+ 					<configurationFile>${doxygen.config.file}</configurationFile>
+				</configuration>
+ 			</plugin>
+ 			
 			<plugin>
 				<artifactId>maven-clean-plugin</artifactId>
 				<version>3.2.0</version>
