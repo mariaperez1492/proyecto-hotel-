@@ -17,7 +17,7 @@
 		<jersey.version>2.35</jersey.version>
 		<server.hostname>127.0.0.1</server.hostname>
 		<server.port>8080</server.port>
-		<!-- Pruebas de integración -->
+		<!-- Documentación -->
 		<doxygen.config.file>${basedir}/src/main/resources/Doxyfile</doxygen.config.file>
 	</properties>
 
@@ -83,14 +83,18 @@
             <artifactId>jersey-media-json-jackson</artifactId>
         </dependency>
         
-        
+        <dependency>
+			<groupId>org.glassfish.jersey.containers</groupId>
+			<artifactId>jersey-container-grizzly2-http</artifactId>
+		</dependency>
+		
         <dependency>
   			<groupId>com.fasterxml.jackson.core</groupId>
   			<artifactId>jackson-databind</artifactId>
  			 <version>2.13.0</version>
 		</dependency>
 		
-		 <!-- Para que funcionen las Test -->
+		 <!-- Pruebas unitarias -->
 		 <dependency>
       		<groupId>junit</groupId>
       		<artifactId>junit</artifactId>
@@ -110,6 +114,23 @@
 		    <artifactId>jcalendar</artifactId>
 		    <version>1.4</version>
 		</dependency>
+		
+		<!-- Pruebas de rendimiento -->
+		<dependency>
+ 			<groupId>com.github.noconnor</groupId>
+ 			<artifactId>junitperf</artifactId>
+ 			<version>1.22.1</version>
+		</dependency>
+		<dependency>
+ 			<groupId>org.apache.logging.log4j</groupId>
+ 			<artifactId>log4j-api</artifactId>
+ 			<version>[2.17.1, )</version>
+ 		</dependency>
+		<dependency>
+ 			<groupId>org.apache.logging.log4j</groupId>
+ 			<artifactId>log4j-core</artifactId>
+ 			<version>[2.17.1, )</version>
+		</dependency>
         
 	</dependencies>
 	
@@ -127,7 +148,8 @@
 		</resources>
 
 		<plugins>
-		<!-- Pruebas de integración -->
+		
+		<!-- Documentacion -->
 			<plugin>
  				<groupId>com.soebes.maven.plugins.dmg</groupId>
 				<artifactId>doxygen-maven-plugin</artifactId>

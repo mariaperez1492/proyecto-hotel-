@@ -41,6 +41,7 @@ import es.deusto.spq.server.jdo.Usuario;
 
 public class ResourceTest 
 {
+	
 	private Resource resource;
 	
 	@Mock
