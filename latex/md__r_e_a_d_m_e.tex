@@ -1,0 +1,38 @@
+El proyecto se trata de una aplicación de reservas para una cadena hotelera. La aplicación cuenta con un login por el que pueden acceder dos tipos de usuarios\+:
+\begin{DoxyItemize}
+\item Administrador. Existe un único administrador cuyos credenciales son\+: \begin{DoxyVerb}dni: admin
+contraseña: admin
+\end{DoxyVerb}
+
+\item Cliente. Los clientes se pueden registrar a través de la ventana de registro. Además, existe un cliente por defecto, cuyos credenciales son\+: \begin{DoxyVerb}dni: 0000000A
+contraseña: 1234567Ab*
+\end{DoxyVerb}
+ 
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md0}{}\doxysection{Ejecutar el proyecto}\label{md__r_e_a_d_m_e_autotoc_md0}
+El proyecto contiene los códigos del servidor y el cliente. Para ejecutar el proyecto siga los siguientes pasos\+:
+
+
+\begin{DoxyItemize}
+\item Paso 1\+: Ejecute el siguiente comando para compilar todo y mejorar las clases de base de datos\+: \begin{DoxyVerb}mvn clean compile
+\end{DoxyVerb}
+
+\item Paso 2\+: Asegurese de que la base de datos se haya configurado correctamente. Abra el script {\itshape HLHotelesbd.\+sql} en My\+SQL Work\+Bench y ejecutelo, para crear la base de datos y otorgar privilegios.
+\item Paso 3\+: Ejecute el siguiente comando para crear un esquema de base de datos para esta muestra. \begin{DoxyVerb}mvn datanucleus:schema-create
+\end{DoxyVerb}
+
+\item Paso 4\+: Carge los datos de muestra en la base de datos. Abra el script {\itshape ejemplos-\/hoteles.\+sql} en My\+SQL Work\+Bench y ejecutelo.
+\item Paso 5\+: Para iniciar el servidor, ejecute el siguiente comando\+: \begin{DoxyVerb}mvn jetty:run
+\end{DoxyVerb}
+
+\item Paso 6\+: Ahora, el codigo del cliente se puede ejecutar en una nueva ventana de comandos con \begin{DoxyVerb}mvn exec:java -Pclient
+\end{DoxyVerb}
+ 
+\end{DoxyItemize}\hypertarget{md__r_e_a_d_m_e_autotoc_md1}{}\doxysection{Pruebas unitarias}\label{md__r_e_a_d_m_e_autotoc_md1}
+Para ejecutar las pruebas unitarias, ejecute el siguinete comando\+: \begin{DoxyVerb}mvn test
+\end{DoxyVerb}
+ Para comprobar que los test cumplen con la mínima cobertura de nuestro código (95\%), ejecute el siguiente comando\+: \begin{DoxyVerb}mvn verify
+\end{DoxyVerb}
+ \hypertarget{md__r_e_a_d_m_e_autotoc_md2}{}\doxysection{Documentación}\label{md__r_e_a_d_m_e_autotoc_md2}
+Para generar la documentación medinate Doxygen, ejecute el siguinete comando \begin{DoxyVerb}mvn doxygen:report
+\end{DoxyVerb}
+ 
