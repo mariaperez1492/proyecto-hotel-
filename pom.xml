@@ -19,6 +19,7 @@
 		<server.port>8080</server.port>
 		<!-- Documentación -->
 		<doxygen.config.file>${basedir}/src/main/resources/Doxyfile</doxygen.config.file>
+
 	</properties>
 
 	<dependencyManagement>
