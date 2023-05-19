@@ -173,7 +173,7 @@ public class VentHabitacion extends JFrame{
 		 */
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(117, 270, 651, 273);
+		panel.setBounds(89, 131, 693, 437);
 		panelLista.add(panel);
 
 		ImageIcon imagenOriginal = new ImageIcon("src/main/img/Barcelona.jpeg");
@@ -260,17 +260,33 @@ public class VentHabitacion extends JFrame{
 		        logger.info(valorSeleccionado);
 		        // String tipoHabitacionSeleccionado = model.getValueAt(table.getSelectedRow(), 1).toString();
 
-		        // Obtener el nombre de la imagen correspondiente
+		     // Obtener el nombre de la imagen correspondiente
 		        String nombreImagen = imagenesHabitaciones.get(valorSeleccionado);
 		        logger.info(nombreImagen);
-		        // Crear un JLabel con la imagen
-				panel.setBounds(117, 270, 651, 273);
-		        ImageIcon imagen2 = new ImageIcon("src/main/img/"+nombreImagen);
-		        Image imagenEscalada2 = imagen2.getImage().getScaledInstance(300, 300, Image.SCALE_AREA_AVERAGING);
-		        JLabel labelImagen = new JLabel(imagen2);
-		        labelImagen.setIcon(imagen2);
+
+		        panel.removeAll();
+
+		        ImageIcon imagen2 = new ImageIcon("src/main/img/" + nombreImagen);
+		        Image imagenOriginal2 = imagen2.getImage();
+		        int anchoOriginal = imagenOriginal2.getWidth(null);
+		        int altoOriginal = imagenOriginal2.getHeight(null);
+
+		        int anchoPanel = panel.getWidth();
+		        int altoPanel = panel.getHeight();
+
+		        int nuevoAncho = Math.min(anchoOriginal, anchoPanel);
+		        int nuevoAlto = Math.min(altoOriginal, altoPanel);
+
+		        Image imagenEscalada2 = imagenOriginal2.getScaledInstance(nuevoAncho, nuevoAlto, Image.SCALE_SMOOTH);
+		        ImageIcon imagenNueva2 = new ImageIcon(imagenEscalada2);
+
+		        JLabel labelImagen = new JLabel(imagenNueva2);
 		        labelImagen.setHorizontalAlignment(JLabel.CENTER);
-		        labelImagen.setPreferredSize(new Dimension(800, 400));
+
+		        panel.add(labelImagen);
+		        panel.revalidate();
+		        panel.repaint();
+
 
 
 		        // Agregar el JLabel al JPanel
