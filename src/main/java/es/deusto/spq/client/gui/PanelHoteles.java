@@ -2,6 +2,7 @@ package es.deusto.spq.client.gui;
 
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -32,7 +33,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
+import java.awt.GridLayout;
+import javax.swing.JButton;
 
 
 public class PanelHoteles extends JPanel {
@@ -81,7 +85,14 @@ public class PanelHoteles extends JPanel {
 		comboBox.addItem("Madrid");
 		comboBox.addItem("Málaga");
 		comboBox.addItem("Valencia");
+		panelIzquierda.setLayout(new GridLayout(8, 1, 0, 0));
 		panelIzquierda.add(comboBox);
+		
+		JLabel lblEliminar = new JLabel("Pulsa Alt + Click para eliminar un hotel:   ");
+		panelIzquierda.add(lblEliminar);
+		
+		JButton btnAniadir = new JButton("Añadir hotel");
+		panelIzquierda.add(btnAniadir);
 		
 		try {
 //			List<HotelData> listData = mapper.readValue(response.readEntity(String.class), new TypeReference<List<HotelData>>(){});
@@ -100,6 +111,45 @@ public class PanelHoteles extends JPanel {
 		} catch (Exception e) {
 		
 		}
+		
+		tabla.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				if(e.isAltDown()) {
+					DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+					
+					int[] selectedRows = tabla.getSelectedRows();
+					
+					for (int i = selectedRows.length - 1; i >= 0; i--) {
+					    modelo.removeRow(selectedRows[i]);
+					}
+					
+					modelo.fireTableDataChanged();
+				}
+				
+				
+			}
+		});
+			
+			
+
+		btnAniadir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				String hotel = JOptionPane.showInputDialog("Ingrese el nombre del hotel");
+				String ciudad = JOptionPane.showInputDialog("Ingrese la ciudad donde se encuentra el hotel");
+				int habitacionesDisponibles = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el valor de las habitaciones disponibles"));
+
+				Object[] rowData = {hotel, ciudad, habitacionesDisponibles};
+				modelo.addRow(rowData);
+				modelo.fireTableDataChanged();
+
+			}
+		});
+
+
 
 
 		
