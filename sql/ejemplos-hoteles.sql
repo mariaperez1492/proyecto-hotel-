@@ -2,7 +2,8 @@ USE hlhotelesdb;
 
 INSERT INTO hotel (id, nombre, ciudad, habitaciones_disp)
 VALUES 
-(1, 'Hotel Miramar', 'Barcelona', 100),
+(1, 'Hotmvn test
+el Miramar', 'Barcelona', 100),
 (2, 'Hotel Ritz', 'Madrid', 50),
 (3, 'Hotel Marbella', 'Málaga', 75),
 (4, 'Hotel Valencia', 'Valencia', 80),
