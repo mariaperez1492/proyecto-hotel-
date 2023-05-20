@@ -4,7 +4,7 @@ Proyecto Hotel
 El proyecto se trata de una aplicación de reservas para una cadena hotelera. La aplicación cuenta con un login por el que pueden acceder dos tipos de usuarios:
 - Administrador. Existe un único administrador cuyos credenciales son:
 
-      dni: admin
+      dni: 0000
       contraseña: admin
       
 - Cliente. Los clientes se pueden registrar a través de la ventana de registro. Además, existe un cliente por defecto, cuyos credenciales son:

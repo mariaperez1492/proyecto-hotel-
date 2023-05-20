@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
+import javax.swing.RowFilter.Entry;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -146,6 +147,10 @@ public class PanelReservas extends JPanel {
 				String valorSeleccionado = comboBox.getSelectedItem().toString();
 		        RowFilter<DefaultTableModel, Object> filtro = RowFilter.regexFilter(valorSeleccionado, 3);
 		        sorter.setRowFilter(filtro);
+		        if(valorSeleccionado == "Seleccione un hotel") {
+		        	TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+		    		table.setRowSorter(sorter);
+		        }
 					
 			}
 		});
@@ -189,12 +194,14 @@ public class PanelReservas extends JPanel {
 				String pension = JOptionPane.showInputDialog("Ingrese la pensión");
 				float precio = Float.parseFloat(JOptionPane.showInputDialog("Ingrese el precio de la reserva"));
 				
-				Object[] rowData = {cliente, fecha_ini, fecha_fin, hotel, habitacion, pension, precio};
+				Object[] rowData = {cliente, fecha_ini, fecha_fin, hotel, selectedOption, pension, precio};
 				model.addRow(rowData);
 				model.fireTableDataChanged();
 
 			}
 		});
+		
+		
 	}
 	
 	public List<HotelData> getHoteles() throws JsonMappingException, JsonProcessingException {
