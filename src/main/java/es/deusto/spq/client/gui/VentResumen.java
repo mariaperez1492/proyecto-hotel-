@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.ws.rs.client.Client;
@@ -53,7 +54,6 @@ public class VentResumen extends JFrame {
 	protected static final Logger logger = LogManager.getLogger();
 
 	public VentResumen(String hostname, String port, ReservaData res) {
-		
 		client = ClientBuilder.newClient();
 		webTarget = client.target(String.format("http://%s:%s/rest/resource", hostname, port));
 		
@@ -131,12 +131,21 @@ public class VentResumen extends JFrame {
 		btnPagar.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		contentPane2.add(btnPagar);
 		
-//		btnPagar.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent e) {
-//				makeReservation(res);
-//			}
-//		}); 
-//		
+		btnPagar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				WebTarget registerUserWebTarget = webTarget.path("reserve");
+				Invocation.Builder invocationBuilder = registerUserWebTarget.request(MediaType.APPLICATION_JSON);
+				
+				Response response = invocationBuilder.post(Entity.entity(res, MediaType.APPLICATION_JSON));
+			
+				if (response.getStatus() == Status.OK.getStatusCode()) {
+					JOptionPane.showMessageDialog(null, "Reserva Exitosa");
+				} else {
+					JOptionPane.showMessageDialog(null, "Error");
+				}
+			}
+		}); 
+		
 		
 		
 	}

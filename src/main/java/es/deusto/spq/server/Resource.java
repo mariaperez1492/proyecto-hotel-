@@ -264,23 +264,19 @@ public class Resource {
     public Response makeReservation(ReservaData reservaData) {
         try {
             tx.begin();
-
-            Usuario usuario = new Usuario(reservaData.getCliente().getDni(), reservaData.getCliente().getNombre(),
-                    reservaData.getCliente().getContrasenya(), reservaData.getCliente().getTipoUsuario());
-
-            Hotel hotel = new Hotel(reservaData.getHotel().getNombre(), reservaData.getHotel().getCiudad(),
-                    reservaData.getHotel().getHabitaciones_disp());
-
-            Habitacion habitacion = new Habitacion(reservaData.getHabitacion().getTipoHabitacion(),
-                    reservaData.getHabitacion().getPersonas(), reservaData.getHabitacion().getPrecio());
-
+            Usuario usuario = pm.getObjectById(Usuario.class, reservaData.getCliente().getDni());
+            Hotel hotel = pm.getObjectById(Hotel.class, 1);
+            Habitacion habitacion = pm.getObjectById(Habitacion.class, 1);
+        
             Reserva reserva = new Reserva(usuario, reservaData.getFecha_ini(), reservaData.getFecha_fin(), hotel,
                     habitacion, reservaData.getPension(), reservaData.getPrecio());
 
             pm.makePersistent(reserva);
             tx.commit();
             return Response.status(Response.Status.OK).build();
+
         } catch (Exception e) {
+        	 logger.error("Error making the reservation:", e);
             return Response.status(Response.Status.UNAUTHORIZED).build();
         } finally {
             if (tx.isActive()) {

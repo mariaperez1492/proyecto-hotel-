@@ -143,6 +143,7 @@ public class VentHabitacion extends JFrame{
 		JTable table = new JTable();
 		DefaultTableModel model = new DefaultTableModel();
 		
+		table.setDefaultEditor(Object.class, null);
 	
 		model.addColumn("Tipo de Habitacion");
 		model.addColumn("Capacidad");
@@ -211,6 +212,7 @@ public class VentHabitacion extends JFrame{
 		            int row = target.getSelectedRow();
 		            
 		            tipo = (EnumTipoHabitacion) target.getValueAt(row, 0);
+		           
 		            personas = (int) target.getValueAt(row, 1);
 		            precio = (float) target.getValueAt(row, 2);
 
