@@ -154,6 +154,7 @@ public class VentListado extends JFrame{
 		            int habitaciones = (int) target.getValueAt(row, 2);
 
 		            HotelData hot = new HotelData(hotel, ciudad, habitaciones);
+		            hot.setId(row + 1);
 		            
 		            VentHabitacion vent = new VentHabitacion(hostname, port, u, hot);
 		            vent.setVisible(true);

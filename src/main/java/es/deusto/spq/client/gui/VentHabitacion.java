@@ -217,6 +217,7 @@ public class VentHabitacion extends JFrame{
 		            precio = (float) target.getValueAt(row, 2);
 
 		            hab = new HabitacionData(tipo, personas, precio);
+		            hab.setId(row+1);
 		            
 //		            VentPago vent = new VentPago(hostname, port);
 //		            vent.setVisible(true);

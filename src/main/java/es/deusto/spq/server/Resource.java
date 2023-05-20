@@ -265,8 +265,8 @@ public class Resource {
         try {
             tx.begin();
             Usuario usuario = pm.getObjectById(Usuario.class, reservaData.getCliente().getDni());
-            Hotel hotel = pm.getObjectById(Hotel.class, 1);
-            Habitacion habitacion = pm.getObjectById(Habitacion.class, 1);
+            Hotel hotel = pm.getObjectById(Hotel.class, reservaData.getHotel().getId());
+            Habitacion habitacion = pm.getObjectById(Habitacion.class, reservaData.getHabitacion().getId());
         
             Reserva reserva = new Reserva(usuario, reservaData.getFecha_ini(), reservaData.getFecha_fin(), hotel,
                     habitacion, reservaData.getPension(), reservaData.getPrecio());

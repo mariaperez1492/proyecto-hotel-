@@ -231,15 +231,8 @@ public class ResourceTest
         @SuppressWarnings("unchecked")List<ReservaData> reservaDataList = (List<ReservaData>) response.getEntity();
         
         assertEquals(reservaDataList.size(), reservas.size());
-        
-//        assertEquals(reservaDataList.get(0).getCliente(), reserva1.getCliente());
-//        assertEquals(reservaDataList.get(0).getHotel(), reserva1.getHotel());
-//        assertEquals(reservaDataList.get(0).getHabitacion(), reserva1.getHabitacion());
         assertEquals(reservaDataList.get(0).getFecha_ini(), reserva1.getFecha_ini());
         assertEquals(reservaDataList.get(0).getFecha_fin(), reserva1.getFecha_fin());
-//        assertEquals(reservaDataList.get(1).getCliente(), reserva2.getCliente());
-//        assertEquals(reservaDataList.get(1).getHotel(), reserva2.getHotel());
-//        assertEquals(reservaDataList.get(1).getHabitacion(), reserva2.getHabitacion());
         assertEquals(reservaDataList.get(1).getFecha_ini(), reserva2.getFecha_ini());
         assertEquals(reservaDataList.get(1).getFecha_fin(), reserva2.getFecha_fin());
 	}
@@ -247,14 +240,26 @@ public class ResourceTest
 	@Test
 	public void makeReservationTest() throws Exception {
 		UsuarioData usuarioData = new UsuarioData();
+		usuarioData.setDni("dni");
 		HotelData hotelData = new HotelData();
+		hotelData.setId(1);
 		HabitacionData habitacionData = new HabitacionData();
+		habitacionData.setId(1);
 		String fecha_ini = "2023-01-05";
 		String fecha_fin = "2023-01-20";
 		
 		ReservaData reservaData = new ReservaData(usuarioData, hotelData, habitacionData, 
 				fecha_ini, fecha_fin, null, 0);
 		
+		Usuario usuario = spy(Usuario.class);
+		when(persistenceManager.getObjectById(Usuario.class, reservaData.getCliente().getDni())).thenReturn(usuario);
+		
+		Hotel hotel= spy(Hotel.class);
+		when(persistenceManager.getObjectById(Hotel.class, reservaData.getHotel().getId())).thenReturn(hotel);
+		
+		Habitacion habitacion = spy(Habitacion.class);
+		when(persistenceManager.getObjectById(Habitacion.class, reservaData.getHabitacion().getId())).thenReturn(habitacion);
+	  
 		Response response = resource.makeReservation(reservaData);
 		
 		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
