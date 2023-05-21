@@ -228,7 +228,6 @@ public class Resource {
     @Path("/getHabitaciones")
     public Response getHabitaciones() {
         List<HabitacionData> list = new ArrayList<>();
-
         try {
             tx.begin();
             Query<Habitacion> query = pm.newQuery(Habitacion.class);

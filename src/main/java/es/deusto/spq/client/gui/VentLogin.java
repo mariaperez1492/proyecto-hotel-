@@ -116,8 +116,8 @@ public class VentLogin extends JFrame {
 				
 				if(loginUser(txtDni.getText(), txtConstrasenya.getText())== 1) {
 					UsuarioData u = new UsuarioData(txtDni.getText(), txtConstrasenya.getText());
-					VentListado ventListado = new VentListado(hostname, port, u);
-					ventListado.setVisible(true);
+					VentEleccion ventEleccion = new VentEleccion(hostname, port, u);
+					ventEleccion.setVisible(true);
 					dispose();
 				} else if(loginUser(txtDni.getText(), txtConstrasenya.getText())== 2) {
 					VentListadoAdmin ventAdmin = new VentListadoAdmin(hostname, port);
