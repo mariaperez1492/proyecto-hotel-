@@ -8,4 +8,7 @@ public interface PerformanceTest {
     
 	public void testgetHotelesPerf();
     
+	public void testgetReservasPerf();
+	
+	public void testgetHabitacionesPerf();
 }

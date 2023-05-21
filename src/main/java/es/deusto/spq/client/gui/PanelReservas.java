@@ -48,7 +48,6 @@ public class PanelReservas extends JPanel {
 
 	private Client client;
 	private WebTarget webTarget;
-	private MetodosFuncionalidadVent meto;
 	
 	/**
 	 * Create the panel.

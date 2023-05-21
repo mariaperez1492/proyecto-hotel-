@@ -20,6 +20,7 @@ import javax.ws.rs.core.Response;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.glassfish.grizzly.streams.AbstractStreamWriter.DisposeBufferCompletionHandler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -132,7 +133,7 @@ public class PanelHoteles extends JPanel {
 				
 			}
 		});
-			
+		
 			
 
 		btnAniadir.addActionListener(new ActionListener() {
@@ -215,6 +216,33 @@ public class PanelHoteles extends JPanel {
 				tabla.setRowSorter(trsfiltro);
 			}
 		}
+	});
+	
+	/* Al seleccionar una fila de la tabla */
+	
+	tabla.addMouseListener(new MouseAdapter() {
+		
+	    public void mouseClicked(MouseEvent e) {
+	    	
+	        if (e.getClickCount() == 1) {
+	        	
+	            JTable target = (JTable) e.getSource();
+	            int row = target.getSelectedRow();
+	            
+	            String hotel = (String) target.getValueAt(row, 0);
+	            String ciudad = (String) target.getValueAt(row, 1);
+	            int habitaciones = (int) target.getValueAt(row, 2);
+
+	            HotelData hot = new HotelData(hotel, ciudad, habitaciones);
+	            hot.setId(row + 1);
+	            
+	            VentInfoAdmin vent = new VentInfoAdmin(hostname, port, hot);
+	            vent.setVisible(true);
+	            
+	            
+	            
+	        }
+	    }
 	});
 }	
 		

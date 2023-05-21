@@ -7,5 +7,9 @@ public interface IntegrationTest {
 	public void testRegisterUserInt() ;
 	
 	public void testgetHotelesInt() ;
+	
+	public void testgetReservasInt() ;
+	
+	public void testgetHabitacionesInt() ;
     
 }
