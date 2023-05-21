@@ -10,6 +10,8 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
@@ -27,10 +29,12 @@ import org.apache.logging.log4j.Logger;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import es.deusto.spq.pojo.EnumTipoHabitacion;
 import es.deusto.spq.pojo.HotelData;
+import es.deusto.spq.pojo.ReservaData;
 import es.deusto.spq.pojo.UsuarioData;
 
-import javax.swing.JPanel;
+import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
@@ -57,180 +61,99 @@ public class VentHistorial extends JFrame{
 		client = ClientBuilder.newClient();
 		webTarget = client.target(String.format("http://%s:%s/rest/resource", hostname, port));
 		
-		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		this.setSize(1000, 650);
-		
-		JPanel panelSup = new JPanel();
-		getContentPane().add(panelSup, BorderLayout.NORTH);
-		
-		Image imgLogo = new ImageIcon("src/main/img/logo.png").getImage();
-		ImageIcon iconLogo = new ImageIcon(imgLogo.getScaledInstance(180, 110, Image.SCALE_SMOOTH));
-		JLabel lblLogo = new JLabel(iconLogo);
-		lblLogo.setSize(180, 110);
-		panelSup.add(lblLogo);
-		
-		JPanel panelFiltros = new JPanel(new GridLayout(19, 1)); 
-		getContentPane().add(panelFiltros, BorderLayout.WEST);
-		
-		JLabel lblNewLabel_1 = new JLabel("Elija la ciudad: ");
-		panelFiltros.add(lblNewLabel_1);
-		
-		JComboBox<String> comboBox = new JComboBox<>();
-		comboBox.addItem("Seleccione una ciudad");
-		comboBox.addItem("Barcelona");
-		comboBox.addItem("San Sebastián");
-		comboBox.addItem("Madrid");
-		comboBox.addItem("Málaga");
-		comboBox.addItem("Valencia");
-		panelFiltros.add(comboBox);
-		
-		JPanel panelLista = new JPanel();
-		getContentPane().add(panelLista, BorderLayout.CENTER);
-		
-		JPanel panelSur = new JPanel();
-		getContentPane().add(panelSur, BorderLayout.SOUTH);
-		
-		JButton btnCerrarSesion = new JButton("Cerrar Sesion");
-		btnCerrarSesion.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				VentLogin ventLogin = new VentLogin(hostname, port);
-				ventLogin.setVisible(true);
-				dispose();
-			}
-		});
-		panelSur.add(btnCerrarSesion);
-		
-		/**
-		 * TABLA
-		 */
-		
 		JTable table = new JTable();
 		DefaultTableModel model = new DefaultTableModel();
-		
-		table.setDefaultEditor(Object.class, null);
-		
+		model.addColumn("Cliente");
+		model.addColumn("Fecha inicio");
+		model.addColumn("Fecha fin");
 		model.addColumn("Hotel");
-		model.addColumn("Ciudad");
-		model.addColumn("Habitaciones Disponibles");
+		model.addColumn("Habitacion");
+		model.addColumn("Pension");
+		model.addColumn("Precio");
 		table.setModel(model);
 		
-//		WebTarget hotelTarget = webTarget.path("getHoteles");
-//		Invocation.Builder invocationBuilder = hotelTarget.request(MediaType.APPLICATION_JSON);
-//				
-//		Response response = invocationBuilder.get();
-//		ObjectMapper mapper = new ObjectMapper();
+		setLayout(new BorderLayout(0, 0));
 		
+		JPanel panelNorte = new JPanel();
+		add(panelNorte, BorderLayout.NORTH);
+		
+		JPanel panelSur = new JPanel();
+		add(panelSur, BorderLayout.SOUTH);
+		
+		JPanel panelIzquierda = new JPanel();
+		add(panelIzquierda, BorderLayout.WEST);
+		
+		JPanel panelDerecha = new JPanel();
+		add(panelDerecha, BorderLayout.EAST);
+				
+		JScrollPane scrollPane = new JScrollPane(table);
+		add(scrollPane, BorderLayout.CENTER);
+		panelIzquierda.setLayout(new GridLayout(9, 1, 0, 0));
+		
+		JLabel lblNewLabel_1 = new JLabel("Elija la ciudad: ");
+		panelIzquierda.add(lblNewLabel_1);
+		JComboBox<String> comboBox = new JComboBox<>();
+		comboBox.addItem("Seleccione un hotel");
 		try {
 //			List<HotelData> listData = mapper.readValue(response.readEntity(String.class), new TypeReference<List<HotelData>>(){});
 			List<HotelData> listData = getHoteles();
 			
-			Object[] fila;
 			for (HotelData hotel : listData) {
-			    fila = new Object[listData.size()];
-			    fila[0] = hotel.getNombre();
-			    fila[1] = hotel.getCiudad();
-			    fila[2] = hotel.getHabitaciones_disp();
-			    
-			    model.addRow(fila);
+
+			    comboBox.addItem(hotel.getNombre());
 			    }
 			
 		} catch (Exception e) {
 		
 		}
+		panelIzquierda.add(comboBox);
 		
-		/* Al seleccionar una fila de la tabla */
 		
-		table.addMouseListener(new MouseAdapter() {
+		try {
 			
-		    public void mouseClicked(MouseEvent e) {
-		    	
-		        if (e.getClickCount() == 1) {
-		        	
-		            JTable target = (JTable) e.getSource();
-		            int row = target.getSelectedRow();
-		            
-		            String hotel = (String) target.getValueAt(row, 0);
-		            String ciudad = (String) target.getValueAt(row, 1);
-		            int habitaciones = (int) target.getValueAt(row, 2);
+			List<ReservaData> listData = getReservas(u.getDni());
+			Object[] fila ;
+			
+			if (!listData.isEmpty()) {
+			    fila = new Object[7];
 
-		            HotelData hot = new HotelData(hotel, ciudad, habitaciones);
-		            hot.setId(row + 1);
-		            
-		            VentHabitacion vent = new VentHabitacion(hostname, port, u, hot);
-		            vent.setVisible(true);
-		            dispose(); 
-		        }
-		    }
-		});
-
-		JScrollPane scrollPane = new JScrollPane(table);
-		panelLista.add(scrollPane);
+			    for (ReservaData reserva : listData) {
+			        fila[0] = reserva.getCliente().getDni();
+			        fila[1] = reserva.getFecha_fin();
+			        fila[2] = reserva.getFecha_ini();
+			        fila[3] = reserva.getHotel().getNombre();
+			        fila[4] = reserva.getHabitacion().getTipoHabitacion();
+			        fila[5] = reserva.getPension();
+			        fila[6] = reserva.getPrecio();
+			        model.addRow(fila);
+			    }
+			}
+			
+		} catch (Exception e) {
+			logger.error("Error retrieving reservas from database", e);
+		}
 		
-		/**
-		 * FILTROS
-		 */
+		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+		table.setRowSorter(sorter);
 		
-		
-		TableRowSorter<TableModel> trsfiltro = new TableRowSorter(table.getModel());
-		table.setRowSorter(trsfiltro);
 		
 		comboBox.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+				// TODO Auto-generated method stub
 				String valorSeleccionado = comboBox.getSelectedItem().toString();
-				if(valorSeleccionado == "Madrid") {
-					RowFilter<Object, Object> rf = new RowFilter<Object, Object>() {
-	                    public boolean include(Entry<?, ?> entry) {
-	                        Object value = entry.getValue(1);
-	                        return value.equals(valorSeleccionado);
-	                    }
-	                };
-	                ((TableRowSorter) table.getRowSorter()).setRowFilter(rf);
+		        RowFilter<DefaultTableModel, Object> filtro = RowFilter.regexFilter(valorSeleccionado, 3);
+		        sorter.setRowFilter(filtro);
+		        if(valorSeleccionado == "Seleccione un hotel") {
+		        	TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
+		    		table.setRowSorter(sorter);
+		        }
 					
-				}else if (valorSeleccionado == "San Sebastián") {
-					RowFilter<Object, Object> rf = new RowFilter<Object, Object>() {
-	                    public boolean include(Entry<?, ?> entry) {
-	                        Object value = entry.getValue(1);
-	                        return value.equals(valorSeleccionado);
-	                    }
-	                };
-	                ((TableRowSorter) table.getRowSorter()).setRowFilter(rf);
-				}else if (valorSeleccionado == "Barcelona") {
-					RowFilter<Object, Object> rf = new RowFilter<Object, Object>() {
-	                    public boolean include(Entry<?, ?> entry) {
-	                        Object value = entry.getValue(1);
-	                        return value.equals(valorSeleccionado);
-	                    }
-	                };
-	                ((TableRowSorter) table.getRowSorter()).setRowFilter(rf);
-				}else if (valorSeleccionado == "Valencia") {
-					RowFilter<Object, Object> rf = new RowFilter<Object, Object>() {
-	                    public boolean include(Entry<?, ?> entry) {
-	                        Object value = entry.getValue(1);
-	                        return value.equals(valorSeleccionado);
-	                    }
-	                };
-	                ((TableRowSorter) table.getRowSorter()).setRowFilter(rf);
-					
-				}else if (valorSeleccionado == "Málaga") {
-					RowFilter<Object, Object> rf = new RowFilter<Object, Object>() {
-	                    public boolean include(Entry<?, ?> entry) {
-	                        Object value = entry.getValue(1);
-	                        return value.equals(valorSeleccionado);
-	                    }
-	                };
-	                ((TableRowSorter) table.getRowSorter()).setRowFilter(rf);
-					
-				}else {
-					TableRowSorter<TableModel> trsfiltro = new TableRowSorter(table.getModel());
-					table.setRowSorter(trsfiltro);
-				}
 			}
 		});
-	}	
-	
+		
+	}
 	public List<HotelData> getHoteles() throws JsonMappingException, JsonProcessingException {
 		WebTarget hotelTarget = webTarget.path("getHoteles");
 		Invocation.Builder invocationBuilder = hotelTarget.request(MediaType.APPLICATION_JSON);
@@ -241,4 +164,19 @@ public class VentHistorial extends JFrame{
 		List<HotelData> listData = mapper.readValue(response.readEntity(String.class), new TypeReference<List<HotelData>>(){});
 		return listData;
 	}
+
+
+	 public List<ReservaData> getReservas(String userId) throws JsonMappingException, JsonProcessingException {
+	        WebTarget reservaTarget = webTarget.path("getReservas/" + userId);
+	        Invocation.Builder invocationBuilder = reservaTarget.request(MediaType.APPLICATION_JSON);
+
+	        Response response = invocationBuilder.get();
+	        ObjectMapper mapper = new ObjectMapper();
+
+	        List<ReservaData> listData = mapper.readValue(response.readEntity(String.class), new TypeReference<List<ReservaData>>(){});
+	        return listData;
+	    }
+
+
+
 }

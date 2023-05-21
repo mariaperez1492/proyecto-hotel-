@@ -130,7 +130,7 @@ public class VentResumen extends JFrame {
 		btnPagar.setBounds(278, 312, 120, 42);
 		btnPagar.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		contentPane2.add(btnPagar);
-		
+		res.setPrecio(precioTotal);
 		btnPagar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				WebTarget registerUserWebTarget = webTarget.path("reserve");
