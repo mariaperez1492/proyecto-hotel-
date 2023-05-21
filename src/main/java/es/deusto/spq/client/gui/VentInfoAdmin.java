@@ -51,9 +51,6 @@ public class VentInfoAdmin extends JFrame{
 	private JButton btnAtras;
 	private WebTarget webTarget;
 	private static JTextField txtBuscar;
-	private static JTextField txtFechaInicio;
-	private static JTextField txtFechaFin;
-	private static JList list;
 	public static DefaultListModel<ReservaData> dlm;
 	public static DefaultListModel<ReservaData> dlmReservasFechaFin;
 	protected static final Logger logger = LogManager.getLogger();
@@ -67,6 +64,8 @@ public class VentInfoAdmin extends JFrame{
 		this.setSize(1000, 650);
 		JButton btnBuscar = new JButton("Buscar");
 		btnBuscar.setFocusPainted(false);
+		
+		
 		JPanel panelSup = new JPanel();
 		getContentPane().add(panelSup, BorderLayout.NORTH);
 
@@ -84,10 +83,12 @@ public class VentInfoAdmin extends JFrame{
 		panelFiltros.add(lblNewLabel_1);
 		
 		
+		
 		txtBuscar= new JTextField();
 		txtBuscar = Utils.modifyTextField(txtBuscar, "dd/mm/aaaa");
 		panelFiltros.add(txtBuscar, BorderLayout.CENTER);
 		txtBuscar.setColumns(10);
+		panelFiltros.add(btnBuscar);
 		
 		/**
 		 * TABLA
@@ -98,14 +99,44 @@ public class VentInfoAdmin extends JFrame{
 		JPanel panelSur = new JPanel();
 		getContentPane().add(panelSur, BorderLayout.SOUTH);
 		
+		JPanel panelCentro = new JPanel();
+		getContentPane().add(panelCentro, BorderLayout.CENTER);
+		panelCentro.setLayout(new GridLayout(0, 2, 0, 0));
 		
-		btnAtras.addActionListener(new ActionListener() {
-		    public void actionPerformed(ActionEvent e) {
-		        dispose(); 
-		        PanelHoteles v = new PanelHoteles(hostname, port);
-		        v.setVisible(true);  // muestra la ventana VentLogin
-		    }
-		});
+		JLabel lblNomHotel = new JLabel("Nombre del hotel: ");
+		panelCentro.add(lblNomHotel);
+		
+		JLabel lblApareceNombre = new JLabel("");
+		panelCentro.add(lblApareceNombre);
+		
+		JLabel lblIngresos = new JLabel("Ingresos generados");
+		panelCentro.add(lblIngresos);
+		
+		JLabel lblNumIngresos = new JLabel("");
+		panelCentro.add(lblNumIngresos);
+		
+		JLabel lblHabOcupadas = new JLabel("Habitaciones ocupadas");
+		panelCentro.add(lblHabOcupadas);
+		
+		JLabel lblNumHabOcupadas = new JLabel("");
+		panelCentro.add(lblNumHabOcupadas);
+		
+		JLabel lblPorcen = new JLabel("Porcentaje de ocupación");
+		panelCentro.add(lblPorcen);
+		
+		JLabel lblAparecePorcen = new JLabel("");
+		panelCentro.add(lblAparecePorcen);
+		
+		
+		
+		
+//		btnAtras.addActionListener(new ActionListener() {
+//		    public void actionPerformed(ActionEvent e) {
+////		        dispose(); 
+////		        PanelHoteles v = new PanelHoteles(hostname, port);
+////		        v.setVisible(true);  // muestra la ventana VentLogin
+//		    }
+//		});
 		
 		btnBuscar.addActionListener(new ActionListener() {
 			
@@ -113,6 +144,16 @@ public class VentInfoAdmin extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				
 				// TODO Auto-generated method stub
+				lblApareceNombre.setText(hotel.getNombre());
+				float ingresos = calcularIngresos(txtBuscar.getText(), hotel.getId());
+				lblNumIngresos.setText(String.valueOf(ingresos));
+				
+				int ocupacion = calcularOcupacion(txtBuscar.getText(), hotel.getId());
+				lblNumHabOcupadas.setText(String.valueOf(ocupacion));
+				
+				float porcentaje = porcentajeOcupacion(txtBuscar.getText(), hotel.getId());
+				lblAparecePorcen.setText(String.valueOf(porcentaje));
+				
 			}
 		});
 		
@@ -144,15 +185,15 @@ public List<ReservaData> getReservas(int id) throws JsonMappingException, JsonPr
 	}
 
 
-	public List<ReservaData> obtenerReservas(String fecha, int ID) throws Exception {
+	public List<ReservaData> obtenerReservas(String fecha, int id) throws Exception {
 
 		
-		List<ReservaData> listData = getReservas(ID);
+		List<ReservaData> listData = getReservas(id);
 		List<ReservaData> reservasFecha = new ArrayList<>();
 		Date da1 = new SimpleDateFormat("dd/MM/yyyy").parse(fecha);
 		for (ReservaData reserva: listData) {
-			Date dateFechaI = new SimpleDateFormat("dd/MM/yyyy").parse(reserva.getFecha_ini());
-			Date dateFechaF = new SimpleDateFormat("dd/MM/yyyy").parse(reserva.getFecha_fin());
+			Date dateFechaI = new SimpleDateFormat("yyyy-MM-dd").parse(reserva.getFecha_ini());
+			Date dateFechaF = new SimpleDateFormat("yyyy-MM-dd").parse(reserva.getFecha_fin());
 			if((da1.equals(dateFechaI) || da1.after(dateFechaI)) && da1.before(dateFechaF)) {
 				reservasFecha.add(reserva);
 			}
@@ -160,8 +201,66 @@ public List<ReservaData> getReservas(int id) throws JsonMappingException, JsonPr
 		return reservasFecha;
 	}
 	
+	public float calcularIngresos(String fecha, int id) {
+		
+		float suma = 0;
+		
+		try {
+			List<ReservaData> lista = obtenerReservas(fecha, id);
+			
+			for(ReservaData r:lista) {
+				suma = suma + r.getPrecio();
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return suma;
+	}
+	
+	public int calcularOcupacion(String fecha, int id) {
+		int ocupacion = 0;
+		
+		
+		try {
+			List<ReservaData> lista = obtenerReservas(fecha, id);
+			
+			ocupacion = lista.size();
+			
+			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return ocupacion;
+	}
 	
 	
+	public float porcentajeOcupacion(String fecha, int id) {
+		
+		float porcentaje = 0;
+		
+		int ocupacion = calcularOcupacion(fecha, id);
+		
+		try {
+			List<ReservaData> lista = obtenerReservas(fecha, id);
+			
+			for(ReservaData r:lista) {
+				porcentaje = ocupacion / r.getHotel().getHabitaciones_disp();
+			}
+			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return porcentaje;
+	}
 	
 
 
