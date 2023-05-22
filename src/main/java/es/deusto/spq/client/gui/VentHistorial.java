@@ -106,18 +106,21 @@ public class VentHistorial extends JFrame{
 		} catch (Exception e) {
 		
 		}
+		JLabel lblEliminar = new JLabel("Pulsa Alt + Click para eliminar una reserva:  ");
+		panelIzquierda.add(lblEliminar);
 		panelIzquierda.add(comboBox);
 		
 		
 		try {
 			
-			List<ReservaData> listData = getReservas(u.getDni());
+			List<ReservaData> listData = getReservas();
 			Object[] fila ;
 			
 			if (!listData.isEmpty()) {
 			    fila = new Object[7];
 
 			    for (ReservaData reserva : listData) {
+			    	if (reserva.getCliente().getDni().equals(u.getDni())) {
 			        fila[0] = reserva.getCliente().getDni();
 			        fila[1] = reserva.getFecha_fin();
 			        fila[2] = reserva.getFecha_ini();
@@ -126,6 +129,7 @@ public class VentHistorial extends JFrame{
 			        fila[5] = reserva.getPension();
 			        fila[6] = reserva.getPrecio();
 			        model.addRow(fila);
+			    	}
 			    }
 			}
 			
@@ -136,6 +140,26 @@ public class VentHistorial extends JFrame{
 		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
 		table.setRowSorter(sorter);
 		
+		table.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				if(e.isAltDown()) {
+					DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+					
+					int[] selectedRows = table.getSelectedRows();
+					
+					for (int i = selectedRows.length - 1; i >= 0; i--) {
+					    modelo.removeRow(selectedRows[i]);
+					}
+					
+					modelo.fireTableDataChanged();
+				}
+				
+				
+			}
+		});
 		
 		comboBox.addActionListener(new ActionListener() {
 			
@@ -167,16 +191,18 @@ public class VentHistorial extends JFrame{
 
 
 	// Modify the getReservas method to accept the user ID instead of the DNI
-	public List<ReservaData> getReservas(String userId) throws JsonMappingException, JsonProcessingException {
-	    WebTarget reservaTarget = webTarget.path("getReservas/user/" + userId);
-	    Invocation.Builder invocationBuilder = reservaTarget.request(MediaType.APPLICATION_JSON);
-
-	    Response response = invocationBuilder.get();
-	    ObjectMapper mapper = new ObjectMapper();
-
-	    List<ReservaData> listData = mapper.readValue(response.readEntity(String.class), new TypeReference<List<ReservaData>>(){});
-	    return listData;
+	public List<ReservaData> getReservas() throws JsonMappingException, JsonProcessingException {
+		
+		WebTarget reservaTarget = webTarget.path("getReservas");
+		Invocation.Builder invocationBuilder = reservaTarget.request(MediaType.APPLICATION_JSON);
+		
+		Response response = invocationBuilder.get();
+		ObjectMapper mapper = new ObjectMapper();
+		
+		List<ReservaData> listData = mapper.readValue(response.readEntity(String.class), new TypeReference<List<ReservaData>>(){});
+		return listData;
 	}
+
 
 
 
