@@ -8,6 +8,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.RowFilter;
 import javax.swing.RowFilter.Entry;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -20,6 +22,7 @@ import javax.ws.rs.core.Response;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.glassfish.grizzly.streams.AbstractStreamWriter.DisposeBufferCompletionHandler;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -69,7 +72,13 @@ public class PanelHoteles extends JPanel {
 		add(panelDerecha, BorderLayout.EAST);
 		
 		JTable tabla = new JTable();
-		DefaultTableModel modelo = new DefaultTableModel();
+		DefaultTableModel modelo = new DefaultTableModel() {
+			 @Override
+	         public boolean isCellEditable(int row, int column) {
+	               // Hacer que todas las celdas no sean editables
+	               return false;
+	           }
+		};
 		modelo.addColumn("Hotel");
 		modelo.addColumn("Ciudad");
 		modelo.addColumn("Habitaciones Disponibles");
@@ -93,6 +102,7 @@ public class PanelHoteles extends JPanel {
 		
 		JButton btnAniadir = new JButton("Añadir hotel");
 		panelIzquierda.add(btnAniadir);
+	
 		
 		try {
 //			List<HotelData> listData = mapper.readValue(response.readEntity(String.class), new TypeReference<List<HotelData>>(){});
@@ -112,11 +122,17 @@ public class PanelHoteles extends JPanel {
 		
 		}
 		
-		tabla.addMouseListener(new MouseAdapter() {
+		tabla.addMouseListener(new MouseListener() {
 			
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
 				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
 				if(e.isAltDown()) {
 					DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
 					
@@ -128,11 +144,45 @@ public class PanelHoteles extends JPanel {
 					
 					modelo.fireTableDataChanged();
 				}
-				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
 				
 			}
-		});
 			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getClickCount() == 1) {
+		        	
+		            JTable target = (JTable) e.getSource();
+		            int row = target.getSelectedRow();
+		            
+		            String hotel = (String) target.getValueAt(row, 0);
+		            String ciudad = (String) target.getValueAt(row, 1);
+		            int habitaciones = (int) target.getValueAt(row, 2);
+		            HotelData hot = new HotelData(hotel, ciudad, habitaciones);
+		            hot.setId(row + 1);
+		            
+		            VentInfoAdmin vent = new VentInfoAdmin(hostname, port, hot);
+		            vent.setVisible(true);
+		            
+		          
+		            
+		        }
+			}
+		});
+		
+	
+		
 			
 
 		btnAniadir.addActionListener(new ActionListener() {
@@ -216,6 +266,11 @@ public class PanelHoteles extends JPanel {
 			}
 		}
 	});
+	
+	//-----------------------------
+	
+	
+	
 }	
 		
 		

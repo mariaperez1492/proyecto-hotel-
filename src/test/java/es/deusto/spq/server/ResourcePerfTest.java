@@ -14,6 +14,7 @@ import com.github.noconnor.junitperf.reporting.providers.HtmlReportGenerator;
 
 import categories.IntegrationTest;
 import categories.PerformanceTest;
+import es.deusto.spq.pojo.EnumTipoHabitacion;
 import es.deusto.spq.pojo.EnumTipoUsuario;
 import es.deusto.spq.pojo.UsuarioData;
 import es.deusto.spq.server.jdo.Habitacion;
@@ -61,6 +62,8 @@ public class ResourcePerfTest {
 	            tx.begin();
 	            pm.makePersistent(new Usuario("0000000A","usuario", "1234567Ab*", EnumTipoUsuario.CLIENTE));
 	            pm.makePersistent(new Hotel("Hotel Ritz", "Madrid", 50));
+	            pm.makePersistent(new Habitacion(EnumTipoHabitacion.CAMA_EXTRAGRANDE, 2, 20));
+	            pm.makePersistent(new Reserva(new Usuario("0000000A","usuario", "1234567Ab*", EnumTipoUsuario.CLIENTE), "20/02/2023", "24/02/2023",new Hotel("Hotel Ritz", "Madrid", 50),new Habitacion(EnumTipoHabitacion.CAMA_EXTRAGRANDE, 2, 20), "pension1", 20   ));
 	            tx.commit();
 	     } finally {
 	            if (tx.isActive()) {
@@ -168,6 +171,48 @@ public class ResourcePerfTest {
 	 @Test
 	 public void testgetHotelesInt() {
 		 Response response = target.path("getHoteles")
+				 .request(MediaType.APPLICATION_JSON)
+				 .get();
+		 
+		 assertEquals(Family.SUCCESSFUL, response.getStatusInfo().getFamily());
+	 
+	 }
+	 
+
+	 
+	 @Test
+	 @JUnitPerfTest(threads = 10, durationMs = 2000)
+	 public void testgetHabitacionesPerf() {
+		 Response response = target.path("getHabitaciones")
+				 .request(MediaType.APPLICATION_JSON)
+				 .get();
+		 
+		 assertEquals(Family.SUCCESSFUL, response.getStatusInfo().getFamily());
+	 }
+	 
+	 @Test
+	 public void testgetHabitacionesInt() {
+		 Response response = target.path("getHabitaciones")
+				 .request(MediaType.APPLICATION_JSON)
+				 .get();
+		 
+		 assertEquals(Family.SUCCESSFUL, response.getStatusInfo().getFamily());
+	 
+	 }
+	 
+	 @Test
+	 @JUnitPerfTest(threads = 10, durationMs = 2000)
+	 public void testgetReservasPerf() {
+		 Response response = target.path("getReservas")
+				 .request(MediaType.APPLICATION_JSON)
+				 .get();
+		 
+		 assertEquals(Family.SUCCESSFUL, response.getStatusInfo().getFamily());
+	 }
+	 
+	 @Test
+	 public void testgetReservasInt() {
+		 Response response = target.path("getReservas")
 				 .request(MediaType.APPLICATION_JSON)
 				 .get();
 		 
