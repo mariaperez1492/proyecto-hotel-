@@ -5,12 +5,13 @@ var annotated_dup =
         [ "spq", null, [
           [ "client", null, [
             [ "gui", "namespacees_1_1deusto_1_1spq_1_1client_1_1gui.html", [
-              [ "MetodosFuncionalidadVent", "classes_1_1deusto_1_1spq_1_1client_1_1gui_1_1_metodos_funcionalidad_vent.html", "classes_1_1deusto_1_1spq_1_1client_1_1gui_1_1_metodos_funcionalidad_vent" ],
               [ "PanelHoteles", "classes_1_1deusto_1_1spq_1_1client_1_1gui_1_1_panel_hoteles.html", "classes_1_1deusto_1_1spq_1_1client_1_1gui_1_1_panel_hoteles" ],
               [ "PanelReservas", "classes_1_1deusto_1_1spq_1_1client_1_1gui_1_1_panel_reservas.html", "classes_1_1deusto_1_1spq_1_1client_1_1gui_1_1_panel_reservas" ],
+              [ "Utils", "classes_1_1deusto_1_1spq_1_1client_1_1gui_1_1_utils.html", null ],
               [ "VentEleccion", "classes_1_1deusto_1_1spq_1_1client_1_1gui_1_1_vent_eleccion.html", "classes_1_1deusto_1_1spq_1_1client_1_1gui_1_1_vent_eleccion" ],
               [ "VentHabitacion", "classes_1_1deusto_1_1spq_1_1client_1_1gui_1_1_vent_habitacion.html", "classes_1_1deusto_1_1spq_1_1client_1_1gui_1_1_vent_habitacion" ],
               [ "VentHistorial", "classes_1_1deusto_1_1spq_1_1client_1_1gui_1_1_vent_historial.html", "classes_1_1deusto_1_1spq_1_1client_1_1gui_1_1_vent_historial" ],
+              [ "VentInfoAdmin", "classes_1_1deusto_1_1spq_1_1client_1_1gui_1_1_vent_info_admin.html", "classes_1_1deusto_1_1spq_1_1client_1_1gui_1_1_vent_info_admin" ],
               [ "VentListado", "classes_1_1deusto_1_1spq_1_1client_1_1gui_1_1_vent_listado.html", "classes_1_1deusto_1_1spq_1_1client_1_1gui_1_1_vent_listado" ],
               [ "VentListadoAdmin", "classes_1_1deusto_1_1spq_1_1client_1_1gui_1_1_vent_listado_admin.html", "classes_1_1deusto_1_1spq_1_1client_1_1gui_1_1_vent_listado_admin" ],
               [ "VentLogin", "classes_1_1deusto_1_1spq_1_1client_1_1gui_1_1_vent_login.html", "classes_1_1deusto_1_1spq_1_1client_1_1gui_1_1_vent_login" ],

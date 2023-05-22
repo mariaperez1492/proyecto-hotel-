@@ -11,4 +11,6 @@ public interface PerformanceTest {
 	public void testgetReservasPerf();
 	
 	public void testgetHabitacionesPerf();
+	
+	public void testMakeReservationPerf() ;
 }

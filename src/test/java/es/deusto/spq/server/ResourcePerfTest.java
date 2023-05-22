@@ -60,10 +60,17 @@ public class ResourcePerfTest {
 	     Transaction tx = pm.currentTransaction();
 	     try {
 	            tx.begin();
+	            
 	            pm.makePersistent(new Usuario("0000000A","usuario", "1234567Ab*", EnumTipoUsuario.CLIENTE));
-	            pm.makePersistent(new Hotel("Hotel Ritz", "Madrid", 50));
+	            pm.makePersistent( new Hotel("Hotel Ritz", "Madrid", 50));
 	            pm.makePersistent(new Habitacion(EnumTipoHabitacion.CAMA_EXTRAGRANDE, 2, 20));
-	            pm.makePersistent(new Reserva(new Usuario("0000000A","usuario", "1234567Ab*", EnumTipoUsuario.CLIENTE), "20/02/2023", "24/02/2023",new Hotel("Hotel Ritz", "Madrid", 50),new Habitacion(EnumTipoHabitacion.CAMA_EXTRAGRANDE, 2, 20), "pension1", 20   ));
+	            
+	            Usuario usuario = pm.getObjectById(Usuario.class, "0000000A");
+	            Hotel hotel = pm.getObjectById(Hotel.class, 1);
+	            Habitacion habitacion = pm.getObjectById(Habitacion.class, 1);
+	            
+	            pm.makePersistent(new Reserva(usuario, "20/02/2023", "24/02/2023",hotel,habitacion, "pension1", 20   ));
+	            
 	            tx.commit();
 	     } finally {
 	            if (tx.isActive()) {
@@ -87,8 +94,7 @@ public class ResourcePerfTest {
 	     Transaction tx = pm.currentTransaction();
 	     try {
 	         tx.begin();
-	         pm.newQuery(Usuario.class).deletePersistentAll();
-	         pm.newQuery(Hotel.class).deletePersistentAll();
+	         pm.newQuery(Reserva.class).deletePersistentAll();
 	         tx.commit();
 	     } finally {
 	          if (tx.isActive()) {
@@ -175,10 +181,7 @@ public class ResourcePerfTest {
 				 .get();
 		 
 		 assertEquals(Family.SUCCESSFUL, response.getStatusInfo().getFamily());
-	 
 	 }
-	 
-
 	 
 	 @Test
 	 @JUnitPerfTest(threads = 10, durationMs = 2000)
@@ -197,7 +200,6 @@ public class ResourcePerfTest {
 				 .get();
 		 
 		 assertEquals(Family.SUCCESSFUL, response.getStatusInfo().getFamily());
-	 
 	 }
 	 
 	 @Test
@@ -217,7 +219,18 @@ public class ResourcePerfTest {
 				 .get();
 		 
 		 assertEquals(Family.SUCCESSFUL, response.getStatusInfo().getFamily());
+	 }
 	 
+	 @Test
+	 @JUnitPerfTest(threads = 10, durationMs = 2000)
+	 public void testMakeReservationPerf() {
+		 
+	 }
+	 
+	 @Test
+	 @JUnitPerfTest(threads = 10, durationMs = 2000)
+	 public void testMakeReservationInt() {
+		 
 	 }
 
 }

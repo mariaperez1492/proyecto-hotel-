@@ -300,7 +300,8 @@
         		<configuration>
           			<!-- Allow JUnitPerf to access the test classes in JDK 17 -->
           			<argLine>--add-opens java.base/java.lang=ALL-UNNAMED</argLine>
-					<excludedGroups>categories.UnitTest</excludedGroups>
+					<!--  <excludedGroups>categories.UnitTest</excludedGroups> -->
+					<excludedGroups>categories.IntegrationTest, categories.PerformanceTest</excludedGroups>
         		</configuration>
       		</plugin>
 		</plugins>
