@@ -144,14 +144,15 @@ public class VentInfoAdmin extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				
 				// TODO Auto-generated method stub
+				
 				lblApareceNombre.setText(hotel.getNombre());
-				float ingresos = calcularIngresos(txtBuscar.getText(), hotel.getId());
+				float ingresos = calcularIngresos(txtBuscar.getText(), hotel.getNombre());
 				lblNumIngresos.setText(String.valueOf(ingresos));
 				
-				int ocupacion = calcularOcupacion(txtBuscar.getText(), hotel.getId());
+				int ocupacion = calcularOcupacion(txtBuscar.getText(), hotel.getNombre());
 				lblNumHabOcupadas.setText(String.valueOf(ocupacion));
 				
-				float porcentaje = porcentajeOcupacion(txtBuscar.getText(), hotel.getId());
+				float porcentaje = porcentajeOcupacion(txtBuscar.getText(), hotel.getNombre());
 				lblAparecePorcen.setText(String.valueOf(porcentaje));
 				
 			}
@@ -165,7 +166,7 @@ public class VentInfoAdmin extends JFrame{
 		
 	
 	}
-public List<ReservaData> getReservas(int id) throws JsonMappingException, JsonProcessingException {
+	public List<ReservaData> getReservas(String nom) throws JsonMappingException, JsonProcessingException {
 		
 		WebTarget reservaTarget = webTarget.path("getReservas");
 		Invocation.Builder invocationBuilder = reservaTarget.request(MediaType.APPLICATION_JSON);
@@ -176,7 +177,7 @@ public List<ReservaData> getReservas(int id) throws JsonMappingException, JsonPr
 		List<ReservaData> listData = mapper.readValue(response.readEntity(String.class), new TypeReference<List<ReservaData>>(){});
 		List<ReservaData> listDataID = new ArrayList<>();
 		for (ReservaData r :listData) {
-			if(r.getHotel().getId() == id) {
+			if(r.getHotel().getNombre().equals(nom)) {
 				listDataID.add(r);
 			}
 		}
@@ -185,28 +186,30 @@ public List<ReservaData> getReservas(int id) throws JsonMappingException, JsonPr
 	}
 
 
-	public List<ReservaData> obtenerReservas(String fecha, int id) throws Exception {
+	public List<ReservaData> obtenerReservas(String fecha, String nom) throws Exception {
 
 		
-		List<ReservaData> listData = getReservas(id);
+		List<ReservaData> listData = getReservas(nom);
 		List<ReservaData> reservasFecha = new ArrayList<>();
-		Date da1 = new SimpleDateFormat("dd/MM/yyyy").parse(fecha);
+		Date da1 = new SimpleDateFormat("yyyy-MM-dd").parse(fecha);
 		for (ReservaData reserva: listData) {
 			Date dateFechaI = new SimpleDateFormat("yyyy-MM-dd").parse(reserva.getFecha_ini());
 			Date dateFechaF = new SimpleDateFormat("yyyy-MM-dd").parse(reserva.getFecha_fin());
 			if((da1.equals(dateFechaI) || da1.after(dateFechaI)) && da1.before(dateFechaF)) {
 				reservasFecha.add(reserva);
 			}
+			
 		}	
+		
 		return reservasFecha;
 	}
 	
-	public float calcularIngresos(String fecha, int id) {
+	public float calcularIngresos(String fecha, String nom) {
 		
 		float suma = 0;
 		
 		try {
-			List<ReservaData> lista = obtenerReservas(fecha, id);
+			List<ReservaData> lista = obtenerReservas(fecha, nom);
 			
 			for(ReservaData r:lista) {
 				suma = suma + r.getPrecio();
@@ -219,12 +222,13 @@ public List<ReservaData> getReservas(int id) throws JsonMappingException, JsonPr
 		return suma;
 	}
 	
-	public int calcularOcupacion(String fecha, int id) {
+	public int calcularOcupacion(String fecha, String nom) {
 		int ocupacion = 0;
 		
 		
 		try {
-			List<ReservaData> lista = obtenerReservas(fecha, id);
+			List<ReservaData> lista = obtenerReservas(fecha, nom);
+			
 			
 			ocupacion = lista.size();
 			
@@ -239,18 +243,20 @@ public List<ReservaData> getReservas(int id) throws JsonMappingException, JsonPr
 	}
 	
 	
-	public float porcentajeOcupacion(String fecha, int id) {
+	public float porcentajeOcupacion(String fecha, String nom) {
 		
 		float porcentaje = 0;
 		
-		int ocupacion = calcularOcupacion(fecha, id);
+		int ocupacion = calcularOcupacion(fecha, nom);
 		
 		try {
-			List<ReservaData> lista = obtenerReservas(fecha, id);
+			List<ReservaData> lista = obtenerReservas(fecha, nom);
 			
 			for(ReservaData r:lista) {
-				porcentaje = ocupacion / r.getHotel().getHabitaciones_disp();
+				porcentaje = ocupacion * 100 / r.getHotel().getHabitaciones_disp();
 			}
+			
+			System.out.println(porcentaje);
 			
 			
 		} catch (Exception e) {

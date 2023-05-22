@@ -7,6 +7,9 @@ El proyecto se trata de una aplicación de reservas para una cadena hotelera. La
       dni: 0000
       contraseña: admin
       
+- Para poder ver las estadísticas de cada hotel, tienes que poner la siguiente fecha para filtrar:
+		
+		fecha: 2023-05-10
 - Cliente. Los clientes se pueden registrar a través de la ventana de registro. Además, existe un cliente por defecto, cuyos credenciales son:
 
       dni: 0000000A
