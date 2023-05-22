@@ -16,6 +16,9 @@ import categories.IntegrationTest;
 import categories.PerformanceTest;
 import es.deusto.spq.pojo.EnumTipoHabitacion;
 import es.deusto.spq.pojo.EnumTipoUsuario;
+import es.deusto.spq.pojo.HabitacionData;
+import es.deusto.spq.pojo.HotelData;
+import es.deusto.spq.pojo.ReservaData;
 import es.deusto.spq.pojo.UsuarioData;
 import es.deusto.spq.server.jdo.Habitacion;
 import es.deusto.spq.server.jdo.Hotel;
@@ -224,13 +227,21 @@ public class ResourcePerfTest {
 	 @Test
 	 @JUnitPerfTest(threads = 10, durationMs = 2000)
 	 public void testMakeReservationPerf() {
+		 UsuarioData usuario = new UsuarioData();
+		 usuario.setDni("0000000A");
+		 HotelData hotel = new HotelData();
+		 hotel.setId(0);
+		 HabitacionData habitacion = new HabitacionData();
+		 habitacion.setId(0);
 		 
+		 ReservaData reserva = new ReservaData(usuario, hotel,  habitacion, "20/04/2023", "24/04/2023", "pension1", 20 );
+		 
+		 Response response = target.path("reserve")
+				 .request(MediaType.APPLICATION_JSON)
+				 .post(Entity.entity(reserva, MediaType.APPLICATION_JSON));
+		 
+		 assertEquals(Family.SUCCESSFUL, response.getStatusInfo().getFamily());
 	 }
 	 
-	 @Test
-	 @JUnitPerfTest(threads = 10, durationMs = 2000)
-	 public void testMakeReservationInt() {
-		 
-	 }
 
 }

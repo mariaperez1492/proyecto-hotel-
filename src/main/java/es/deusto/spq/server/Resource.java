@@ -153,7 +153,9 @@ public class Resource {
     @Path("/getHoteles")
     public Response getHoteles() {
         List<HotelData> list = new ArrayList<>();
-
+        
+        int index = 1;
+        
         try {
             tx.begin();
             Query<Hotel> query = pm.newQuery(Hotel.class);
@@ -161,6 +163,8 @@ public class Resource {
 
             for (Hotel h : hotels) {
                 HotelData hotelData = new HotelData(h.getNombre(), h.getCiudad(), h.getHabitaciones_disp());
+                hotelData.setId(index);
+                index += 1;
                 list.add(hotelData);
             }
             logger.info("Retrieved hotels from database: " + list.size());
@@ -187,6 +191,8 @@ public class Resource {
     public Response getReservas() {
         List<ReservaData> list = new ArrayList<>();
 
+        int index = 1;
+        
         try {
             tx.begin();
             Query<Reserva> query = pm.newQuery(Reserva.class);
@@ -205,6 +211,9 @@ public class Resource {
 
                 ReservaData reservaData = new ReservaData(u, h, hb, r.getFecha_ini(), r.getFecha_fin(),
                         r.getPension(), r.getPrecio());
+                r.setID(index);
+                index += 1;
+                
                 list.add(reservaData);
             }
             logger.info("Retrieved reservas from database: " + list.size());

@@ -11,7 +11,5 @@ public interface IntegrationTest {
 	public void testgetReservasInt() ;
 	
 	public void testgetHabitacionesInt() ;
-	
-	public void testMakeReservationInt() ;
     
 }
