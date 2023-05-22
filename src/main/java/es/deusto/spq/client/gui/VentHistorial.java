@@ -166,16 +166,18 @@ public class VentHistorial extends JFrame{
 	}
 
 
-	 public List<ReservaData> getReservas(String userId) throws JsonMappingException, JsonProcessingException {
-	        WebTarget reservaTarget = webTarget.path("getReservas/" + userId);
-	        Invocation.Builder invocationBuilder = reservaTarget.request(MediaType.APPLICATION_JSON);
+	// Modify the getReservas method to accept the user ID instead of the DNI
+	public List<ReservaData> getReservas(String userId) throws JsonMappingException, JsonProcessingException {
+	    WebTarget reservaTarget = webTarget.path("getReservas/user/" + userId);
+	    Invocation.Builder invocationBuilder = reservaTarget.request(MediaType.APPLICATION_JSON);
 
-	        Response response = invocationBuilder.get();
-	        ObjectMapper mapper = new ObjectMapper();
+	    Response response = invocationBuilder.get();
+	    ObjectMapper mapper = new ObjectMapper();
 
-	        List<ReservaData> listData = mapper.readValue(response.readEntity(String.class), new TypeReference<List<ReservaData>>(){});
-	        return listData;
-	    }
+	    List<ReservaData> listData = mapper.readValue(response.readEntity(String.class), new TypeReference<List<ReservaData>>(){});
+	    return listData;
+	}
+
 
 
 

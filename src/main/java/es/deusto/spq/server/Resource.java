@@ -330,4 +330,13 @@ public class Resource {
             pm.close();
         }
     }
+    
+    @GET
+    @Path("/getReservasByUser/{userId}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public List<ReservaData> getReservasByUser(@PathParam("userId") String userId) {
+        // Retrieve the reservations for the specified user from the database
+        List<ReservaData> reservations = reservationService.getReservasByUser(userId);
+        return reservations;
+    }
 }
