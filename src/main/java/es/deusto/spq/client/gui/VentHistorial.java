@@ -30,15 +30,19 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import es.deusto.spq.pojo.EnumTipoHabitacion;
+import es.deusto.spq.pojo.HabitacionData;
 import es.deusto.spq.pojo.HotelData;
 import es.deusto.spq.pojo.ReservaData;
 import es.deusto.spq.pojo.UsuarioData;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.JComboBox;
@@ -54,6 +58,10 @@ public class VentHistorial extends JFrame{
 	protected static final Logger logger = LogManager.getLogger();
 	private Client client;
 	private WebTarget webTarget;
+	private JButton btnAtras;
+	private int id;
+	
+	
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public VentHistorial(String hostname, String port, UsuarioData u) {
@@ -61,9 +69,13 @@ public class VentHistorial extends JFrame{
 		client = ClientBuilder.newClient();
 		webTarget = client.target(String.format("http://%s:%s/rest/resource", hostname, port));
 		
+		
+		this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		this.setSize(1000, 650);
+		
 		JTable table = new JTable();
 		DefaultTableModel model = new DefaultTableModel();
-		model.addColumn("Cliente");
+		model.addColumn("Número de reserva");
 		model.addColumn("Fecha inicio");
 		model.addColumn("Fecha fin");
 		model.addColumn("Hotel");
@@ -90,6 +102,24 @@ public class VentHistorial extends JFrame{
 		add(scrollPane, BorderLayout.CENTER);
 		panelIzquierda.setLayout(new GridLayout(9, 1, 0, 0));
 		
+
+		btnAtras = new JButton("Atrás");
+		panelSur.add(btnAtras);
+		btnAtras.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnAtras.setBounds(786, 531, 122, 27);
+		
+		
+		btnAtras.setBounds(783, 531, 122, 27);
+		
+		
+		btnAtras.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        dispose();  // cierra la ventana VentRegistro
+		        VentEleccion v = new VentEleccion(hostname, port, u);
+		        v.setVisible(true);  // muestra la ventana VentLogin
+		    }
+		});
+		
 		JLabel lblNewLabel_1 = new JLabel("Elija la ciudad: ");
 		panelIzquierda.add(lblNewLabel_1);
 		JComboBox<String> comboBox = new JComboBox<>();
@@ -106,7 +136,7 @@ public class VentHistorial extends JFrame{
 		} catch (Exception e) {
 		
 		}
-		JLabel lblEliminar = new JLabel("Pulsa Alt + Click para eliminar una reserva:  ");
+		JButton lblEliminar = new JButton("Cancelar Reserva");
 		panelIzquierda.add(lblEliminar);
 		panelIzquierda.add(comboBox);
 		
@@ -136,6 +166,7 @@ public class VentHistorial extends JFrame{
 		} catch (Exception e) {
 			logger.error("Error retrieving reservas from database", e);
 		}
+		
 		
 		TableRowSorter<DefaultTableModel> sorter = new TableRowSorter<>(model);
 		table.setRowSorter(sorter);
@@ -175,9 +206,51 @@ public class VentHistorial extends JFrame{
 		        }
 					
 			}
+			
 		});
 		
+	
+	
+	table.addMouseListener(new MouseAdapter() {
+		
+		  public void mouseClicked(MouseEvent e) {
+		    	
+		    	
+		        if (e.getClickCount() == 1) {
+		        	
+		            JTable target = (JTable) e.getSource();
+		            int row = target.getSelectedRow();
+
+		            id = row + 1;
+	    }
+		  }
+	});
+	
+	lblEliminar.addActionListener(new ActionListener() {
+	    public void actionPerformed(ActionEvent e) {
+	    	DefaultTableModel modelo = (DefaultTableModel) table.getModel();
+			
+			int[] selectedRows = table.getSelectedRows();
+			
+			int row = table.getSelectedRow();
+	    	if(eliminarReserva(id)) {
+				System.out.println("Hotel eliminado");
+				
+				for (int i = selectedRows.length - 1; i >= 0; i--) {
+				    modelo.removeRow(selectedRows[i]);
+				}
+				
+				modelo.fireTableDataChanged();
+			}else {
+				System.out.println("Hotel NO eliminado");
+			}
+	          
+	        
+	    }
+	});
+
 	}
+	
 	public List<HotelData> getHoteles() throws JsonMappingException, JsonProcessingException {
 		WebTarget hotelTarget = webTarget.path("getHoteles");
 		Invocation.Builder invocationBuilder = hotelTarget.request(MediaType.APPLICATION_JSON);
@@ -189,6 +262,7 @@ public class VentHistorial extends JFrame{
 		return listData;
 	}
 
+	
 
 	// Modify the getReservas method to accept the user ID instead of the DNI
 	public List<ReservaData> getReservas() throws JsonMappingException, JsonProcessingException {
@@ -202,7 +276,25 @@ public class VentHistorial extends JFrame{
 		List<ReservaData> listData = mapper.readValue(response.readEntity(String.class), new TypeReference<List<ReservaData>>(){});
 		return listData;
 	}
+	
+	public boolean eliminarReserva(int id) {
+		WebTarget ReservaTarget = webTarget.path("/deleteReserva") 
+				.queryParam("id", id);
+		Invocation.Builder invocationBuilder = ReservaTarget.request(MediaType.APPLICATION_JSON);
+				
+		Response response = invocationBuilder.delete();
+		
+		if (response.getStatus() == Status.ACCEPTED.getStatusCode()) {
+			return true;
+		} else {
+			logger.error("Error connecting with the server. Code: {}", response.getStatus());
+			return false;
+		}
+	}
 
+
+	
+	
 
 
 

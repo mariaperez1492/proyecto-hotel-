@@ -336,6 +336,44 @@ public class Resource {
 			pm.close();
 		}
     }
+    
+    /**
+     * Método que elimina un hotel.
+     * @param idHotel id del hotel a eliminar
+     * @return Respuesta HTTP que indica el resultado de la eliminación
+     */
+    @DELETE
+    @Path("/deleteReserva")
+    public Response deleteReserva(@QueryParam("id") int idReserva) {
+    	try {
+    		tx.begin();
+        	Reserva Reserva = pm.getObjectById(Reserva.class, idReserva);
+        	
+        	if(Reserva == null) {
+        		return Response.status(Response.Status.NOT_FOUND).build();
+        	}
+        	
+//        	Query<Reserva> query = pm.newQuery(Reserva.class, "Reserva == ReservaParam");
+//        	query.declareParameters("Reserva ReservaParam");
+//        	@SuppressWarnings("unchecked") List<Reserva> reservas = (List<Reserva>) query.execute(Reserva);
+//        	pm.deletePersistentAll(reservas);
+        	
+        	pm.deletePersistent(Reserva);
+        	tx.commit();
+        	
+        	return Response.status(Response.Status.OK).build();
+		} catch (Exception e) {
+			logger.error("Error deleting the Reserva: ", e);
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+		}finally {
+			if(tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+    }
+    
+
     /**
      * Método que añade un hotel
      * @param hotelData hotel que se añade.
