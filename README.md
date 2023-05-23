@@ -63,6 +63,7 @@ Antes de las realizas las pruebas unitarias ve al  *pom.xml* y compruebe que est
       <excludedGroups>categories.UnitTest</excludedGroups>
       
 - Para ejecutar las pruebas unitarias, debe ejecutar el proyecto hasta el paso 4 (paso 4 incluido) y luego ejecutar el siguiente comando
+
       mvn test   
 
 ## Documentación
