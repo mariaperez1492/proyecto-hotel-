@@ -317,9 +317,9 @@ public class Resource {
         		return Response.status(Response.Status.NOT_FOUND).build();
         	}
         	
-        	Query<Reserva> query = pm.newQuery(Reserva.class, "hotel == hotelParam");
-        	query.declareParameters("Hotel hotelParam");
-        	@SuppressWarnings("unchecked") List<Reserva> reservas = (List<Reserva>) query.execute(hotel);
+        	Query<Reserva> query = pm.newQuery(Reserva.class, "ID == hotelParam");
+        	query.declareParameters("int hotelParam");
+        	@SuppressWarnings("unchecked") List<Reserva> reservas = (List<Reserva>) query.execute(idHotel);
         	pm.deletePersistentAll(reservas);
         	
         	pm.deletePersistent(hotel);

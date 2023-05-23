@@ -32,6 +32,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import es.deusto.spq.pojo.HotelData;
+import es.deusto.spq.server.jdo.Hotel;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -201,9 +202,6 @@ public class PanelHoteles extends JPanel {
 			}
 		});
 		
-	
-		
-			
 
 		btnAniadir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -212,7 +210,7 @@ public class PanelHoteles extends JPanel {
 				String ciudad = JOptionPane.showInputDialog("Ingrese la ciudad donde se encuentra el hotel");
 				int habitacionesDisponibles = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el valor de las habitaciones disponibles"));
 				
-				HotelData hotel = new HotelData(nombre, ciudad, habitacionesDisponibles);
+				Hotel hotel = new Hotel(nombre, ciudad, habitacionesDisponibles);
 					
 				WebTarget registerUserWebTarget = webTarget.path("addHotel");
 				Invocation.Builder invocationBuilder = registerUserWebTarget.request(MediaType.APPLICATION_JSON);
@@ -298,10 +296,6 @@ public class PanelHoteles extends JPanel {
 			}
 		}
 	});
-	
-	
-	
-	
 }	
 		
 		
@@ -319,7 +313,9 @@ public class PanelHoteles extends JPanel {
 	
 	
 	public boolean eliminarHotel(int id) {
-		WebTarget hotelTarget = webTarget.path("/deleteHotel");
+		WebTarget hotelTarget = webTarget.path("/deleteHotel")
+				.queryParam("id", id);
+		
 		Invocation.Builder invocationBuilder = hotelTarget.request(MediaType.APPLICATION_JSON);
 				
 		Response response = invocationBuilder.delete();

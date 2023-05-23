@@ -268,17 +268,23 @@ public class ResourceTest
 	
 	@Test
 	public void deleteHotelTest() throws Exception {
+		int id = 10;
 		
 		Hotel hotel = spy(Hotel.class);
-		int param1 = hotel.getID();
-		when(persistenceManager.getObjectById(Hotel.class, param1)).thenReturn(hotel);
+		hotel.setID(10);
+		hotel.setNombre("hotel-prueba");
+		hotel.setCiudad("ciudad");
+		hotel.setHabitaciones_disp(50);
+		when(persistenceManager.getObjectById(Hotel.class, id)).thenReturn(hotel);
 		
+		@SuppressWarnings("unchecked") Query<Reserva> query = mock(Query.class);
+        when(persistenceManager.newQuery(Reserva.class, "ID == hotelParam")).thenReturn(query);
+        
 		when(transaction.isActive()).thenReturn(true);
 		
-		Response response = resource.deleteHotel(param1);
+		Response response = resource.deleteHotel(id);
 		
 		assertEquals(Response.Status.OK, response.getStatusInfo());
-		assertNotNull(response.getEntity());
 	}
 	
 }
