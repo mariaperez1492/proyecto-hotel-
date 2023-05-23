@@ -231,45 +231,7 @@ public class Resource {
     
     
     
-    @GET
-    @Path("/getReservas/{userId}")
-    public Response getReservas(@PathParam("userId") String userId) {
-        List<ReservaData> list = new ArrayList<>();
-
-        try {
-            tx.begin();
-            Query<Reserva> query = pm.newQuery(Reserva.class);
-            query.setFilter("cliente.dni == userIdParam");
-            query.declareParameters("String userIdParam");
-            List<Reserva> reservas = (List<Reserva>) query.execute(userId);
-
-            for (Reserva r : reservas) {
-                UsuarioData u = new UsuarioData(r.getCliente().getDni(), r.getCliente().getNombre(),
-                        r.getCliente().getDni(), r.getCliente().getTipoUsuario());
-
-                HotelData h = new HotelData(r.getHotel().getNombre(), r.getHotel().getCiudad(),
-                        r.getHotel().getHabitaciones_disp());
-
-                HabitacionData hb = new HabitacionData(r.getHabitacion().getTipoHabitacion(),
-                        r.getHabitacion().getPersonas(), r.getHabitacion().getPrecio());
-
-                ReservaData reservaData = new ReservaData(u, h, hb, r.getFecha_ini(), r.getFecha_fin(),
-                        r.getPension(), r.getPrecio());
-                list.add(reservaData);
-            }
-
-            logger.info("Retrieved reservas from database: " + list.size());
-            tx.commit();
-        } catch (Exception e) {
-            logger.error("Error retrieving reservas from database", e);
-        } finally {
-            if (tx.isActive()) {
-                tx.rollback();
-            }
-        }
-
-        return Response.ok(list).build();
-    }
+    
     
 
     /**

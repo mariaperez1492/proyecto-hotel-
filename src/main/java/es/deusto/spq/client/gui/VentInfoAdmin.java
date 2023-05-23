@@ -1,16 +1,23 @@
 package es.deusto.spq.client.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,6 +29,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -85,7 +95,7 @@ public class VentInfoAdmin extends JFrame{
 		
 		
 		txtBuscar= new JTextField();
-		txtBuscar = Utils.modifyTextField(txtBuscar, "dd/mm/aaaa");
+		txtBuscar = modifyTextField(txtBuscar, "dd/mm/aaaa");
 		panelFiltros.add(txtBuscar, BorderLayout.CENTER);
 		txtBuscar.setColumns(10);
 		panelFiltros.add(btnBuscar);
@@ -267,6 +277,60 @@ public class VentInfoAdmin extends JFrame{
 		
 		return porcentaje;
 	}
+	
+	/**
+	 * Personaliza y añade los escuchadores correspondientes al JTextField recibido como argumento.
+	 * @param field {@link JTextField} a personalizar.
+	 * @param textoPorDefecto {@link String} por defecto para el campo.
+	 * @return {@link JTextField} personalizado.
+	 */
+	public static JTextField modifyTextField(JTextField field, String textoPorDefecto) {
+		Border line = BorderFactory.createLineBorder(new Color(194, 194, 194), 2);
+		Border empty = new EmptyBorder(0, 5, 0, 0);
+		CompoundBorder border = new CompoundBorder(line, empty);
+		field.setBorder(border);
+		field.setForeground(Color.GRAY);
+		field.setText(textoPorDefecto);
+
+		field.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				Border line = BorderFactory.createLineBorder(new Color(252, 76, 2), 2);
+				Border empty = new EmptyBorder(0, 5, 0, 0);
+				CompoundBorder border = new CompoundBorder(line, empty);
+				field.setBorder(border);
+				field.setForeground(Color.BLACK);
+				if (field.getText().equals(textoPorDefecto)) {
+					field.setText("");
+				}
+				super.focusGained(e);
+			}
+
+			@Override
+			public void focusLost(FocusEvent e) {
+				Border line = BorderFactory.createLineBorder(new Color(194, 194, 194), 2);
+				Border empty = new EmptyBorder(0, 5, 0, 0);
+				CompoundBorder border = new CompoundBorder(line, empty);
+				field.setBorder(border);
+				field.setForeground(Color.GRAY);
+				if (field.getText().equals(" " )) {
+					field.setText(textoPorDefecto);
+				}
+				super.focusLost(e);
+			}
+		});
+
+		field.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				field.setCursor(new Cursor(Cursor.TEXT_CURSOR));
+			}
+
+		});
+		return field;
+	}
+	
 	
 
 
