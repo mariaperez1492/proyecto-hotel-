@@ -243,5 +243,33 @@ public class ResourcePerfTest {
 		 assertEquals(Family.SUCCESSFUL, response.getStatusInfo().getFamily());
 	 }
 	 
+	 
+	 @Test
+	 @JUnitPerfTest(threads = 10, durationMs = 2000)
+	 public void testDeleteHotel() {
+		 int id = 1;
+		 
+		 Response response = target.path("deleteHotel")
+				 .queryParam("id", id)
+				 .request(MediaType.APPLICATION_JSON)
+				 .delete();
+		 
+		 assertEquals(Family.SUCCESSFUL, response.getStatusInfo().getFamily());
+	 }
+	 
+	 @Test
+	 @JUnitPerfTest(threads = 10, durationMs = 2000)
+	 public void testDAddHotel() {
+		 Hotel hotel = new Hotel();
+		 hotel.setNombre("Hotel Valencia");
+		 hotel.setCiudad("Valencia");
+		 hotel.setHabitaciones_disp(50);
+		 
+		 Response response = target.path("addHotel")
+				 .request(MediaType.APPLICATION_JSON)
+				 .post(Entity.entity(hotel, MediaType.APPLICATION_JSON));
+		 
+		 assertEquals(Family.SUCCESSFUL, response.getStatusInfo().getFamily());
+	 }
 
 }

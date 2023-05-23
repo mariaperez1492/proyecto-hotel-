@@ -15,7 +15,10 @@ public class UsuarioDataTest {
 		usuarioData.setDni("dni");
 		usuarioData.setNombre("nombre");
 		usuarioData.setContrasenya("contrasenya");
+		usuarioData.setTipoUsuario(EnumTipoUsuario.CLIENTE);
 	}
+	
+	
 	
 	@Test
 	public void testGetDni() {
@@ -30,5 +33,10 @@ public class UsuarioDataTest {
 	@Test
 	public void testGetContrasenya() {
 		assertEquals("contrasenya", usuarioData.getContrasenya());
+	}
+	
+	@Test
+	public void testGetTipoUsuario() {
+		assertEquals(EnumTipoUsuario.CLIENTE, usuarioData.getTipoUsuario());
 	}
 }

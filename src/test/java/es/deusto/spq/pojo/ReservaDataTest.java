@@ -28,6 +28,7 @@ public class ReservaDataTest {
 		reservaData.setFecha_ini("2022-06-01");
 		reservaData.setFecha_fin("2022-06-15");
 		reservaData.setPension("pension");
+		reservaData.setPrecio(20);
 	}
 	
 	@Test
@@ -53,5 +54,10 @@ public class ReservaDataTest {
 	@Test
 	public void testGetFecha_Fin() {
 		assertEquals("2022-06-15", reservaData.getFecha_fin());
+	}
+	
+	@Test
+	public void testCalcularDias() {
+		assertEquals(14, reservaData.calcularDias());
 	}
 }
