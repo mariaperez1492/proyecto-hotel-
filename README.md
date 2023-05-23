@@ -22,29 +22,50 @@ El proyecto contiene los códigos del servidor y el cliente. Para ejecutar el pr
 
       mvn clean compile
 
-- Paso 2: Asegurese de que la base de datos se haya configurado correctamente. Abra el script *HLHotelesbd.sql* en MySQL WorkBench y ejecutelo, para crear la base de datos y otorgar privilegios.
-- Paso 3: Ejecute el siguiente comando para crear un esquema de base de datos para esta muestra.
+- Paso 2: Ejecute el DataNuecleus:
+
+      mvn datanucleus:enhance
+      
+- Paso 3: Asegurese de que la base de datos se haya configurado correctamente. Abra el script *HLHotelesbd.sql* en MySQL WorkBench y ejecutelo, para crear la base de datos y otorgar privilegios.
+- Paso 4: Ejecute el siguiente comando para crear un esquema de base de datos para esta muestra.
 
       mvn datanucleus:schema-create
       
-- Paso 4: Carge los datos de muestra en la base de datos. Abra el script *ejemplos-hoteles.sql* en MySQL WorkBench y ejecutelo.
-- Paso 5: Para iniciar el servidor, ejecute el siguiente comando:
+- Paso 5: Carge los datos de muestra en la base de datos. Abra el script *ejemplos-hoteles.sql* en MySQL WorkBench y ejecutelo.
+- Paso 6: Para iniciar el servidor, ejecute el siguiente comando:
 
       mvn jetty:run
 
-- Paso 6: Ahora, el codigo del cliente se puede ejecutar en una nueva ventana de comandos con 
+- Paso 7: Ahora, el codigo del cliente se puede ejecutar en una nueva ventana de comandos con 
 
       mvn exec:java -Pclient
 
 ## Pruebas unitarias
-Para ejecutar las pruebas unitarias, ejecute el siguinete comando:
-
-      mvn test
+Antes de las realizas las pruebas unitarias ve al  *pom.xml* y compruebe que esté...
+      <excludedGroups>categories.IntegrationTest, categories.PerformanceTest</excludedGroups>
       
-Para comprobar que los test cumplen con la mínima cobertura de nuestro código (95%), ejecute el siguiente comando:
+- Para ejecutar las pruebas unitarias, ejecute los siguinetes comandos:
+
+      mvn clean compile
+      mvn test    
+      
+- Para comprobar que los test cumplen con la mínima cobertura de nuestro código (95%), ejecute el siguiente comando:
 
       mvn verify
       
+- Para ver el informe de cobertura ejecute el siguinete comando. Aparecerá ir a target/site/jacoco/index.html
+
+      mvn verify jacoco:report
+      
+## Pruebas de rendimiento e integración
+Antes de las realizas las pruebas unitarias ve al  *pom.xml* y compruebe que esté...
+
+      <excludedGroups>categories.UnitTest</excludedGroups>
+      
+- Para ejecutar las pruebas unitarias, debe ejecutar el proyecto hasta el paso 4 (paso 4 incluido) y luego ejecutar el siguiente comando
+
+      mvn test   
+
 ## Documentación
 Para generar la documentación medinate Doxygen, ejecute el siguinete comando
 
