@@ -104,11 +104,7 @@ public class PanelReservas extends JPanel {
 		}
 		panelIzquierda.add(comboBox);
 		
-		JLabel lblEliminar = new JLabel("Pulsa Alt + Click para eliminar una reserva:  ");
-		panelIzquierda.add(lblEliminar);
 		
-		JButton btnAniadir = new JButton("Añadir reserva");
-		panelIzquierda.add(btnAniadir);
 		
 		try {
 			
@@ -152,53 +148,7 @@ public class PanelReservas extends JPanel {
 		        }
 					
 			}
-		});
-		
-		table.addMouseListener(new MouseAdapter() {
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				
-				if(e.isAltDown()) {
-					DefaultTableModel modelo = (DefaultTableModel) table.getModel();
-					
-					int[] selectedRows = table.getSelectedRows();
-					
-					for (int i = selectedRows.length - 1; i >= 0; i--) {
-					    modelo.removeRow(selectedRows[i]);
-					}
-					
-					modelo.fireTableDataChanged();
-				}
-				
-				
-			}
-		});
-			
-			
-
-		btnAniadir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				String cliente = JOptionPane.showInputDialog("Ingrese el dni del cliente");
-				String fecha_ini = JOptionPane.showInputDialog("Ingrese la fecha de inicio (");
-				String fecha_fin = JOptionPane.showInputDialog("Ingrese la fecha de fin (");
-				String hotel = JOptionPane.showInputDialog("Ingrese el nombre del hotel");
-				
-			
-
-				EnumTipoHabitacion [] habitacion = EnumTipoHabitacion.values();
-				JComboBox<EnumTipoHabitacion> comboBox = new JComboBox<>(habitacion);
-				String selectedOption = String.valueOf(JOptionPane.showInputDialog(null, "Seleccione el tipo de habitación:", "Título del diálogo", JOptionPane.QUESTION_MESSAGE, null, habitacion, habitacion[0]));
-				String pension = JOptionPane.showInputDialog("Ingrese la pensión");
-				float precio = Float.parseFloat(JOptionPane.showInputDialog("Ingrese el precio de la reserva"));
-				
-				Object[] rowData = {cliente, fecha_ini, fecha_fin, hotel, selectedOption, pension, precio};
-				model.addRow(rowData);
-				model.fireTableDataChanged();
-
-			}
-		});
+		});		
 		
 		
 	}

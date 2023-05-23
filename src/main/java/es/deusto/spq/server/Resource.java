@@ -28,6 +28,7 @@ import es.deusto.spq.pojo.HotelData;
 import es.deusto.spq.pojo.ReservaData;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -291,6 +292,68 @@ public class Resource {
 
         } catch (Exception e) {
         	 logger.error("Error making the reservation:", e);
+            return Response.status(Response.Status.UNAUTHORIZED).build();
+        } finally {
+            if (tx.isActive()) {
+                tx.rollback();
+            }
+            pm.close();
+        }
+    }
+    
+    /**
+     * Método que elimina un hotel.
+     * @param idHotel id del hotel a eliminar
+     * @return Respuesta HTTP que indica el resultado de la eliminación
+     */
+    @DELETE
+    @Path("/deleteHotel")
+    public Response deleteHotel(@QueryParam("id") int idHotel) {
+    	try {
+    		tx.begin();
+        	Hotel hotel = pm.getObjectById(Hotel.class, idHotel);
+        	
+        	if(hotel == null) {
+        		return Response.status(Response.Status.NOT_FOUND).build();
+        	}
+        	
+        	Query<Reserva> query = pm.newQuery(Reserva.class, "hotel == hotelParam");
+        	query.declareParameters("Hotel hotelParam");
+        	@SuppressWarnings("unchecked") List<Reserva> reservas = (List<Reserva>) query.execute(hotel);
+        	pm.deletePersistentAll(reservas);
+        	
+        	pm.deletePersistent(hotel);
+        	tx.commit();
+        	
+        	return Response.status(Response.Status.OK).build();
+		} catch (Exception e) {
+			logger.error("Error deleting the hotel: ", e);
+			return Response.status(Response.Status.INTERNAL_SERVER_ERROR).build();
+		}finally {
+			if(tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+    }
+    /**
+     * Método que añade un hotel
+     * @param hotelData hotel que se añade.
+     * @return Respuesta HTTP que indica el resultado.
+     */
+    @POST
+    @Path("/addHotel")
+    public Response addHotel(HotelData hotelData) {
+        try {
+            tx.begin();
+            Hotel hotel = new Hotel(hotelData.getNombre(), hotelData.getCiudad(), hotelData.getHabitaciones_disp());
+
+            pm.makePersistent(hotel);
+            tx.commit();
+            return Response.status(Response.Status.OK).build();
+
+        } catch (Exception e) {
+        	 logger.error("Error making the add:", e);
             return Response.status(Response.Status.UNAUTHORIZED).build();
         } finally {
             if (tx.isActive()) {

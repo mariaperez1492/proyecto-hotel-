@@ -180,7 +180,7 @@
 				</executions>
 			</plugin>
 		
-		<!-- Documentacion -->
+			<!-- Documentacion -->
 			<plugin>
  				<groupId>com.soebes.maven.plugins</groupId>
 				<artifactId>doxygen-maven-plugin</artifactId>
@@ -227,15 +227,6 @@
 					<props>${config.files.dir}/datanucleus.properties</props>
 					<fork>false</fork>
 				</configuration>
-				<executions>
-					<execution>
-						<!-- links the enhance to the compile phase -->
-						<phase>compile</phase>
-						<goals>
-							<goal>enhance</goal>
-						</goals>
-					</execution>
-				</executions>
 			</plugin>
 
 			<plugin>
@@ -276,6 +267,12 @@
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.8.8</version>
+				<configuration>
+       				<excludes>
+          				<!-- Excluir ventanas -->
+              			<exclude>es/deusto/spq/client/gui/**</exclude>
+        			</excludes>
+      			</configuration>
 				<executions>
 					<execution>
 						<goals>
@@ -298,8 +295,7 @@
         		<artifactId>maven-surefire-plugin</artifactId>
         		<version>3.0.0</version>
         		<configuration>
-          			<!-- Allow JUnitPerf to access the test classes in JDK 17 -->
-          			<argLine>--add-opens java.base/java.lang=ALL-UNNAMED</argLine>
+
 					<!--  <excludedGroups>categories.UnitTest</excludedGroups> -->
 					<excludedGroups>categories.IntegrationTest, categories.PerformanceTest</excludedGroups>
         		</configuration>

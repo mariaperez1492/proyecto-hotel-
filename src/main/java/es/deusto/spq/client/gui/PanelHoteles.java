@@ -15,10 +15,12 @@ import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -97,7 +99,7 @@ public class PanelHoteles extends JPanel {
 		panelIzquierda.setLayout(new GridLayout(8, 1, 0, 0));
 		panelIzquierda.add(comboBox);
 		
-		JLabel lblEliminar = new JLabel("Pulsa Alt + Click para eliminar un hotel:   ");
+		JLabel lblEliminar = new JLabel("Pulsa Alt + Presionar para eliminar un hotel   ");
 		panelIzquierda.add(lblEliminar);
 		
 		JButton btnAniadir = new JButton("Añadir hotel");
@@ -134,7 +136,7 @@ public class PanelHoteles extends JPanel {
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
 				if(e.isAltDown()) {
-					DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+					/*DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
 					
 					int[] selectedRows = tabla.getSelectedRows();
 					
@@ -142,7 +144,25 @@ public class PanelHoteles extends JPanel {
 					    modelo.removeRow(selectedRows[i]);
 					}
 					
-					modelo.fireTableDataChanged();
+					modelo.fireTableDataChanged();*/
+					
+					DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+					
+					int[] selectedRows = tabla.getSelectedRows();
+					
+					int row = tabla.getSelectedRow();
+					
+					if(eliminarHotel(row + 1)) {
+						System.out.println("Hotel eliminado");
+						
+						for (int i = selectedRows.length - 1; i >= 0; i--) {
+						    modelo.removeRow(selectedRows[i]);
+						}
+						
+						modelo.fireTableDataChanged();
+					}else {
+						System.out.println("Hotel NO eliminado");
+					}
 				}
 			}
 			
@@ -161,7 +181,7 @@ public class PanelHoteles extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				if (e.getClickCount() == 1) {
+				if (e.getClickCount() == 2) {
 		        	
 		            JTable target = (JTable) e.getSource();
 		            int row = target.getSelectedRow();
@@ -188,14 +208,26 @@ public class PanelHoteles extends JPanel {
 		btnAniadir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				String hotel = JOptionPane.showInputDialog("Ingrese el nombre del hotel");
+				String nombre = JOptionPane.showInputDialog("Ingrese el nombre del hotel");
 				String ciudad = JOptionPane.showInputDialog("Ingrese la ciudad donde se encuentra el hotel");
 				int habitacionesDisponibles = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el valor de las habitaciones disponibles"));
-
-				Object[] rowData = {hotel, ciudad, habitacionesDisponibles};
-				modelo.addRow(rowData);
-				modelo.fireTableDataChanged();
-
+				
+				HotelData hotel = new HotelData(nombre, ciudad, habitacionesDisponibles);
+					
+				WebTarget registerUserWebTarget = webTarget.path("addHotel");
+				Invocation.Builder invocationBuilder = registerUserWebTarget.request(MediaType.APPLICATION_JSON);
+				
+				Response response = invocationBuilder.post(Entity.entity(hotel, MediaType.APPLICATION_JSON));
+			
+				if (response.getStatus() == Status.OK.getStatusCode()) {
+					Object[] rowData = {hotel.getNombre(), hotel.getCiudad(), hotel.getHabitaciones_disp()};
+					modelo.addRow(rowData);
+					modelo.fireTableDataChanged();
+					JOptionPane.showMessageDialog(null, "Hotel añadido correctamente");
+				} else {
+					JOptionPane.showMessageDialog(null, "Error");
+				}
+				
 			}
 		});
 
@@ -267,7 +299,6 @@ public class PanelHoteles extends JPanel {
 		}
 	});
 	
-	//-----------------------------
 	
 	
 	
@@ -285,7 +316,21 @@ public class PanelHoteles extends JPanel {
 		List<HotelData> listData = mapper.readValue(response.readEntity(String.class), new TypeReference<List<HotelData>>(){});
 		return listData;
 	}
+	
+	
+	public boolean eliminarHotel(int id) {
+		WebTarget hotelTarget = webTarget.path("/deleteHotel");
+		Invocation.Builder invocationBuilder = hotelTarget.request(MediaType.APPLICATION_JSON);
+				
+		Response response = invocationBuilder.delete();
 		
+		if (response.getStatus() == Status.ACCEPTED.getStatusCode()) {
+			return true;
+		} else {
+			logger.error("Error connecting with the server. Code: {}", response.getStatus());
+			return false;
+		}
+	}
 
 }
 
