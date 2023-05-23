@@ -265,5 +265,21 @@ public class ResourceTest
 		assertEquals(Response.Status.OK.getStatusCode(), response.getStatus());
 	}
 	
+	
+	@Test
+	public void deleteHotelTest() throws Exception {
+		
+		Hotel hotel = spy(Hotel.class);
+		int param1 = hotel.getID();
+		when(persistenceManager.getObjectById(Hotel.class, param1)).thenReturn(hotel);
+		
+		when(transaction.isActive()).thenReturn(true);
+		
+		Response response = resource.deleteHotel(param1);
+		
+		assertEquals(Response.Status.OK, response.getStatusInfo());
+		assertNotNull(response.getEntity());
+	}
+	
 }
 

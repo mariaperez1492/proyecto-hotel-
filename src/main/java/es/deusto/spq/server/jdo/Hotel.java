@@ -44,5 +44,13 @@ public class Hotel {
 	public void setHabitaciones_disp(int habitaciones_disp) {
 		this.habitaciones_disp = habitaciones_disp;
 	}
+	public int getID() {
+		return ID;
+	}
+	public void setID(int iD) {
+		ID = iD;
+	}
+	
+	
 	
 }

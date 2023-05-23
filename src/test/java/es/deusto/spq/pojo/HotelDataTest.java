@@ -15,6 +15,7 @@ public class HotelDataTest {
 		hotelData.setNombre("nombre");
 		hotelData.setCiudad("ciudad");
 		hotelData.setHabitaciones_disp(5);
+		hotelData.setId(0);
 	}
 	
 	@Test
@@ -30,5 +31,10 @@ public class HotelDataTest {
 	@Test
 	public void testGetHabitaciones_disp() {
 		assertEquals(5, hotelData.getHabitaciones_disp());
+	}
+	
+	@Test
+	public void testGetID() {
+		assertEquals(0, hotelData.getId());
 	}
 }
