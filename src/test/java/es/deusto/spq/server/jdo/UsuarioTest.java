@@ -5,6 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
 
+import es.deusto.spq.pojo.EnumTipoUsuario;
+
 public class UsuarioTest {
 	
 	private Usuario usuario;
@@ -15,6 +17,7 @@ public class UsuarioTest {
 		usuario.setDni("dni");
 		usuario.setNombre("nombre");
 		usuario.setContrasenya("contrasenya");
+		usuario.setTipoUsuario(EnumTipoUsuario.CLIENTE);
 	}
 	
 	@Test
@@ -48,5 +51,11 @@ public class UsuarioTest {
 	public void testSetContrasenya() {
 		usuario.setContrasenya("new-contra");
 		assertEquals("new-contra", usuario.getContrasenya());
+	}
+	
+	@Test
+	public void testSetTipoUsuario() {
+		usuario.setTipoUsuario(EnumTipoUsuario.ADMIN);
+		assertEquals(EnumTipoUsuario.ADMIN, usuario.getTipoUsuario());
 	}
 }

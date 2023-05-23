@@ -8,14 +8,18 @@ import org.junit.Test;
 public class UsuarioDataTest {
 
 	UsuarioData usuarioData;
+	UsuarioData usuarioData2;
 	
 	@Before
 	public void setUp() {
 		usuarioData = new UsuarioData(); 
+		usuarioData2 = new UsuarioData("dni", "nombre");
 		usuarioData.setDni("dni");
 		usuarioData.setNombre("nombre");
 		usuarioData.setContrasenya("contrasenya");
 		usuarioData.setTipoUsuario(EnumTipoUsuario.CLIENTE);
+		
+		
 	}
 	
 	

@@ -255,19 +255,7 @@ public class ResourceTest
         assertEquals(reservaDataList.get(1).getFecha_fin(), reserva2.getFecha_fin());
 	}
 	
-	public void testGetReservasException() {
-        // Mockear el PersistenceManager y lanzar una excepción simulada
-        Query<Reserva> query = mock(Query.class);
-        when(persistenceManager.newQuery(Reserva.class)).thenReturn(query);
-        when(query.executeList()).thenThrow(new Exception("Simulated exception"));
-        
-        
-        // Llamar al método getReservas
-        Response response = resource.getReservas();
-        
-        // Comprobar si el estado de la respuesta es ERROR utilizando assertEquals
-        assertEquals(Response.Status.INTERNAL_SERVER_ERROR, response.getStatusInfo());
-    }
+
 	
 
 	@Test
@@ -335,28 +323,28 @@ public class ResourceTest
         assertEquals(Response.Status.OK, response.getStatusInfo());
 	}
 	
-//	@Test
-//	public void deleteReservaTest() throws Exception {
-//		int id = 10;
-//		
-//		Reserva reserva = spy(Reserva.class);
-//		UsuarioData usuarioData = new UsuarioData();
-//		usuarioData.setDni("dni");
-//		HotelData hotelData = new HotelData();
-//		hotelData.setId(1);
-//		HabitacionData habitacionData = new HabitacionData();
-//		habitacionData.setId(1);
-//		String fecha_ini = "2023-01-05";
-//		String fecha_fin = "2023-01-20";
-//		when(persistenceManager.getObjectById(Reserva.class, id)).thenReturn(reserva);
-//		
-//		
-//        
-//		when(transaction.isActive()).thenReturn(true);
-//		
-//		Response response = resource.deleteReserva(id);
-//		
-//		assertEquals(Response.Status.OK, response.getStatusInfo());
-//	}
+	@Test
+	public void deleteReservaTest() throws Exception {
+		int id = 10;
+		
+		Reserva reserva = spy(Reserva.class);
+		UsuarioData usuarioData = new UsuarioData();
+		usuarioData.setDni("dni");
+		HotelData hotelData = new HotelData();
+		hotelData.setId(1);
+		HabitacionData habitacionData = new HabitacionData();
+		habitacionData.setId(1);
+		String fecha_ini = "2023-01-05";
+		String fecha_fin = "2023-01-20";
+		when(persistenceManager.getObjectById(Reserva.class, id)).thenReturn(reserva);
+		
+		
+        
+		when(transaction.isActive()).thenReturn(true);
+		
+		Response response = resource.deleteReserva(id);
+		
+		assertEquals(Response.Status.OK, response.getStatusInfo());
+	}
 }
 

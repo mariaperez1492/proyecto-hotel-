@@ -34,6 +34,7 @@ public class ReservaTest {
 		reserva.setFecha_ini("2022-06-01");
 		reserva.setFecha_fin("2022-06-15");
 		reserva.setPension("pension");
+		reserva.setID(1);
 	}
 	
 	@Test
@@ -65,5 +66,11 @@ public class ReservaTest {
 	public void testGetPension() {
 		assertEquals("pension", reserva.getPension());
 	}
+	
+	@Test
+	public void testGetID() {
+		assertEquals(1, reserva.getID());
+	}
+	
 }
 
